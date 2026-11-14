@@ -99,8 +99,9 @@ def build():
         </article>
         """
 
-    # Books HTML: nella home page mostriamo al massimo 4 volumi tra quelli attualmente "in_corso" (in lettura)
+    # Books HTML: nella home page mostriamo al massimo 4 volumi tra quelli attualmente "in_corso", ordinati per data decrescente
     in_progress_books = [b for b in books if b.get("status") == "in_corso"]
+    in_progress_books.sort(key=lambda b: (b.get("start_date") or ""), reverse=True)
     home_books = in_progress_books[:4]
     books_html = ""
     for b in home_books:
@@ -108,6 +109,7 @@ def build():
         rating_val = b.get('rating', 0)
         badge_text = "&bull; IN LETTURA"
         card_cls = "book-card in-progress"
+        anobii_url = b.get("anobii_url") or profile.get("contacts", {}).get("anobii", "https://www.anobii.com/it/01d6d75099d9c1d4bb/profile")
         
         cover_img = b.get("cover")
         cover_file = os.path.join(BASE_DIR, cover_img) if cover_img and not cover_img.startswith("http") else None
@@ -123,13 +125,14 @@ def build():
             review_markup = f'<p class="book-quote">"{clean_rev}"</p>'
 
         books_html += f"""
-        <div class="{card_cls}">
+        <a href="{anobii_url}" class="{card_cls}" target="_blank" rel="noopener noreferrer" title="Vedi scheda di '{b.get('title')}' su Anobii">
           <span class="book-status-badge {badge_cls}">{badge_text}</span>
           <div class="book-cover-wrap">{cover_markup}</div>
           <h4 class="book-title">{b.get('title')}</h4>
           <p class="book-author">{b.get('author')}</p>
           {review_markup}
-        </div>
+          <div class="book-link-tag">Scheda Anobii &nearr;</div>
+        </a>
         """
 
     # Substack Articles HTML (internal navigation, no target="_blank")
@@ -147,15 +150,32 @@ def build():
         </a>
         """
 
-    # Photos HTML (Solo immagine autentica e luogo, al click apre il post originale su Instagram in nuova scheda)
+    # Photos HTML: visualizza 8 scatti con toponimo reale, con al click apertura del post su Instagram
+    # Prepara anche il pool completo per la rotazione casuale client-side ad ogni ricaricamento
+    catalog = load_json("instagram_catalog.json", [])
+    valid_photos_pool = []
+    for p in catalog:
+        sc = p.get('shortcode')
+        loc = p.get('location') or ''
+        if sc and loc and loc not in ('Toscana, Italia', 'Territorio & Paesaggio'):
+            local_img = f"assets/img/photos/{sc}.jpg"
+            if os.path.exists(os.path.join(BASE_DIR, local_img)):
+                valid_photos_pool.append({
+                    "shortcode": sc,
+                    "location": loc.split('\n')[0].strip()[:50],
+                    "permalink": p.get('permalink') or f"https://www.instagram.com/p/{sc}/",
+                    "image": local_img
+                })
+    pool_json = json.dumps(valid_photos_pool, ensure_ascii=False)
+
     photos_html = ""
-    for idx, ph in enumerate(photos):
+    for idx, ph in enumerate(photos[:8]):
         sc = ph.get('shortcode', '')
         permalink = ph.get('permalink') or f"https://www.instagram.com/p/{sc}/"
-        location = ph.get('location') or 'Toscana, Italia'
+        location = ph.get('location') or 'Territorio & Paesaggio'
         clean_loc = location.split('\n')[0].strip()
         if not clean_loc:
-            clean_loc = "Toscana, Italia"
+            clean_loc = "Territorio & Paesaggio"
         image_src = ph.get('image') or f"assets/img/photos/{sc}.jpg"
         
         photos_html += f"""
@@ -660,11 +680,35 @@ def build():
       display: flex;
       flex-direction: column;
       position: relative;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }}
+
+    .book-card:hover {{
+      border-color: var(--accent-copper);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(18, 34, 46, 0.08);
     }}
 
     .book-card.in-progress {{
       border: 1px solid var(--accent-copper);
       background: #FFFDF9;
+    }}
+
+    .book-link-tag {{
+      margin-top: auto;
+      padding-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent-copper);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }}
 
     .book-status-badge {{
@@ -1353,6 +1397,37 @@ def build():
     </div>
   </footer>
 
+  <script>
+    // Rotazione casuale client-side di 8 scatti autentici ad ogni caricamento/refresh
+    (function() {{
+      var pool = {pool_json};
+      if (!pool || pool.length < 8) return;
+      var grid = document.querySelector('.photo-grid');
+      if (!grid) return;
+      var copy = pool.slice();
+      for (var i = copy.length - 1; i > 0; i--) {{
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = copy[i]; copy[i] = copy[j]; copy[j] = t;
+      }}
+      var picked = copy.slice(0, 8);
+      var cardsHtml = '';
+      picked.forEach(function(ph) {{
+        cardsHtml += '<a href="' + ph.permalink + '" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: ' + ph.location + '">' +
+          '<div class="photo-img-wrap">' +
+            '<img src="' + ph.image + '" alt="' + ph.location + '" loading="lazy" onerror="this.onerror=null; this.src=\\'https://www.instagram.com/p/' + ph.shortcode + '/media/?size=l\\';">' +
+            '<div class="photo-link-badge">' +
+              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>' +
+            '</div>' +
+          '</div>' +
+          '<div class="photo-info">' +
+            '<span class="photo-pin">&oplus;</span>' +
+            '<span class="photo-location">' + ph.location + '</span>' +
+          '</div>' +
+        '</a>';
+      }});
+      grid.innerHTML = cardsHtml;
+    }})();
+  </script>
 </body>
 </html>
 """

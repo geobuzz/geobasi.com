@@ -74,16 +74,27 @@ def load_photos():
             return []
     return []
 
-def scan_instagram_profile():
-    print(f"Scansione post pubblici per @{USERNAME}...")
+def scan_instagram_profile(max_new_posts=4):
+    print(f"Scansione incrementale post pubblici per @{USERNAME} (fino a {max_new_posts} post)...")
     existing_catalog = load_catalog()
+    existing_shortcodes = {p.get("shortcode") for p in existing_catalog if p.get("shortcode")}
+    
     try:
         import instaloader
         L = instaloader.Instaloader(download_pictures=False, download_videos=False, download_comments=False)
         profile = instaloader.Profile.from_username(L.context, USERNAME)
         
-        fresh_catalog = []
+        scanned_count = 0
+        new_posts = []
         for post in profile.get_posts():
+            scanned_count += 1
+            sc = post.shortcode
+            
+            if sc in existing_shortcodes:
+                if scanned_count >= max_new_posts:
+                    break
+                continue
+                
             clean_caption = (post.caption or "").strip()
             first_line = clean_caption.split("\n")[0][:80] if clean_caption else "Post dal profilo Instagram"
             dt_str = post.date_utc.strftime("%d %b %Y")
@@ -101,8 +112,8 @@ def scan_instagram_profile():
                     effective_loc = cand[:50]
 
             post_dict = {
-                "shortcode": post.shortcode,
-                "permalink": f"https://www.instagram.com/p/{post.shortcode}/",
+                "shortcode": sc,
+                "permalink": f"https://www.instagram.com/p/{sc}/",
                 "title": first_line,
                 "caption": clean_caption,
                 "location": effective_loc or loc_name or "Territorio & Paesaggio",
@@ -118,20 +129,23 @@ def scan_instagram_profile():
                 print(f"[AVVISO] Post scartato durante la scansione: {reason}")
                 continue
                 
-            fresh_catalog.append(post_dict)
-            if len(fresh_catalog) >= 30: # Mantieni gli ultimi 30 post
+            download_photo_image(sc, post.url)
+            new_posts.append(post_dict)
+            if len(new_posts) >= max_new_posts or scanned_count >= max_new_posts:
                 break
         
-        if fresh_catalog:
+        if new_posts:
+            updated_catalog = new_posts + [p for p in existing_catalog if p.get("shortcode") not in {np["shortcode"] for np in new_posts}]
             with open(CATALOG_FILE, "w", encoding="utf-8") as f:
-                json.dump(fresh_catalog, f, indent=2, ensure_ascii=False)
-            print(f"[INSTAGRAM] Scansione completata con successo: {len(fresh_catalog)} post autentici censiti con luoghi reali.")
-            return True, fresh_catalog, f"Scansione completata con successo: {len(fresh_catalog)} post aggiornati"
+                json.dump(updated_catalog, f, indent=2, ensure_ascii=False)
+            print(f"[INSTAGRAM] Aggiunti {len(new_posts)} nuovi post al catalogo (totale: {len(updated_catalog)}).")
+            return True, updated_catalog, f"Scansione completata con successo: {len(new_posts)} nuovi post aggiunti"
         else:
-            return False, existing_catalog, "Nessun post estratto dal profilo Instagram"
+            print(f"[INSTAGRAM] Nessun nuovo post rilevato tra i primi {scanned_count} esaminati. Catalogo invariato ({len(existing_catalog)} post).")
+            return True, existing_catalog, f"Nessun nuovo post rilevato. Catalogo aggiornato e invariato ({len(existing_catalog)} post)"
     except Exception as e:
         err_msg = str(e)
-        print(f"[INSTAGRAM] Scansione live fallita: {err_msg}. Mantenuto il catalogo esistente ({len(existing_catalog)} post).")
+        print(f"[INSTAGRAM] Scansione live non disponibile: {err_msg}. Mantenuto il catalogo esistente ({len(existing_catalog)} post).")
         return False, existing_catalog, f"Scansione fallita ({err_msg}). Mantenuto catalogo precedente di {len(existing_catalog)} post"
 
 def download_photo_image(shortcode, image_url=None):
@@ -188,7 +202,7 @@ def determine_location(post_dict):
             
     return "Territorio & Paesaggio"
 
-def pick_random_posts(sample_size=4, preserve_existing=False):
+def pick_random_posts(sample_size=8, preserve_existing=False):
     catalog = load_catalog()
     if not catalog:
         print("[ERRORE] Catalogo Instagram vuoto. Impossibile selezionare post.")
@@ -197,7 +211,7 @@ def pick_random_posts(sample_size=4, preserve_existing=False):
     # Se richiesto di preservare i post esistenti (es. scansione live fallita)
     if preserve_existing:
         existing_photos = load_photos()
-        if len(existing_photos) == sample_size:
+        if existing_photos:
             catalog_shortcodes = {p.get("shortcode") for p in catalog if p.get("shortcode")}
             all_valid = True
             for p in existing_photos:
@@ -206,7 +220,7 @@ def pick_random_posts(sample_size=4, preserve_existing=False):
                     all_valid = False
                     break
             if all_valid:
-                print(f"[INSTAGRAM] Mantenuti invariati i {sample_size} post precedenti.")
+                print(f"[INSTAGRAM] Mantenuti invariati i {len(existing_photos)} post precedenti.")
                 return True, existing_photos
 
     # Filtra il catalogo garantendo che ogni elemento rispetti formato e coerenza
@@ -220,13 +234,16 @@ def pick_random_posts(sample_size=4, preserve_existing=False):
         print("[ERRORE] Nessun post valido reperibile nel catalogo Instagram.")
         return False, []
 
+    # Privilegia i post con toponimi reali e specifici
+    specific_posts = [p for p in valid_catalog_posts if p.get("location") and p.get("location") not in ("Toscana, Italia", "Territorio & Paesaggio")]
+    pool = specific_posts if len(specific_posts) >= sample_size else valid_catalog_posts
+
     valid_shortcodes = {p["shortcode"] for p in valid_catalog_posts}
-    count = min(sample_size, len(valid_catalog_posts))
+    count = min(sample_size, len(pool))
     
-    # Selezione casuale
-    selected = random.sample(valid_catalog_posts, count)
+    # Selezione casuale (8 foto)
+    selected = random.sample(pool, count)
     
-    # Validazione formale e di coerenza: ogni post selezionato deve avere lo shortcode nel catalogo
     validated_posts = []
     for p in selected:
         sc = p.get("shortcode")
@@ -256,6 +273,6 @@ def pick_random_posts(sample_size=4, preserve_existing=False):
     return True, validated_posts
 
 if __name__ == "__main__":
-    scan_ok, catalog, msg = scan_instagram_profile()
-    pick_ok, posts = pick_random_posts(4, preserve_existing=not scan_ok)
+    scan_ok, catalog, msg = scan_instagram_profile(4)
+    pick_ok, posts = pick_random_posts(8, preserve_existing=not scan_ok)
     print(f"Esito: scan={scan_ok}, pick={pick_ok}, selezionati={len(posts)}")

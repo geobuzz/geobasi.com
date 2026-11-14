@@ -484,11 +484,35 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .book-card:hover {
+      border-color: var(--accent-copper);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(18, 34, 46, 0.08);
     }
 
     .book-card.in-progress {
       border: 1px solid var(--accent-copper);
       background: #FFFDF9;
+    }
+
+    .book-link-tag {
+      margin-top: auto;
+      padding-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent-copper);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .book-status-badge {
@@ -1166,43 +1190,47 @@
 
       <div class="library-grid">
         
-        <div class="book-card in-progress">
+        <a href="https://www.anobii.com/it/books/atti-degli-apostoli/9788839915818/01f3f64849b5be60e5" class="book-card in-progress" target="_blank" rel="noopener noreferrer" title="Vedi scheda di 'Atti degli Apostoli' su Anobii">
           <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
-          <div class="book-cover-wrap"><img src="assets/img/covers/9788871987613.jpg" alt="Le vie della psicologia. Storia e tendenze contemporanee" loading="lazy" /></div>
-          <h4 class="book-title">Le vie della psicologia. Storia e tendenze contemporanee</h4>
-          <p class="book-author">Roberto Marchesini</p>
+          <div class="book-cover-wrap"><img src="assets/img/covers/9788839915818.jpg" alt="Atti degli Apostoli" loading="lazy" /></div>
+          <h4 class="book-title">Atti degli Apostoli</h4>
+          <p class="book-author">Rinaldo Fabris</p>
           
-        </div>
+          <div class="book-link-tag">Scheda Anobii &nearr;</div>
+        </a>
         
-        <div class="book-card in-progress">
+        <a href="https://www.anobii.com/it/books/il-vaticano-e-l-intelligence-osservatore-e-osservato-nella-storia-politica-della-santa-sede/9788849884753/02bfd7a2d95979a795" class="book-card in-progress" target="_blank" rel="noopener noreferrer" title="Vedi scheda di 'Il vaticano e l'intelligence. Osservatore e osservato nella storia politica della Santa Sede' su Anobii">
           <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
-          <div class="book-cover-wrap"><img src="assets/img/covers/9788831743020.jpg" alt="Iliade" loading="lazy" /></div>
-          <h4 class="book-title">Iliade</h4>
-          <p class="book-author">Omero</p>
+          <div class="book-cover-wrap"><img src="assets/img/covers/9788849884753.jpg" alt="Il vaticano e l'intelligence. Osservatore e osservato nella storia politica della Santa Sede" loading="lazy" /></div>
+          <h4 class="book-title">Il vaticano e l'intelligence. Osservatore e osservato nella storia politica della Santa Sede</h4>
+          <p class="book-author">Mario Caligiuri (a cura di)</p>
           
-        </div>
+          <div class="book-link-tag">Scheda Anobii &nearr;</div>
+        </a>
         
-        <div class="book-card in-progress">
+        <a href="https://www.anobii.com/it/books/il-grande-default/9798340647078/019720b79595f4f739" class="book-card in-progress" target="_blank" rel="noopener noreferrer" title="Vedi scheda di 'Il grande default' su Anobii">
           <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
-          <div class="book-cover-wrap"><img src="assets/img/covers/9788834004111.jpg" alt="Frammenti di un insegnamento sconosciuto" loading="lazy" /></div>
-          <h4 class="book-title">Frammenti di un insegnamento sconosciuto</h4>
-          <p class="book-author">Petr D. Uspenskij</p>
+          <div class="book-cover-wrap"><img src="assets/img/covers/9798340647078.jpg" alt="Il grande default" loading="lazy" /></div>
+          <h4 class="book-title">Il grande default</h4>
+          <p class="book-author">Francesco Simoncelli</p>
           
-        </div>
+          <div class="book-link-tag">Scheda Anobii &nearr;</div>
+        </a>
         
-        <div class="book-card in-progress">
+        <a href="https://www.anobii.com/it/books/beren-e-luthien/9788845292781/010916c37fea305643" class="book-card in-progress" target="_blank" rel="noopener noreferrer" title="Vedi scheda di 'Beren e Lúthien' su Anobii">
           <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
-          <div class="book-cover-wrap"><img src="assets/img/covers/9788858114094.jpg" alt="L'eredità di Roma" loading="lazy" /></div>
-          <h4 class="book-title">L'eredità di Roma</h4>
-          <p class="book-author">Chris Wickham</p>
+          <div class="book-cover-wrap"><img src="assets/img/covers/9788845292781.jpg" alt="Beren e Lúthien" loading="lazy" /></div>
+          <h4 class="book-title">Beren e Lúthien</h4>
+          <p class="book-author">John R. R. Tolkien</p>
           
-        </div>
+          <div class="book-link-tag">Scheda Anobii &nearr;</div>
+        </a>
         
       </div>
 
       <div style="margin-top: 36px; text-align: center; border-top: 1px dashed var(--border-carto); padding-top: 24px;">
         <a href="biblioteca.html" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
-          <span>Esplora l'intera biblioteca (141 libri censiti, 27 in lettura, note critiche)</span>
+          <span>Esplora l'intera biblioteca (141 libri censiti, 30 in lettura, note critiche)</span>
           <span>&rarr;</span>
         </a>
       </div>
@@ -1226,6 +1254,58 @@
 
       <div class="photo-grid">
         
+        <a href="https://www.instagram.com/p/DLCjMzpMrV0/" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: Monte Prado">
+          <div class="photo-img-wrap">
+            <img src="assets/img/photos/DLCjMzpMrV0.jpg" alt="Monte Prado" loading="lazy" onerror="this.onerror=null; this.src='https://www.instagram.com/p/DLCjMzpMrV0/media/?size=l';">
+            <div class="photo-link-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </div>
+          </div>
+          <div class="photo-info">
+            <span class="photo-pin">&oplus;</span>
+            <span class="photo-location">Monte Prado</span>
+          </div>
+        </a>
+        
+        <a href="https://www.instagram.com/p/DLdifgVM9KA/" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: Sarajevo, Bosnia and Herzegovina">
+          <div class="photo-img-wrap">
+            <img src="assets/img/photos/DLdifgVM9KA.jpg" alt="Sarajevo, Bosnia and Herzegovina" loading="lazy" onerror="this.onerror=null; this.src='https://www.instagram.com/p/DLdifgVM9KA/media/?size=l';">
+            <div class="photo-link-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </div>
+          </div>
+          <div class="photo-info">
+            <span class="photo-pin">&oplus;</span>
+            <span class="photo-location">Sarajevo, Bosnia and Herzegovina</span>
+          </div>
+        </a>
+        
+        <a href="https://www.instagram.com/p/DLCjD3os6uz/" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: Colle del Gran San Bernardo">
+          <div class="photo-img-wrap">
+            <img src="assets/img/photos/DLCjD3os6uz.jpg" alt="Colle del Gran San Bernardo" loading="lazy" onerror="this.onerror=null; this.src='https://www.instagram.com/p/DLCjD3os6uz/media/?size=l';">
+            <div class="photo-link-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </div>
+          </div>
+          <div class="photo-info">
+            <span class="photo-pin">&oplus;</span>
+            <span class="photo-location">Colle del Gran San Bernardo</span>
+          </div>
+        </a>
+        
+        <a href="https://www.instagram.com/p/DKe-QcjMt28/" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: Orrido dello Slizza">
+          <div class="photo-img-wrap">
+            <img src="assets/img/photos/DKe-QcjMt28.jpg" alt="Orrido dello Slizza" loading="lazy" onerror="this.onerror=null; this.src='https://www.instagram.com/p/DKe-QcjMt28/media/?size=l';">
+            <div class="photo-link-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </div>
+          </div>
+          <div class="photo-info">
+            <span class="photo-pin">&oplus;</span>
+            <span class="photo-location">Orrido dello Slizza</span>
+          </div>
+        </a>
+        
         <a href="https://www.instagram.com/p/DLCdR_8MbuY/" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: Grotte Del Caglieron">
           <div class="photo-img-wrap">
             <img src="assets/img/photos/DLCdR_8MbuY.jpg" alt="Grotte Del Caglieron" loading="lazy" onerror="this.onerror=null; this.src='https://www.instagram.com/p/DLCdR_8MbuY/media/?size=l';">
@@ -1236,6 +1316,19 @@
           <div class="photo-info">
             <span class="photo-pin">&oplus;</span>
             <span class="photo-location">Grotte Del Caglieron</span>
+          </div>
+        </a>
+        
+        <a href="https://www.instagram.com/p/DKaOKpmsPW4/" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: Nockalmstraße">
+          <div class="photo-img-wrap">
+            <img src="assets/img/photos/DKaOKpmsPW4.jpg" alt="Nockalmstraße" loading="lazy" onerror="this.onerror=null; this.src='https://www.instagram.com/p/DKaOKpmsPW4/media/?size=l';">
+            <div class="photo-link-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </div>
+          </div>
+          <div class="photo-info">
+            <span class="photo-pin">&oplus;</span>
+            <span class="photo-location">Nockalmstraße</span>
           </div>
         </a>
         
@@ -1252,29 +1345,16 @@
           </div>
         </a>
         
-        <a href="https://www.instagram.com/p/DLCjMzpMrV0/" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: Monte Prado">
+        <a href="https://www.instagram.com/p/DLCdihlMB2K/" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: Sappada">
           <div class="photo-img-wrap">
-            <img src="assets/img/photos/DLCjMzpMrV0.jpg" alt="Monte Prado" loading="lazy" onerror="this.onerror=null; this.src='https://www.instagram.com/p/DLCjMzpMrV0/media/?size=l';">
+            <img src="assets/img/photos/DLCdihlMB2K.jpg" alt="Sappada" loading="lazy" onerror="this.onerror=null; this.src='https://www.instagram.com/p/DLCdihlMB2K/media/?size=l';">
             <div class="photo-link-badge">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
             </div>
           </div>
           <div class="photo-info">
             <span class="photo-pin">&oplus;</span>
-            <span class="photo-location">Monte Prado</span>
-          </div>
-        </a>
-        
-        <a href="https://www.instagram.com/p/DLk6yC-s0pM/" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: Etno selo Montenegro - Brezna Ethno Village Montenegro">
-          <div class="photo-img-wrap">
-            <img src="assets/img/photos/DLk6yC-s0pM.jpg" alt="Etno selo Montenegro - Brezna Ethno Village Montenegro" loading="lazy" onerror="this.onerror=null; this.src='https://www.instagram.com/p/DLk6yC-s0pM/media/?size=l';">
-            <div class="photo-link-badge">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </div>
-          </div>
-          <div class="photo-info">
-            <span class="photo-pin">&oplus;</span>
-            <span class="photo-location">Etno selo Montenegro - Brezna Ethno Village Montenegro</span>
+            <span class="photo-location">Sappada</span>
           </div>
         </a>
         
@@ -1414,5 +1494,36 @@
     </div>
   </footer>
 
+  <script>
+    // Rotazione casuale client-side di 8 scatti autentici ad ogni caricamento/refresh
+    (function() {
+      var pool = [{"shortcode": "De9uhu9jBpH", "location": "Empoli", "permalink": "https://www.instagram.com/p/De9uhu9jBpH/", "image": "assets/img/photos/De9uhu9jBpH.jpg"}, {"shortcode": "DTYRRCOjN3Y", "location": "Stazione funicolare Montenero basso", "permalink": "https://www.instagram.com/p/DTYRRCOjN3Y/", "image": "assets/img/photos/DTYRRCOjN3Y.jpg"}, {"shortcode": "DLk6yC-s0pM", "location": "Etno selo Montenegro - Brezna Ethno Village Monten", "permalink": "https://www.instagram.com/p/DLk6yC-s0pM/", "image": "assets/img/photos/DLk6yC-s0pM.jpg"}, {"shortcode": "DLkyyJjM79_", "location": "Spalato - Ancona", "permalink": "https://www.instagram.com/p/DLkyyJjM79_/", "image": "assets/img/photos/DLkyyJjM79_.jpg"}, {"shortcode": "DLhEOohsaOK", "location": "Durmitor National Park, Montenegro", "permalink": "https://www.instagram.com/p/DLhEOohsaOK/", "image": "assets/img/photos/DLhEOohsaOK.jpg"}, {"shortcode": "DLdifgVM9KA", "location": "Sarajevo, Bosnia and Herzegovina", "permalink": "https://www.instagram.com/p/DLdifgVM9KA/", "image": "assets/img/photos/DLdifgVM9KA.jpg"}, {"shortcode": "DLdiTiXMBOs", "location": "Stari Most", "permalink": "https://www.instagram.com/p/DLdiTiXMBOs/", "image": "assets/img/photos/DLdiTiXMBOs.jpg"}, {"shortcode": "DLakVmDsec7", "location": "Castelvecchio", "permalink": "https://www.instagram.com/p/DLakVmDsec7/", "image": "assets/img/photos/DLakVmDsec7.jpg"}, {"shortcode": "DLakIqQMGv6", "location": "Kaštel Stari", "permalink": "https://www.instagram.com/p/DLakIqQMGv6/", "image": "assets/img/photos/DLakIqQMGv6.jpg"}, {"shortcode": "DLad9K7MuHq", "location": "Lukovo", "permalink": "https://www.instagram.com/p/DLad9K7MuHq/", "image": "assets/img/photos/DLad9K7MuHq.jpg"}, {"shortcode": "DLLlH-7qorm", "location": "Fabbriche di Vergemoli", "permalink": "https://www.instagram.com/p/DLLlH-7qorm/", "image": "assets/img/photos/DLLlH-7qorm.jpg"}, {"shortcode": "DLLkiZ3Kk5l", "location": "Fabbriche di Vergemoli", "permalink": "https://www.instagram.com/p/DLLkiZ3Kk5l/", "image": "assets/img/photos/DLLkiZ3Kk5l.jpg"}, {"shortcode": "DLCjMzpMrV0", "location": "Monte Prado", "permalink": "https://www.instagram.com/p/DLCjMzpMrV0/", "image": "assets/img/photos/DLCjMzpMrV0.jpg"}, {"shortcode": "DLCjD3os6uz", "location": "Colle del Gran San Bernardo", "permalink": "https://www.instagram.com/p/DLCjD3os6uz/", "image": "assets/img/photos/DLCjD3os6uz.jpg"}, {"shortcode": "DLCeBrHM5-e", "location": "Sella Di Razzo", "permalink": "https://www.instagram.com/p/DLCeBrHM5-e/", "image": "assets/img/photos/DLCeBrHM5-e.jpg"}, {"shortcode": "DLCd3LTs-3l", "location": "Val Lumiei", "permalink": "https://www.instagram.com/p/DLCd3LTs-3l/", "image": "assets/img/photos/DLCd3LTs-3l.jpg"}, {"shortcode": "DLCdihlMB2K", "location": "Sappada", "permalink": "https://www.instagram.com/p/DLCdihlMB2K/", "image": "assets/img/photos/DLCdihlMB2K.jpg"}, {"shortcode": "DLCdR_8MbuY", "location": "Grotte Del Caglieron", "permalink": "https://www.instagram.com/p/DLCdR_8MbuY/", "image": "assets/img/photos/DLCdR_8MbuY.jpg"}, {"shortcode": "DKe_iv8sM2h", "location": "Orrido dello Slizza", "permalink": "https://www.instagram.com/p/DKe_iv8sM2h/", "image": "assets/img/photos/DKe_iv8sM2h.jpg"}, {"shortcode": "DKe-Xe3sKnF", "location": "Orrido dello Slizza", "permalink": "https://www.instagram.com/p/DKe-Xe3sKnF/", "image": "assets/img/photos/DKe-Xe3sKnF.jpg"}, {"shortcode": "DKe-QcjMt28", "location": "Orrido dello Slizza", "permalink": "https://www.instagram.com/p/DKe-QcjMt28/", "image": "assets/img/photos/DKe-QcjMt28.jpg"}, {"shortcode": "DKe72jnsNHT", "location": "Orrido dello Slizza", "permalink": "https://www.instagram.com/p/DKe72jnsNHT/", "image": "assets/img/photos/DKe72jnsNHT.jpg"}, {"shortcode": "DKaOKpmsPW4", "location": "Nockalmstraße", "permalink": "https://www.instagram.com/p/DKaOKpmsPW4/", "image": "assets/img/photos/DKaOKpmsPW4.jpg"}, {"shortcode": "DKaN0mosC48", "location": "Turracher See", "permalink": "https://www.instagram.com/p/DKaN0mosC48/", "image": "assets/img/photos/DKaN0mosC48.jpg"}, {"shortcode": "DJ0GddDKHqj", "location": "Orto Botanico delle Alpi Apuane", "permalink": "https://www.instagram.com/p/DJ0GddDKHqj/", "image": "assets/img/photos/DJ0GddDKHqj.jpg"}, {"shortcode": "DJnCmKCs0k0", "location": "Castelvetro, Emilia-Romagna, Italy", "permalink": "https://www.instagram.com/p/DJnCmKCs0k0/", "image": "assets/img/photos/DJnCmKCs0k0.jpg"}, {"shortcode": "DJmMbZdMFk2", "location": "Camelieto di Sant'Andrea di Compito", "permalink": "https://www.instagram.com/p/DJmMbZdMFk2/", "image": "assets/img/photos/DJmMbZdMFk2.jpg"}];
+      if (!pool || pool.length < 8) return;
+      var grid = document.querySelector('.photo-grid');
+      if (!grid) return;
+      var copy = pool.slice();
+      for (var i = copy.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = copy[i]; copy[i] = copy[j]; copy[j] = t;
+      }
+      var picked = copy.slice(0, 8);
+      var cardsHtml = '';
+      picked.forEach(function(ph) {
+        cardsHtml += '<a href="' + ph.permalink + '" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: ' + ph.location + '">' +
+          '<div class="photo-img-wrap">' +
+            '<img src="' + ph.image + '" alt="' + ph.location + '" loading="lazy" onerror="this.onerror=null; this.src=\'https://www.instagram.com/p/' + ph.shortcode + '/media/?size=l\';">' +
+            '<div class="photo-link-badge">' +
+              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>' +
+            '</div>' +
+          '</div>' +
+          '<div class="photo-info">' +
+            '<span class="photo-pin">&oplus;</span>' +
+            '<span class="photo-location">' + ph.location + '</span>' +
+          '</div>' +
+        '</a>';
+      });
+      grid.innerHTML = cardsHtml;
+    })();
+  </script>
 </body>
 </html>

@@ -20,6 +20,12 @@ from unittest.mock import patch, MagicMock
 SCRIPTS_DIR = os.path.join(os.path.dirname(__file__), "..", "scripts")
 sys.path.insert(0, SCRIPTS_DIR)
 
+if "instaloader" not in sys.modules:
+    try:
+        import instaloader
+    except ImportError:
+        sys.modules["instaloader"] = MagicMock()
+
 import update_photos
 import sync_engine
 

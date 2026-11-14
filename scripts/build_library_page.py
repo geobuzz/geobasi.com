@@ -143,11 +143,15 @@ def render_biblioteca_page():
                  data-search="{search_blob}">
           <div class="book-card-top">
             <span class="book-status-badge {badge_cls}">{badge_text}</span>
+            <a href="{anobii_url}" class="anobii-link-btn" target="_blank" rel="noopener noreferrer" title="Vedi scheda '{title}' su Anobii">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              <span>Anobii &nearr;</span>
+            </a>
           </div>
-          <div class="book-cover-wrap">
+          <a href="{anobii_url}" target="_blank" rel="noopener noreferrer" class="book-cover-wrap" style="display:block; text-decoration:none;" title="Vedi '{title}' su Anobii">
             {cover_markup}
-          </div>
-          <h3 class="book-title">{title}</h3>
+          </a>
+          <h3 class="book-title"><a href="{anobii_url}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;" title="Vedi scheda su Anobii">{title}</a></h3>
           {subtitle_markup}
           <div class="book-meta">{meta_line}</div>
           {review_markup}
@@ -504,6 +508,26 @@ def render_biblioteca_page():
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
+    }}
+
+    .anobii-link-btn {{
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--accent-copper);
+      text-decoration: none;
+      padding: 2px 6px;
+      border: 1px solid rgba(194, 89, 40, 0.3);
+      border-radius: 2px;
+      transition: all 0.15s ease;
+      background: var(--bg-paper);
+    }}
+    .anobii-link-btn:hover {{
+      background: var(--accent-copper);
+      color: #FFFFFF;
+      border-color: var(--accent-copper);
     }}
 
     .book-status-badge {{

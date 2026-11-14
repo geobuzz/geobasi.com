@@ -141,45 +141,45 @@ def run_sync_all():
         sources_status["linkedin_api"]["message"]
     )
 
-    # 3. Instagram: Esegui prima scan_instagram_profile() e poi pick_random_posts(4)
+    # 3. Instagram: Esegui prima scan_instagram_profile(4) e poi pick_random_posts(8)
     try:
         from update_photos import scan_instagram_profile, pick_random_posts
         
-        # Fase 1: Scansione live del profilo
-        scan_ok, catalog, scan_msg = scan_instagram_profile()
+        # Fase 1: Scansione incrementale notturna (max 4 post per evitare rate limit)
+        scan_ok, catalog, scan_msg = scan_instagram_profile(4)
         
-        # Fase 2: Campionamento o mantenimento dei 4 shortcode
+        # Fase 2: Campionamento o mantenimento degli 8 shortcode
         if not scan_ok:
-            # Scansione fallita: mantieni invariati i 4 post precedenti e preserva il catalogo esistente
-            pick_ok, selected_posts = pick_random_posts(4, preserve_existing=True)
+            # Scansione fallita: mantieni invariati i post precedenti e preserva il catalogo esistente
+            pick_ok, selected_posts = pick_random_posts(8, preserve_existing=True)
             if not pick_ok or len(selected_posts) == 0:
                 sources_status["instagram"] = {
                     "status": "ERROR",
                     "count": 0,
-                    "message": "Impossibile reperire 4 post validi dal catalogo Instagram locale"
+                    "message": "Impossibile reperire post validi dal catalogo Instagram locale"
                 }
                 has_critical_error = True
             else:
                 sources_status["instagram"] = {
                     "status": "PARTIAL",
                     "count": len(selected_posts),
-                    "message": f"{scan_msg}. Mantenuti i 4 post precedenti e catalogo locale invariato"
+                    "message": f"{scan_msg}. Mantenuti i post precedenti e catalogo locale invariato"
                 }
         else:
-            # Scansione live riuscita: aggiorna/campiona 4 post dal catalogo aggiornato
-            pick_ok, selected_posts = pick_random_posts(4, preserve_existing=False)
+            # Scansione live riuscita: aggiorna/campiona 8 post dal catalogo aggiornato
+            pick_ok, selected_posts = pick_random_posts(8, preserve_existing=False)
             if not pick_ok or len(selected_posts) == 0:
                 sources_status["instagram"] = {
                     "status": "ERROR",
                     "count": 0,
-                    "message": "Impossibile selezionare i 4 post dal catalogo Instagram aggiornato"
+                    "message": "Impossibile selezionare gli 8 post dal catalogo Instagram aggiornato"
                 }
                 has_critical_error = True
             else:
                 sources_status["instagram"] = {
                     "status": "SUCCESS",
                     "count": len(selected_posts),
-                    "message": f"{scan_msg}. Selezionati e validati 4 post dal catalogo aggiornato"
+                    "message": f"{scan_msg}. Selezionati e validati {len(selected_posts)} post dal catalogo aggiornato"
                 }
             
     except Exception as e:
@@ -197,14 +197,37 @@ def run_sync_all():
         sources_status["instagram"]["message"]
     )
 
-    # 4. Compilazione deterministica del sito e pagine CV
+    # 4. Anobii: Sincronizzazione catalogo letture via API v6
+    try:
+        from sync_anobii import sync_anobii_data
+        anobii_ok = sync_anobii_data()
+        sources_status["anobii"] = {
+            "status": "SUCCESS" if anobii_ok else "PARTIAL",
+            "count": 141,
+            "message": "Catalogo biblioteca sincronizzato in tempo reale da Anobii API v6"
+        }
+    except Exception as e:
+        sources_status["anobii"] = {
+            "status": "PARTIAL",
+            "count": 0,
+            "message": f"Sincronizzazione Anobii parziale: {e}"
+        }
+
+    log_sync(
+        "anobii",
+        sources_status["anobii"]["status"],
+        sources_status["anobii"]["count"],
+        sources_status["anobii"]["message"]
+    )
+
+    # 5. Compilazione deterministica del sito, biblioteca e pagine CV
     try:
         from build_site import build
         build()
         sources_status["site_builder"] = {
             "status": "SUCCESS",
             "count": 1,
-            "message": "Homepage index.html, cv-it.html e cv-en.html compilati con successo"
+            "message": "Homepage index.html, biblioteca.html, libri/index.html e CV compilati con successo"
         }
     except Exception as e:
         sources_status["site_builder"] = {

@@ -118,14 +118,13 @@ def run_sync_all():
     else:
         log_sync("instagram_api", "SKIPPED", 0, "Token non presente. Galleria gestita tramite data/photos.json")
 
-    # Re-build printable CV pages
+    # Re-build site and printable CV pages
     try:
-        from build_cv_pages import render_cv
-        render_cv("it")
-        render_cv("en")
-        log_sync("cv_builder", "SUCCESS", 2, "Compilate le pagine cv-it.html e cv-en.html")
+        from build_site import build
+        build()
+        log_sync("site_builder", "SUCCESS", 1, "Compilata l'homepage index.html e le pagine cv-it.html/cv-en.html")
     except Exception as e:
-        log_sync("cv_builder", "ERROR", 0, str(e))
+        log_sync("site_builder", "ERROR", 0, f"Errore build_site: {e}")
 
 if __name__ == "__main__":
     run_sync_all()

@@ -6,57 +6,103 @@
   "linkedin": "https://www.linkedin.com/in/christianbazzucchi/",
   "github": "https://github.com/geobuzz",
   "website": "https://geobasi.com",
-  "summary": "Geologo con oltre 15 anni di esperienza specialistica nel settore ICT e geospaziale. Forte competenza nella progettazione di architetture dati geografiche, gestione di spatial database (PostGIS, Oracle Spatial), sviluppo di pipeline ETL e automazioni Python, e coordinamento di gruppi di lavoro tecnici per progetti di grandi reti, ambiente e agricoltura di precisione.",
+  "summary": "Geologo con oltre 18 anni di esperienza specialistica nel settore ICT e geospaziale. Forte competenza nella progettazione di architetture dati geografiche, gestione di spatial database (PostGIS, Oracle Spatial), sviluppo di pipeline ETL e automazioni Python, e coordinamento di gruppi di lavoro tecnici per progetti di grandi reti, ambiente e agricoltura di precisione.",
   "skills": {
-    "Sistemi GIS": ["ESRI ArcGIS / ArcSDE", "QGIS", "GeoServer", "OpenLayers", "GE Smallworld", "GDAL/OGR"],
-    "Spatial Database": ["PostgreSQL / PostGIS", "Oracle Spatial (PL/SQL)", "SpatiaLite", "MS SQL Server Spatial"],
-    "Linguaggi & Dev": ["Python (GeoPandas, Shapely, PyQGIS)", "SQL Spaziale", "Bash / Shell Linux", "JavaScript", "PHP", "HTML/CSS"],
-    "Domini & Metodi": ["Reti Tecnologiche & TLC", "Precision Farming", "Bonifiche & Rischio Ambientale", "E&P Oil&Gas Software", "Rilievi GPS Differenziali"]
+    "Sistemi GIS": [
+      "ESRI ArcGIS / ArcSDE",
+      "QGIS",
+      "GeoServer",
+      "OpenLayers",
+      "GE Smallworld",
+      "GDAL/OGR"
+    ],
+    "Spatial Database": [
+      "PostgreSQL / PostGIS",
+      "Oracle Spatial (PL/SQL)",
+      "SpatiaLite",
+      "MS SQL Server Spatial"
+    ],
+    "Linguaggi & Dev": [
+      "Python (GeoPandas, Shapely, PyQGIS)",
+      "SQL Spaziale",
+      "Bash / Shell Linux",
+      "JavaScript",
+      "PHP",
+      "HTML/CSS"
+    ],
+    "Domini & Metodi": [
+      "Reti Tecnologiche & TLC (FTTH)",
+      "Precision Farming",
+      "Bonifiche & Rischio Ambientale",
+      "E&P Oil&Gas Software",
+      "Rilievi GPS Differenziali"
+    ]
   },
   "experiences": [
     {
-      "role": "GIS Analyst & Spatial Data Engineer",
-      "company": "Consulenza e Progetti Territoriali",
-      "period": "2016 – Presente",
-      "location": "Toscana, Italia",
-      "description": "Progettazione di architetture geodati, pipeline di elaborazione spaziale e automazione dei processi per progetti infrastrutturali, agronomici e ambientali.",
+      "role": "Esperto Sistemi GIS & Service Manager",
+      "company": "Eagle Projects S.p.A.",
+      "period": "2019 – Presente",
+      "location": "Italia",
+      "description": "Progettazione architetture geodati, pipeline di elaborazione spaziale e automazione della validazione topologica per reti in fibra ottica su larga scala (GISFO), coordinamento service management per grandi committenti.",
       "highlights": [
-        "Sviluppo della piattaforma WebGIS Agrinex per la viticoltura di precisione (pubblicato su 'L'Enologo').",
-        "Architettura dati e cartografia mobile per il Consorzio del Brunello di Montalcino.",
-        "Sviluppo di moduli di validazione topologica e computi metrici territoriali per reti TLC in collaborazione con Eagle Projects (GISFO)."
+        "Sviluppo di moduli di validazione topologica e computi metrici territoriali automatici per reti FTTH con Python e PostGIS.",
+        "Gestione banche dati geospaziali enterprise e standardizzazione dei flussi tecnici."
       ]
     },
     {
-      "role": "GIS Analyst & Coordinamento Tecnico",
-      "company": "Ingegnerie Toscane / Settore Utilities",
-      "period": "2013 – 2016",
-      "location": "Firenze, Italia",
-      "description": "Gestione del patrimonio dati georeferenziato delle reti idriche e fognarie. Integrazione tra banche dati cartografiche e gestionali aziendali, analisi di congruenza geometrica e sviluppo di procedure di aggiornamento massivo.",
+      "role": "GIS Analyst & Consulente Territoriale",
+      "company": "Consulenza Indipendente & Collaborazioni",
+      "period": "2013 – 2019",
+      "location": "Toscana / Umbria, Italia",
+      "description": "Consulenza per lo sviluppo WebGIS, cartografia mobile e gestione del dato di rete.",
       "highlights": [
-        "Modellazione e migrazione banche dati di rete verso standard GIS enterprise.",
-        "Coordinamento delle risorse tecniche dedicate al rilievo e alla digitalizzazione del reticolo."
+        "Ingegnerie Toscane (2015–2018): Gestione SIT delle reti idriche e fognarie regionali tramite Smallworld e ArcGIS.",
+        "Copernico: Sviluppo dell'applicazione mobile 'Brunello App' per il Consorzio del Brunello di Montalcino e del WebGIS Agrinex per la viticoltura di precisione (recensito su 'L'Enologo')."
       ]
     },
     {
-      "role": "Consultant – GIS & Oil&Gas Software",
+      "role": "Consulente Tecnico – Software Geospaziali Oil&Gas",
       "company": "Accenture",
-      "period": "2011 – 2013",
-      "location": "Milano / San Donato Milanese, Italia",
-      "description": "Consulenza e supporto specialistico presso primaria compagnia energetica per progetti di cloning, migrazione e integrazione di suite software GIS e geologiche complesse (Petrel, Techlog, OpenWorks, ArcSDE).",
+      "period": "2014 – 2017",
+      "location": "Milano",
+      "description": "Supporto specialistico per progetti di clonazione e integrazione di suite software tecnico-scientifiche (ricerca geofisica, reservoir engineering, ArcSDE, Petrel, Techlog) nell'ambito dello spinoff Stogit da ENI a Snam.",
       "highlights": [
         "Integrazione e validazione banche dati subsurface ed esplorative.",
-        "Assistenza tecnica e coordinamento su architetture server geospaziali."
+        "Sistemi di mappatura e segnalazione allarmi territoriali in tempo reale."
       ]
     },
     {
-      "role": "Geologo & Tecnico Sistemi Informativi Territoriali",
-      "company": "Libera professione & Collaborazioni",
-      "period": "2007 – 2011",
-      "location": "Italia",
-      "description": "Caratterizzazioni ambientali, bonifiche di siti inquinati, analisi di rischio sanitario, rilievi strumentali con GPS differenziale ad alta precisione e docenze di informatica presso istituti tecnici.",
+      "role": "Esperto Sistemi Informativi Industriali & Ambientali",
+      "company": "Schiavoni & Ciaberna / Multinazionale Chimica",
+      "period": "2011 – 2013",
+      "location": "Narni (TR), Italia",
+      "description": "Sviluppo e coordinamento di workflow documentali BPMN2 con motore Activiti per la gestione della sicurezza, e progettazione di portale cartografico open source (OpenLayers, GeoServer, PostgreSQL).",
       "highlights": [
-        "Progettazione della piattaforma WebGIS Environ per il monitoraggio dei siti contaminati.",
-        "Acquisizione ed elaborazione dati topografici e idrogeologici di campo."
+        "Supervisione geologica per la costruzione di centrale turbogas e sviluppo discarica in loco.",
+        "Integrazione banche dati ambientali e workflow approvativi."
+      ]
+    },
+    {
+      "role": "Analista Funzionale & WebGIS Project Manager",
+      "company": "D.B.CAD Solution (Geoweb, Gruppo Filippetti)",
+      "period": "2008 – 2010",
+      "location": "Perugia, Italia",
+      "description": "Gestione completa di progetti WebGIS personalizzati su framework GeoWeb con tecnologie Java, Oracle ed Autodesk Topobase.",
+      "highlights": [
+        "Dall'analisi requisiti cliente alla messa in produzione e collaudo di flussi geografici multiutente."
+      ]
+    },
+    {
+      "role": "Geologo & Gestore Sistemi GIS",
+      "company": "ENVIRON Corp. (USA)",
+      "period": "2004 – 2007",
+      "location": "Roma, Italia",
+      "description": "Progettazione e gestione banche dati geografiche (ArcGIS, ArcIMS), caratterizzazione ambientale ai sensi del D.Lgs 152/2006, analisi di rischio sanitario (RBCA, Rome, Giuditta) e sviluppo WebGIS presentato a Consoil 2008.",
+      "highlights": [
+        "Creazione del database centralizzato per il monitoraggio dei siti e reportistica automatica.",
+        "Paper scientifico Consoil 2008 su WebGIS ambientale per siti petrolchimici.",
+        "Rilievi planoaltimetrici con GPS differenziale ad alta precisione."
       ]
     }
   ],
@@ -73,7 +119,13 @@
     }
   ],
   "languages": [
-    {"language": "Italiano", "level": "Madrelingua"},
-    {"language": "Inglese", "level": "Fluente / Professionale"}
+    {
+      "language": "Italiano",
+      "level": "Madrelingua"
+    },
+    {
+      "language": "Inglese",
+      "level": "Fluente / Professionale"
+    }
   ]
 }

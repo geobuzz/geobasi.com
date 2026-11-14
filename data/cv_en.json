@@ -8,17 +8,42 @@
   "website": "https://geobasi.com",
   "summary": "Geologist and computer scientist with over 18 years of specialized experience in GIS, spatial databases, and data architectures. Extensive expertise in integrating geospatial data, pipeline automation (Python, Spatial SQL), environmental characterization, and coordinating technical teams across utility, telecommunication, and agricultural sectors.",
   "skills": {
-    "GIS Technologies": ["ESRI ArcGIS / ArcSDE", "QGIS", "GeoServer", "OpenLayers", "GE Smallworld", "GDAL/OGR"],
-    "Spatial Databases": ["PostgreSQL / PostGIS", "Oracle Spatial (PL/SQL)", "SpatiaLite", "MS SQL Server Spatial"],
-    "Development & Automation": ["Python (GeoPandas, Shapely, PyQGIS)", "Spatial SQL", "Bash / Linux", "JavaScript", "PHP", "HTML5/CSS3"],
-    "Domains & Methodologies": ["Utility & Fiber Optic Networks (FTTH)", "Precision Agriculture & Viticulture", "Contaminated Sites Remediation & Health Risk Analysis", "Oil & Gas E&P Software", "Differential GPS Surveying"]
+    "GIS Technologies": [
+      "ESRI ArcGIS / ArcSDE",
+      "QGIS",
+      "GeoServer",
+      "OpenLayers",
+      "GE Smallworld",
+      "GDAL/OGR"
+    ],
+    "Spatial Databases": [
+      "PostgreSQL / PostGIS",
+      "Oracle Spatial (PL/SQL)",
+      "SpatiaLite",
+      "MS SQL Server Spatial"
+    ],
+    "Development & Automation": [
+      "Python (GeoPandas, Shapely, PyQGIS)",
+      "Spatial SQL",
+      "Bash / Linux",
+      "JavaScript",
+      "PHP",
+      "HTML5/CSS3"
+    ],
+    "Domains & Methodologies": [
+      "Utility & Fiber Optic Networks (FTTH)",
+      "Precision Agriculture & Viticulture",
+      "Contaminated Sites Remediation & Health Risk Analysis",
+      "Oil & Gas E&P Software",
+      "Differential GPS Surveying"
+    ]
   },
   "experiences": [
     {
       "role": "GIS Expert & Service Manager (Fiber Optic Networks)",
       "company": "Eagle Projects S.p.A.",
-      "period": "2019 – Present",
-      "location": "Italy",
+      "period": "2019 – Presente",
+      "location": "Italia",
       "description": "Geospatial architecture and technical coordination for large-scale fiber optic network design (GISFO), topological validation pipelines, and service management for top-tier infrastructure clients.",
       "highlights": [
         "Automated topological integrity validation and bill-of-quantities calculation pipelines using Python and PostGIS.",
@@ -40,7 +65,7 @@
       "role": "Technical Consultant – Oil & Gas Geospatial Software",
       "company": "Accenture",
       "period": "2014 – 2017",
-      "location": "Milan / San Donato Milanese, Italy",
+      "location": "Milano",
       "description": "Technical-scientific system cloning and integration for geophysical exploration, reservoir engineering, and subsurface databases during the Stogit spinoff from ENI to Snam.",
       "highlights": [
         "Subsurface database integration across Petrel, Techlog, OpenWorks, and ArcSDE.",
@@ -94,7 +119,13 @@
     }
   ],
   "languages": [
-    {"language": "Italian", "level": "Native"},
-    {"language": "English", "level": "Fluent / Professional"}
+    {
+      "language": "Italian",
+      "level": "Native"
+    },
+    {
+      "language": "English",
+      "level": "Fluent / Professional"
+    }
   ]
 }

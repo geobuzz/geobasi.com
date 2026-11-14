@@ -1,0 +1,30 @@
+[
+  {
+    "timestamp": "2026-11-14T17:48:31.504825+00:00",
+    "source": "cv_builder",
+    "status": "SUCCESS",
+    "records_processed": 2,
+    "message": "Compilate le pagine cv-it.html e cv-en.html"
+  },
+  {
+    "timestamp": "2026-11-14T17:48:31.501549+00:00",
+    "source": "instagram_api",
+    "status": "SKIPPED",
+    "records_processed": 0,
+    "message": "Token non presente. Galleria gestita tramite data/photos.json"
+  },
+  {
+    "timestamp": "2026-11-14T17:48:31.501192+00:00",
+    "source": "linkedin_api",
+    "status": "SKIPPED",
+    "records_processed": 0,
+    "message": "Token non presente. Utilizzare scripts/import_linkedin.py per importazione manuale"
+  },
+  {
+    "timestamp": "2026-11-14T17:48:31.500777+00:00",
+    "source": "substack",
+    "status": "SUCCESS",
+    "records_processed": 6,
+    "message": "Estratti 6 articoli via RSS da geobuzz.substack.com"
+  }
+]

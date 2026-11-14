@@ -1,5 +1,46 @@
 [
   {
+    "timestamp": "2026-11-14T18:58:03.506037+00:00",
+    "source": "pipeline",
+    "status": "PARTIAL",
+    "records_processed": 17,
+    "message": "Pipeline completata con successo parziale (una o più fonti in stato PARTIAL)",
+    "details": {
+      "substack": "SUCCESS",
+      "linkedin_api": "SKIPPED",
+      "instagram": "PARTIAL",
+      "site_builder": "SUCCESS"
+    }
+  },
+  {
+    "timestamp": "2026-11-14T18:58:03.505488+00:00",
+    "source": "site_builder",
+    "status": "SUCCESS",
+    "records_processed": 1,
+    "message": "Homepage index.html, cv-it.html e cv-en.html compilati con successo"
+  },
+  {
+    "timestamp": "2026-11-14T18:58:03.501631+00:00",
+    "source": "instagram",
+    "status": "PARTIAL",
+    "records_processed": 4,
+    "message": "Scansione fallita (Redirected to login page. Use --login or --load-cookies.). Mantenuto catalogo precedente di 30 post. Mantenuti i 4 post precedenti e catalogo locale invariato"
+  },
+  {
+    "timestamp": "2026-11-14T18:58:01.729118+00:00",
+    "source": "linkedin_api",
+    "status": "SKIPPED",
+    "records_processed": 0,
+    "message": "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py"
+  },
+  {
+    "timestamp": "2026-11-14T18:58:01.728425+00:00",
+    "source": "substack",
+    "status": "SUCCESS",
+    "records_processed": 12,
+    "message": "Estratti e compilati 12 articoli con pagine interne da geobuzz.substack.com"
+  },
+  {
     "timestamp": "2026-11-14T18:52:54.813237+00:00",
     "source": "pipeline",
     "status": "PARTIAL",

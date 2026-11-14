@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Christian Bazzucchi — Geologo & Spatial Data Engineer | geobasi.com</title>
-  <meta name="description" content="Sito professionale di Christian Bazzucchi. Geologo con oltre 15 anni di esperienza nell'integrazione di sistemi informativi geografici, gestione di basi dati spaziali, automazione dei processi e coordinamento di gruppi di lavoro tecnici.">
+  <title>Christian Bazzucchi — Geologo | geobasi.com</title>
+  <meta name="description" content="Christian Bazzucchi: Informatico, geologo, musicista, motociclista. Mi occupo di integrazione di sistemi informativi geografici, gestione di basi dati spaziali, automazione dei processi e coordinamento di team tecnici.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -139,18 +139,7 @@
     .hero {
       padding: 80px 0 60px;
       position: relative;
-      overflow: hidden;
       border-bottom: 1px solid var(--border-carto);
-    }
-
-    .hero-contour-svg {
-      position: absolute;
-      right: -80px;
-      top: 10px;
-      width: 520px;
-      height: 520px;
-      opacity: 0.35;
-      pointer-events: none;
     }
 
     .hero-meta {
@@ -171,22 +160,22 @@
 
     .hero-title {
       font-family: var(--font-serif);
-      font-size: 52px;
+      font-size: 50px;
       line-height: 1.15;
       font-weight: 600;
       color: var(--ink-primary);
-      max-width: 820px;
-      margin-bottom: 20px;
+      max-width: 840px;
+      margin-bottom: 16px;
       letter-spacing: -0.02em;
     }
 
-    .hero-payoff {
+    .hero-identity {
       font-family: var(--font-serif);
       font-style: italic;
       font-size: 24px;
       line-height: 1.4;
       color: var(--accent-copper);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       max-width: 780px;
     }
 
@@ -194,7 +183,7 @@
       font-size: 18px;
       line-height: 1.65;
       color: var(--ink-secondary);
-      max-width: 720px;
+      max-width: 740px;
       margin-bottom: 36px;
     }
 
@@ -531,6 +520,29 @@
       object-fit: cover;
     }
 
+    .book-cover-placeholder {
+      padding: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      height: 100%;
+    }
+
+    .book-cover-title {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.3;
+    }
+
+    .book-cover-author {
+      font-size: 11px;
+      color: var(--ink-muted);
+    }
+
     .book-title {
       font-family: var(--font-serif);
       font-size: 16px;
@@ -613,7 +625,7 @@
       gap: 4px;
     }
 
-    /* Photos Section (Instagram) */
+    /* Photos Section (Instagram Gallery & Lightbox) */
     .photo-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -623,8 +635,7 @@
     .photo-card {
       background: var(--bg-surface-elevated);
       border: 1px solid var(--border-carto);
-      text-decoration: none;
-      color: inherit;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -673,6 +684,94 @@
       font-size: 12px;
       color: var(--ink-secondary);
       line-height: 1.45;
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(18, 34, 46, 0.88);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lightbox-content {
+      background: var(--bg-paper);
+      border: 1px solid var(--border-carto);
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .lightbox-img-wrap {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 60vh;
+      overflow: hidden;
+    }
+
+    .lightbox-img-wrap img {
+      max-width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+    }
+
+    .lightbox-details {
+      padding: 24px;
+    }
+
+    .lightbox-title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .lightbox-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-copper);
+      margin-bottom: 12px;
+    }
+
+    .lightbox-desc {
+      font-size: 15px;
+      color: var(--ink-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .lightbox-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-carto);
+      padding-top: 16px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 12px; right: 16px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #FFF;
+      background: rgba(0,0,0,0.5);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      z-index: 10;
     }
 
     /* CV Section Banner */
@@ -767,11 +866,10 @@
 
     @media (max-width: 900px) {
       .hero-title { font-size: 38px; }
-      .hero-payoff { font-size: 20px; }
-      .approach-grid, .project-grid, .library-grid, .article-grid, .photo-grid, .skills-grid, .footer-grid {
+      .approach-grid, .project-grid, .article-grid, .photo-grid, .library-grid, .skills-grid {
         grid-template-columns: 1fr;
       }
-      .cv-banner { flex-direction: column; align-items: flex-start; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
     }
   </style>
 </head>
@@ -783,113 +881,93 @@
   <header class="tech-header">
     <div class="wrapper">
       <div class="tech-bar">
-        <span>PROIEZIONE: WGS84 / EPSG:4326</span>
-        <span class="coords">43°43'02"N 10°56'51"E &bull; QUOTA: 48m s.l.m.</span>
-        <span>ORIGINE: EMPOLI (FI), ITALIA</span>
+        <span>SISTEMA: GEOBASI // STAZIONE EMPOLI (FI)</span>
+        <span class="coords">Empoli, Toscana</span>
+        <span>FORMATO: STATIC HTML // WGS84</span>
       </div>
+
       <nav class="nav-main">
-        <a href="#home" class="brand">
-          <span class="brand-title">Christian Bazzucchi</span>
-          <span class="brand-tag">Geologo & Spatial Data Engineer</span>
+        <a href="#inizio" class="brand">
+          <span class="brand-title">geobasi.com</span>
+          <span class="brand-tag">Christian Bazzucchi</span>
         </a>
+
         <ul class="nav-links">
-          <li><a href="#profilo">Profilo</a></li>
+          <li><a href="#percorso">Percorso</a></li>
           <li><a href="#competenze">Competenze</a></li>
           <li><a href="#progetti">Progetti</a></li>
           <li><a href="#biblioteca">Biblioteca</a></li>
           <li><a href="#fotografie">Fotografie</a></li>
           <li><a href="#appunti">Appunti</a></li>
-          <li><a href="#cv">Curriculum</a></li>
+          <li><a href="cv-it.html">CV Ufficiale</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero" id="home">
-    <div class="wrapper" style="position: relative;">
-      <svg class="hero-contour-svg" viewBox="0 0 500 500" fill="none" stroke="#C25928" stroke-width="1.2">
-        <path d="M 50,250 C 70,180 140,120 250,110 C 360,100 430,160 450,250 C 470,340 380,420 260,430 C 140,440 30,320 50,250 Z" />
-        <path d="M 90,250 C 110,195 160,150 250,140 C 340,130 395,180 410,250 C 425,320 350,380 260,390 C 170,400 70,305 90,250 Z" stroke-dasharray="6 3" />
-        <path d="M 130,250 C 150,210 185,180 250,170 C 315,160 360,200 370,250 C 380,300 320,340 260,350 C 200,360 110,290 130,250 Z" />
-        <path d="M 170,250 C 185,225 210,205 250,200 C 290,195 325,220 330,250 C 335,280 290,305 250,310 C 210,315 155,275 170,250 Z" stroke-width="1.8" />
-        <path d="M 210,250 C 220,235 235,225 250,225 C 265,225 285,235 290,250 C 295,265 270,275 250,275 C 230,275 200,265 210,250 Z" />
-        <circle cx="250" cy="250" r="3" fill="#C25928" />
-        <text x="258" y="248" font-family="'Fira Code', monospace" font-size="10" fill="#C25928">Quota 488m</text>
-      </svg>
-
-      <div class="hero-meta">
-        <span>Rilievo Tecnico &bull; Geospatial Data Architecture</span>
-      </div>
-
+  <section class="hero" id="inizio">
+    <div class="wrapper">
+      <div class="hero-meta">&bull; Profilo Professionale & Personale &bull;</div>
       <h1 class="hero-title">Christian Bazzucchi</h1>
-      
-      <p class="hero-payoff">
-        "Il territorio è fatto di dati. Il valore sta nel saperli connettere."
-      </p>
-
-      <p class="hero-intro">
-        Geologo con oltre 15 anni di esperienza nell'integrazione di sistemi informativi geografici, gestione di basi dati spaziali, automazione dei processi e coordinamento di gruppi di lavoro tecnici.
-      </p>
+      <p class="hero-identity">Informatico, geologo, musicista, motociclista.</p>
+      <p class="hero-intro">Mi occupo di integrazione di sistemi informativi geografici, gestione di basi dati spaziali, automazione dei processi e coordinamento di team tecnici.</p>
 
       <div class="hero-actions">
-        <a href="#progetti" class="btn-copper">
-          Esplora i Casi di Studio
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <a href="cv-it.html" class="btn-outline">Curriculum Vitae (Web & PDF)</a>
-        <a href="https://geobuzz.substack.com/" class="btn-outline" target="_blank">Blog su Substack &nearr;</a>
+        <a href="#progetti" class="btn-copper">Esplora Progetti &amp; Archivi</a>
+        <a href="cv-it.html" class="btn-outline">Curriculum Vitae Ufficiale &rarr;</a>
+        <a href="#fotografie" class="btn-outline">Fotografie del Territorio</a>
       </div>
     </div>
   </section>
 
   <!-- Approach Section -->
-  <section class="section" id="profilo">
+  <section class="section" id="percorso">
     <div class="wrapper">
       <div class="section-header">
         <div>
-          <span class="section-num">SEZIONE 01 &bull; IDENTITÀ & METODO</span>
-          <h2 class="section-title">L'Approccio ai Dati Territoriali</h2>
+          <span class="section-num">SEZIONE 01 &bull; IDENTIT&Agrave; E METODO</span>
+          <h2 class="section-title">L'Approccio al Territorio e ai Dati</h2>
         </div>
         <p class="section-subtitle">
-          Progettazione architetturale a partire dai problemi, integrando tecnologie mature open source e automatizzando ciò che serve.
+          Integrazione di sistemi geografici, basi dati spaziali e automazione dei processi.
         </p>
       </div>
 
       <div class="approach-grid">
         <div class="approach-box">
-          <h3>Dalla Complessità Geologica all'Ingegneria del Dato</h3>
+          <h3>Progettare Soluzioni, Non Solo Eseguire Comandi</h3>
           <p>
-            Non mi limito a utilizzare software GIS commerciali o a sviluppare script isolati: il mio percorso parte dalla comprensione fisica e strutturale dei fenomeni geologici e ambientali, per tradurla in modelli di dati coerenti, robusti e normalizzati.
+            Il mio percorso unisce competenze analitiche e geologiche alla progettazione di architetture dati robuste, interoperabili e scalabili.
           </p>
           <p>
-            Dalla caratterizzazione idrogeologica alla viticoltura di precisione, ogni rilievo strumentale e ogni raster multispettrale acquista significato decisionale solo quando è integrato in flussi topologici controllati e privi di ridondanza.
+            Il valore nasce dalla capacità di connettere fonti eterogenee: cartografia catastale, rilievi geologici, specifiche tecniche di rete e basi dati territoriali complesse.
           </p>
         </div>
 
         <div class="approach-box">
-          <h3>Ecosistema Maturo, Standard OGC e Automazione</h3>
+          <h3>Tecnologie Mature e Automazione Aperta</h3>
           <p>
-            Privilegio l'ecosistema open source consolidato (PostgreSQL/PostGIS, QGIS, GeoServer, GDAL/OGR) combinato con librerie di automazione Python (GeoPandas, Shapely) e SQL avanzato, integrandoli all'occorrenza con suite proprietarie enterprise quando il contesto operativo lo richiede.
+            Privilegio l'adozione dell'ecosistema open source maturo (PostGIS, QGIS, GeoServer, GDAL/OGR) combinato con linguaggi di programmazione e automazione (Python, SQL spaziale), integrandoli all'occorrenza con piattaforme enterprise proprietarie quando il contesto operativo lo richiede.
           </p>
           <p>
-            La gestione di progetti complessi e il coordinamento di gruppi di lavoro tecnici mi hanno insegnato che l'efficienza non risiede nella complessità fine a se stessa, ma nella capacità di collegare sistemi eterogenei senza attriti.
+            Dalla caratterizzazione ambientale alla viticoltura di precisione, dalla gestione di reti infrastrutturali complesse all'analisi dei dati territoriali, il principio cardine rimane invariato: il dato territoriale acquista valore reale solo quando è strutturato, affidabile e collegato ai processi decisionali.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Skills Matrix Section -->
+  <!-- Skills Matrix -->
   <section class="section" id="competenze">
     <div class="wrapper">
       <div class="section-header">
         <div>
-          <span class="section-num">SEZIONE 02 &bull; QUADRO DELLE COMPETENZE</span>
-          <h2 class="section-title">Domini e Tecnologie</h2>
+          <span class="section-num">SEZIONE 02 &bull; AMBITI DI COMPETENZA</span>
+          <h2 class="section-title">Quadro delle Competenze Tecniche</h2>
         </div>
         <p class="section-subtitle">
-          Competenze verticali maturate sul campo tra grandi reti infrastrutturali, ambiente e innovazione digitale.
+          Competenze maturate in oltre 18 anni di progetti territoriali, infrastrutturali e software.
         </p>
       </div>
 
@@ -949,20 +1027,17 @@
             <p class="project-desc">Piattaforma geografica per la gestione agronomica avanzata in vigneto. Integrazione di indici vegetazionali satellitari e da drone (NDVI, NDRE), zonazione pedologica e rilievi strumentali di campo.</p>
             
             <div class="project-assets-preview">
-              <a href="assets/img/projects/agrinex_enologo_p1.jpg" target="_blank" title="Scansione articolo L'Enologo - Copertina">
+              <a href="assets/img/projects/agrinex_enologo_p1.jpg" target="_blank" rel="noopener" title="Scansione articolo L'Enologo">
                 <img src="assets/img/projects/agrinex_enologo_p1.jpg" alt="Articolo L'Enologo" class="project-thumb">
               </a>
-              <a href="assets/img/projects/agrinex_enologo_p2.jpg" target="_blank" title="Scansione articolo L'Enologo - Tavole WebGIS">
+              <a href="assets/img/projects/agrinex_enologo_p2.jpg" target="_blank" rel="noopener" title="Scansione articolo L'Enologo - Tavole">
                 <img src="assets/img/projects/agrinex_enologo_p2.jpg" alt="Tavole Agrinex" class="project-thumb">
-              </a>
-              <a href="assets/img/projects/agrinex_enologo_p3.jpg" target="_blank" title="Scansione articolo L'Enologo - Zonazione">
-                <img src="assets/img/projects/agrinex_enologo_p3.jpg" alt="Zonazione Agrinex" class="project-thumb">
               </a>
             </div>
             
             <div class="project-tags"><span class="project-tag">WebGIS</span><span class="project-tag">Precision Farming</span><span class="project-tag">PostGIS</span><span class="project-tag">GeoServer</span><span class="project-tag">Python / GDAL</span><span class="project-tag">Telerilevamento</span></div>
           </div>
-          <div class="project-actions"><a href="assets/img/projects/agrinex_enologo_p1.jpg" class="project-link" target="_blank">Visualizza l'articolo su L'Enologo &rarr;</a></div>
+          <div class="project-actions"><a href="assets/img/projects/agrinex_enologo_p1.jpg" class="project-link" target="_blank" rel="noopener">Visualizza articolo su L'Enologo &rarr;</a></div>
         </article>
         
         <article class="project-card" id="brunello">
@@ -976,11 +1051,9 @@
             <p class="project-desc">Applicazione mobile e infrastruttura geodati per il Consorzio del Vino Brunello di Montalcino, finalizzata all'esplorazione del territorio, delle cantine e della zonazione viticola.</p>
             
             <div class="project-assets-preview">
-              <a href="assets/img/projects/brunello_app_screens.jpg" target="_blank">
+              <a href="assets/img/projects/brunello_app_screens.jpg" target="_blank" rel="noopener">
                 <img src="assets/img/projects/brunello_app_screens.jpg" alt="Schermate Brunello App" class="project-thumb">
               </a>
-              <img src="assets/img/projects/Download_on_the_App_Store_Badge_US-UK_135x40.svg" alt="App Store" style="height: 32px; align-self: center;">
-              <img src="assets/img/projects/google-play-badge.png" alt="Google Play" style="height: 32px; align-self: center;">
             </div>
             
             <div class="project-tags"><span class="project-tag">Mobile GIS</span><span class="project-tag">PostGIS</span><span class="project-tag">Cartografia Digitale</span><span class="project-tag">Open Data</span><span class="project-tag">Territorial Branding</span></div>
@@ -1000,7 +1073,7 @@
             
             <div class="project-tags"><span class="project-tag">Geologia Ambientale</span><span class="project-tag">Oracle Spatial</span><span class="project-tag">PostGIS</span><span class="project-tag">Analisi di Rischio</span><span class="project-tag">WebGIS</span><span class="project-tag">QGIS</span></div>
           </div>
-          <div class="project-actions"><a href="share/ENVIRON_webgis.pdf" class="project-link" target="_blank">Scarica Paper Scientifico Consoil 2008 (PDF) &rarr;</a></div>
+          <div class="project-actions"><a href="share/ENVIRON_webgis.pdf" class="project-link" target="_blank" rel="noopener">Scarica Paper Consoil 2008 (PDF) &rarr;</a></div>
         </article>
         
         <article class="project-card" id="gisfo">
@@ -1015,7 +1088,7 @@
             
             <div class="project-tags"><span class="project-tag">Infrastrutture TLC</span><span class="project-tag">Python / PyQGIS</span><span class="project-tag">PostGIS</span><span class="project-tag">Validazione Topologica</span><span class="project-tag">Automazione ETL</span></div>
           </div>
-          <div class="project-actions"><a href="https://www.eagleprojects.it/software/gisfo" class="project-link" target="_blank">Info GISFO (Eagle Projects) &rarr;</a></div>
+          <div class="project-actions"><a href="https://www.eagleprojects.it/software/gisfo" class="project-link" target="_blank" rel="noopener">Info GISFO (Eagle Projects) &rarr;</a></div>
         </article>
         
       </div>
@@ -1031,8 +1104,8 @@
           <h2 class="section-title">La Mia Biblioteca</h2>
         </div>
         <div>
-          <a href="https://www.anobii.com/" class="btn-outline" target="_blank" style="font-family: var(--font-mono); font-size: 12px;">
-            Profilo completo su Anobii &nearr;
+          <a href="https://www.anobii.com/it/01d6d75099d9c1d4bb/profile" class="btn-outline" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-size: 12px;">
+            Profilo completo su Anobii (141 libri censiti) &nearr;
           </a>
         </div>
       </div>
@@ -1041,66 +1114,98 @@
         
         <div class="book-card in-progress">
           <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
-          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/isbn/9788817049870-M.jpg" alt="Il viaggiatore del secolo" /></div>
-          <h4 class="book-title">Il viaggiatore del secolo</h4>
-          <p class="book-author">Andrés Neuman</p>
-          <p class="book-quote">"Perché in fondo la storia degli esseri umani è sempre la storia di creature sperdute, straniere a loro stesse, che possono sperare di salvarsi solo se si affidano al cuore degli altri."</p>
+          <div class="book-cover-wrap"><div class="book-cover-placeholder"><span class="book-cover-title">Le vie della psicologia. Storia e tendenze contemporanee</span><span class="book-cover-author">Roberto Marchesini</span></div></div>
+          <h4 class="book-title">Le vie della psicologia. Storia e tendenze contemporanee</h4>
+          <p class="book-author">Roberto Marchesini</p>
+          
         </div>
         
         <div class="book-card in-progress">
           <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
-          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/isbn/9788865430583-M.jpg" alt="Il ciclo di vita degli oggetti software" /></div>
-          <h4 class="book-title">Il ciclo di vita degli oggetti software</h4>
+          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/id/7083790-M.jpg" alt="Iliade" loading="lazy" /></div>
+          <h4 class="book-title">Iliade</h4>
+          <p class="book-author">Omero</p>
+          
+        </div>
+        
+        <div class="book-card in-progress">
+          <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          <div class="book-cover-wrap"><div class="book-cover-placeholder"><span class="book-cover-title">Frammenti di un insegnamento sconosciuto</span><span class="book-cover-author">Petr D. Uspenskij</span></div></div>
+          <h4 class="book-title">Frammenti di un insegnamento sconosciuto</h4>
+          <p class="book-author">Petr D. Uspenskij</p>
+          
+        </div>
+        
+        <div class="book-card in-progress">
+          <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          <div class="book-cover-wrap"><div class="book-cover-placeholder"><span class="book-cover-title">L'eredità di Roma</span><span class="book-cover-author">Chris Wickham</span></div></div>
+          <h4 class="book-title">L'eredità di Roma</h4>
+          <p class="book-author">Chris Wickham</p>
+          
+        </div>
+        
+        <div class="book-card in-progress">
+          <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          <div class="book-cover-wrap"><div class="book-cover-placeholder"><span class="book-cover-title">I Vangeli canonici</span><span class="book-cover-author"></span></div></div>
+          <h4 class="book-title">I Vangeli canonici</h4>
+          <p class="book-author"></p>
+          
+        </div>
+        
+        <div class="book-card in-progress">
+          <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          <div class="book-cover-wrap"><div class="book-cover-placeholder"><span class="book-cover-title">Credo. Compendio della Fede Cattolica</span><span class="book-cover-author">Athanasius Schneider</span></div></div>
+          <h4 class="book-title">Credo. Compendio della Fede Cattolica</h4>
+          <p class="book-author">Athanasius Schneider</p>
+          
+        </div>
+        
+        <div class="book-card in-progress">
+          <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          <div class="book-cover-wrap"><div class="book-cover-placeholder"><span class="book-cover-title">Storia d'Italia - Vol. 1</span><span class="book-cover-author"></span></div></div>
+          <h4 class="book-title">Storia d'Italia - Vol. 1</h4>
+          <p class="book-author"></p>
+          
+        </div>
+        
+        <div class="book-card in-progress">
+          <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/isbn/9788842004967-M.jpg" alt="Introduzione a Tommaso d'Aquino" loading="lazy" /></div>
+          <h4 class="book-title">Introduzione a Tommaso d'Aquino</h4>
+          <p class="book-author">Sofia Vanni Rovighi</p>
+          
+        </div>
+        
+        <div class="book-card in-progress">
+          <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          <div class="book-cover-wrap"><div class="book-cover-placeholder"><span class="book-cover-title">Casti Connubii on Christian Marriage</span><span class="book-cover-author">Pope Pius XI</span></div></div>
+          <h4 class="book-title">Casti Connubii on Christian Marriage</h4>
+          <p class="book-author">Pope Pius XI</p>
+          
+        </div>
+        
+        <div class="book-card in-progress">
+          <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          <div class="book-cover-wrap"><div class="book-cover-placeholder"><span class="book-cover-title">Storia d'Europa dalle invasioni al XVI secolo</span><span class="book-cover-author">Henri Pirenne</span></div></div>
+          <h4 class="book-title">Storia d'Europa dalle invasioni al XVI secolo</h4>
+          <p class="book-author">Henri Pirenne</p>
+          
+        </div>
+        
+        <div class="book-card in-progress">
+          <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/id/8793546-M.jpg" alt="Respiro" loading="lazy" /></div>
+          <h4 class="book-title">Respiro</h4>
           <p class="book-author">Ted Chiang</p>
-          <p class="book-quote">"L'esperienza non si può comprimere: per comprendere il mondo serve il tempo necessario a viverlo."</p>
+          
         </div>
         
-        <div class="book-card">
-          <span class="book-status-badge finished">TERMINATO &bull; 5/5</span>
-          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/isbn/9788807900891-M.jpg" alt="L'ombra su Innsmouth" /></div>
-          <h4 class="book-title">L'ombra su Innsmouth</h4>
-          <p class="book-author">H.P. Lovecraft</p>
-          <p class="book-quote">"Il mare è il più grande abisso del nostro pianeta: in esso dimorano ombre che precedono la memoria dell'uomo."</p>
-        </div>
-        
-        <div class="book-card">
-          <span class="book-status-badge finished">TERMINATO &bull; 5/5</span>
-          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/isbn/9788882464738-M.jpg" alt="Storie della tua vita" /></div>
-          <h4 class="book-title">Storie della tua vita</h4>
-          <p class="book-author">Ted Chiang</p>
-          <p class="book-quote">"Fin dall'inizio sapevo dove saremmo arrivati, eppure ho scelto di percorrere ogni singolo istante."</p>
-        </div>
-        
-        <div class="book-card">
-          <span class="book-status-badge finished">TERMINATO &bull; 5/5</span>
-          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/isbn/9788845293238-M.jpg" alt="Il Silmarillion" /></div>
-          <h4 class="book-title">Il Silmarillion</h4>
-          <p class="book-author">J.R.R. Tolkien</p>
-          <p class="book-quote">"E la Terra fu plasmata dalla Musica, e la luce degli Alberi illuminò ciò che prima era tenebra."</p>
-        </div>
-        
-        <div class="book-card">
-          <span class="book-status-badge finished">TERMINATO &bull; 4/5</span>
-          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/isbn/9788804533030-M.jpg" alt="Ombre sulla luna" /></div>
-          <h4 class="book-title">Ombre sulla luna</h4>
-          <p class="book-author">Arthur C. Clarke</p>
-          <p class="book-quote">"La Terra era un immenso globo azzurro sospeso nel silenzio eterno dell'orbita."</p>
-        </div>
-        
-        <div class="book-card">
-          <span class="book-status-badge finished">TERMINATO &bull; 4/5</span>
-          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/isbn/9788804677932-M.jpg" alt="A come Andromeda" /></div>
-          <h4 class="book-title">A come Andromeda</h4>
-          <p class="book-author">Fred Hoyle, John Elliot</p>
-          <p class="book-quote">"Il messaggio non chiedeva risposta. Trasmetteva soltanto la formula per creare una nuova intelligenza."</p>
-        </div>
-        
-        <div class="book-card">
-          <span class="book-status-badge finished">TERMINATO &bull; 4/5</span>
-          <div class="book-cover-wrap"><img src="https://covers.openlibrary.org/b/isbn/9788849845013-M.jpg" alt="Lo Stato Falsario" /></div>
-          <h4 class="book-title">Lo Stato Falsario</h4>
-          <p class="book-author">Murray N. Rothbard</p>
-          <p class="book-quote">"La moneta non nasce per decreto, ma come merce dotata di valore proprio e spontaneamente scelta dal mercato."</p>
+        <div class="book-card in-progress">
+          <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          <div class="book-cover-wrap"><div class="book-cover-placeholder"><span class="book-cover-title">Il pianto del Cristo</span><span class="book-cover-author">Fulton John Sheen</span></div></div>
+          <h4 class="book-title">Il pianto del Cristo</h4>
+          <p class="book-author">Fulton John Sheen</p>
+          
         </div>
         
       </div>
@@ -1113,33 +1218,61 @@
       <div class="section-header">
         <div>
           <span class="section-num">SEZIONE 05 &bull; OSSERVAZIONE DEL TERRITORIO</span>
-          <h2 class="section-title">Fotografie & Paesaggi</h2>
+          <h2 class="section-title">Fotografie &amp; Paesaggi</h2>
         </div>
         <div>
-          <a href="https://www.instagram.com/christian.bazzucchi/" class="btn-outline" target="_blank" style="font-family: var(--font-mono); font-size: 12px;">
-            Galleria su Instagram &nearr;
+          <a href="https://www.instagram.com/christian.bazzucchi/" class="btn-outline" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-size: 12px;">
+            Profilo @christian.bazzucchi su Instagram &nearr;
           </a>
         </div>
       </div>
 
       <div class="photo-grid">
         
-            <a href="https://www.instagram.com/christian.bazzucchi/" class="photo-card" target="_blank" rel="noopener">
-              <div class="photo-img-wrap">
-                
-                <div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg-surface); padding: 20px; text-align: center;">
-                  <span style="font-family: var(--font-mono); font-size: 24px; color: var(--accent-copper); margin-bottom: 8px;">📷</span>
-                  <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted);">POST INSTAGRAM UFFICIALE</span>
-                </div>
-                
-              </div>
-              <div class="photo-info">
-                <div class="photo-location">Toscana, Italia</div>
-                <div class="photo-coords">43°43'10"N 10°57'02"E</div>
-                <p class="photo-caption">Morfologie collinari e tracciati poderali: l'impronta geologica nella modellazione del territorio.</p>
-              </div>
-            </a>
-            
+        <div class="photo-card" onclick="openLightbox('assets/img/photos/crinale_appennino.jpg', 'Crinali Appenninici e Orizzonte', 'Appennino Tosco-Emiliano (Quota 1178m)', '44°01'12"N 10°59'19"E', '09 Giu 2024', 'Traversata appenninica in quota: morfologie di crinale, versanti boscosi e geologia strutturale toscana.', 'https://www.instagram.com/christian.bazzucchi/')">
+          <div class="photo-img-wrap">
+            <img src="assets/img/photos/crinale_appennino.jpg" alt="Traversata appenninica in quota: morfologie di crinale, versanti boscosi e geologia strutturale toscana." loading="lazy">
+          </div>
+          <div class="photo-info">
+            <div class="photo-location">Appennino Tosco-Emiliano (Quota 1178m)</div>
+            <div class="photo-coords">44°01'12"N 10°59'19"E</div>
+            <p class="photo-caption">Crinali Appenninici e Orizzonte</p>
+          </div>
+        </div>
+        
+        <div class="photo-card" onclick="openLightbox('assets/img/photos/costa_tirrenica.jpg', 'Litorale Tirrenico e Linea di Costa', 'Costa Tirrenica, Toscana', '43°30'15"N 10°18'22"E', 'Maggio 2024', 'Morfologie costiere, dinamica dei litorali sabbiosi e interazione tra mare e rilievi retrostanti.', 'https://www.instagram.com/christian.bazzucchi/')">
+          <div class="photo-img-wrap">
+            <img src="assets/img/photos/costa_tirrenica.jpg" alt="Morfologie costiere, dinamica dei litorali sabbiosi e interazione tra mare e rilievi retrostanti." loading="lazy">
+          </div>
+          <div class="photo-info">
+            <div class="photo-location">Costa Tirrenica, Toscana</div>
+            <div class="photo-coords">43°30'15"N 10°18'22"E</div>
+            <p class="photo-caption">Litorale Tirrenico e Linea di Costa</p>
+          </div>
+        </div>
+        
+        <div class="photo-card" onclick="openLightbox('assets/img/photos/spoleto_paesaggio.jpg', 'Ponte delle Torri e Morfologie Collinari', 'Spoleto, Umbria', '42°44'04"N 12°44'43"E', 'Aprile 2026', 'Ingegneria storica inserita nella gola calcarea del torrente Tessino: architettura, roccia e territorio.', 'https://www.instagram.com/christian.bazzucchi/')">
+          <div class="photo-img-wrap">
+            <img src="assets/img/photos/spoleto_paesaggio.jpg" alt="Ingegneria storica inserita nella gola calcarea del torrente Tessino: architettura, roccia e territorio." loading="lazy">
+          </div>
+          <div class="photo-info">
+            <div class="photo-location">Spoleto, Umbria</div>
+            <div class="photo-coords">42°44'04"N 12°44'43"E</div>
+            <p class="photo-caption">Ponte delle Torri e Morfologie Collinari</p>
+          </div>
+        </div>
+        
+        <div class="photo-card" onclick="openLightbox('assets/img/photos/passo_stelvio.jpg', 'Passo dello Stelvio e Tornanti', 'Passo dello Stelvio (2758m)', '46°31'43"N 10°27'10"E', 'Maggio 2024', 'Motociclismo alpino e orografia glaciale: l'ascesa mitica tra muraglioni di neve e pareti rocciose.', 'https://www.instagram.com/christian.bazzucchi/')">
+          <div class="photo-img-wrap">
+            <img src="assets/img/photos/passo_stelvio.jpg" alt="Motociclismo alpino e orografia glaciale: l'ascesa mitica tra muraglioni di neve e pareti rocciose." loading="lazy">
+          </div>
+          <div class="photo-info">
+            <div class="photo-location">Passo dello Stelvio (2758m)</div>
+            <div class="photo-coords">46°31'43"N 10°27'10"E</div>
+            <p class="photo-caption">Passo dello Stelvio e Tornanti</p>
+          </div>
+        </div>
+        
       </div>
     </div>
   </section>
@@ -1153,66 +1286,66 @@
           <h2 class="section-title">Appunti da Substack</h2>
         </div>
         <div>
-          <a href="https://geobuzz.substack.com/" class="btn-outline" target="_blank" style="font-family: var(--font-mono); font-size: 12px;">
-            Iscriviti su geobuzz.substack.com &nearr;
+          <a href="https://geobuzz.substack.com/" class="btn-outline" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-size: 12px;">
+            Canale geobuzz.substack.com &nearr;
           </a>
         </div>
       </div>
 
       <div class="article-grid">
         
-        <a href="https://geobuzz.substack.com/p/e-se-il-problema-non-fosse-soltanto" class="article-card" target="_blank">
+        <a href="articoli/e-se-il-problema-non-fosse-soltanto-perch-esiste-l-universo-.html" class="article-card">
           <div>
             <div class="article-meta">03 Set 2026 &bull; SUBSTACK</div>
             <h3 class="article-title">E se il problema non fosse soltanto perché esiste l’universo, ma perché esiste un “io” che se lo chiede?</h3>
             <p class="article-excerpt">Ci sono domande che sembrano semplici finché non si prova a seguirle davvero fino in fondo...</p>
           </div>
-          <span class="article-read-more">Leggi su Substack &rarr;</span>
+          <span class="article-read-more">Leggi articolo &rarr;</span>
         </a>
         
-        <a href="https://geobuzz.substack.com/p/pregare-incessantemente-col-vangelo" class="article-card" target="_blank">
+        <a href="articoli/pregare-incessantemente-col-vangelo.html" class="article-card">
           <div>
             <div class="article-meta">27 Lug 2026 &bull; SUBSTACK</div>
             <h3 class="article-title">Pregare incessantemente col Vangelo</h3>
             <p class="article-excerpt">dal quinto racconto del pellegrino russo</p>
           </div>
-          <span class="article-read-more">Leggi su Substack &rarr;</span>
+          <span class="article-read-more">Leggi articolo &rarr;</span>
         </a>
         
-        <a href="https://geobuzz.substack.com/p/trump-e-litalia" class="article-card" target="_blank">
+        <a href="articoli/trump-e-l-italia.html" class="article-card">
           <div>
             <div class="article-meta">10 Lug 2026 &bull; SUBSTACK</div>
             <h3 class="article-title">Trump e l'Italia</h3>
             <p class="article-excerpt">quello che si vede e quello che non si vede....</p>
           </div>
-          <span class="article-read-more">Leggi su Substack &rarr;</span>
+          <span class="article-read-more">Leggi articolo &rarr;</span>
         </a>
         
-        <a href="https://geobuzz.substack.com/p/il-teorema-della-carne-perche-luniverso" class="article-card" target="_blank">
+        <a href="articoli/il-teorema-della-carne-perch-l-universo-ha-bisogno-del-logos.html" class="article-card">
           <div>
             <div class="article-meta">03 Lug 2026 &bull; SUBSTACK</div>
             <h3 class="article-title">Il teorema della carne: perché l'universo ha bisogno del Logos per non collassare nel nulla</h3>
             <p class="article-excerpt">L'evoluzione del pensiero occidentale ha descritto per secoli una parabola drammatica, segnata dal tentativo costante di sanare la frattura profonda tra l'ordine dell'invisibile e quello del manifesto, tra la logica p...</p>
           </div>
-          <span class="article-read-more">Leggi su Substack &rarr;</span>
+          <span class="article-read-more">Leggi articolo &rarr;</span>
         </a>
         
-        <a href="https://geobuzz.substack.com/p/urse" class="article-card" target="_blank">
+        <a href="articoli/urse.html" class="article-card">
           <div>
             <div class="article-meta">15 Mag 2026 &bull; SUBSTACK</div>
             <h3 class="article-title">URSE</h3>
             <p class="article-excerpt">fine anni 60, URSS, V.</p>
           </div>
-          <span class="article-read-more">Leggi su Substack &rarr;</span>
+          <span class="article-read-more">Leggi articolo &rarr;</span>
         </a>
         
-        <a href="https://geobuzz.substack.com/p/42html" class="article-card" target="_blank">
+        <a href="articoli/42.html" class="article-card">
           <div>
             <div class="article-meta">15 Mag 2026 &bull; SUBSTACK</div>
             <h3 class="article-title">42</h3>
             <p class="article-excerpt">Cio&#232; che segue non &#232; definitivo ma inizio ad aver bisogno di metterlo per iscritto.</p>
           </div>
-          <span class="article-read-more">Leggi su Substack &rarr;</span>
+          <span class="article-read-more">Leggi articolo &rarr;</span>
         </a>
         
       </div>
@@ -1233,7 +1366,7 @@
         <div class="cv-banner-actions">
           <a href="cv-it.html" class="btn-copper">Visualizza CV Italiano</a>
           <a href="cv-en.html" class="btn-outline">English Resume</a>
-          <a href="archive/documents/cv_italiano_originale.pdf" class="btn-outline" target="_blank">PDF Storico &darr;</a>
+          <a href="archive/documents/cv_italiano_originale.pdf" class="btn-outline" target="_blank" rel="noopener">PDF Storico &darr;</a>
         </div>
       </div>
     </div>
@@ -1246,35 +1379,81 @@
         <div>
           <h3 class="footer-title">Christian Bazzucchi</h3>
           <p class="footer-desc">
-            Geologo & Spatial Data Engineer. Empoli (FI), Italia.<br>
-            Progettazione di sistemi informativi geografici, gestione basi dati spaziali e automazione dei processi territoriali.
+            Informatico, geologo, musicista, motociclista.<br>
+            Mi occupo di integrazione di sistemi informativi geografici, gestione di basi dati spaziali, automazione dei processi e coordinamento di team tecnici.
           </p>
         </div>
         <div class="footer-col">
           <h4>Canali</h4>
           <ul>
-            <li><a href="https://www.linkedin.com/in/christianbazzucchi/" target="_blank">LinkedIn &nearr;</a></li>
-            <li><a href="https://github.com/geobuzz" target="_blank">GitHub (@geobuzz) &nearr;</a></li>
-            <li><a href="https://geobuzz.substack.com/" target="_blank">Substack Blog &nearr;</a></li>
-            <li><a href="https://www.instagram.com/christian.bazzucchi/" target="_blank">Instagram (@christian.bazzucchi) &nearr;</a></li>
-            <li><a href="https://www.anobii.com/" target="_blank">Anobii Biblioteca &nearr;</a></li>
+            <li><a href="https://www.linkedin.com/in/christianbazzucchi/" target="_blank" rel="noopener">LinkedIn &nearr;</a></li>
+            <li><a href="https://github.com/geobuzz" target="_blank" rel="noopener">GitHub (@geobuzz) &nearr;</a></li>
+            <li><a href="https://geobuzz.substack.com/" target="_blank" rel="noopener">Substack Blog &nearr;</a></li>
+            <li><a href="https://www.instagram.com/christian.bazzucchi/" target="_blank" rel="noopener">Instagram &nearr;</a></li>
+            <li><a href="https://www.anobii.com/it/01d6d75099d9c1d4bb/profile" target="_blank" rel="noopener">Anobii &nearr;</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Contatto Diretto</h4>
           <ul>
             <li><a href="mailto:christian@geobasi.com">christian@geobasi.com</a></li>
-            <li><span style="font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted);">PGP &bull; WGS84</span></li>
+            <li><span style="font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted);">PGP &bull; Empoli, Toscana</span></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
         <span>&copy; 2026 Christian Bazzucchi &bull; geobasi.com</span>
-        <span>Ultima sincronizzazione dati: 2026-11-14 17:59 UTC &bull; GitHub Pages</span>
+        <span>Ultima sincronizzazione dati: 2026-11-14 18:17 UTC &bull; GitHub Pages</span>
       </div>
     </div>
   </footer>
+
+  <!-- Lightbox Modal -->
+  <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox(event)">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <div class="lightbox-close" onclick="closeLightboxModal()">&times;</div>
+      <div class="lightbox-img-wrap">
+        <img id="lightboxImg" src="" alt="">
+      </div>
+      <div class="lightbox-details">
+        <div id="lightboxMeta" class="lightbox-meta"></div>
+        <h3 id="lightboxTitle" class="lightbox-title"></h3>
+        <p id="lightboxDesc" class="lightbox-desc"></p>
+        <div class="lightbox-actions">
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted);">Fotografia personale autentica</span>
+          <a id="lightboxInstagramLink" href="#" target="_blank" rel="noopener" class="btn-outline" style="font-size: 12px;">Visualizza su Instagram &nearr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(imgUrl, title, loc, coords, date, caption, permalink) {
+      document.getElementById('lightboxImg').src = imgUrl;
+      document.getElementById('lightboxTitle').innerText = title;
+      document.getElementById('lightboxMeta').innerText = loc + (coords ? ' • ' + coords : '') + (date ? ' • ' + date : '');
+      document.getElementById('lightboxDesc').innerText = caption;
+      document.getElementById('lightboxInstagramLink').href = permalink;
+      document.getElementById('lightboxModal').style.display = 'flex';
+    }
+
+    function closeLightboxModal() {
+      document.getElementById('lightboxModal').style.display = 'none';
+    }
+
+    function closeLightbox(event) {
+      if (event.target.id === 'lightboxModal') {
+        closeLightboxModal();
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightboxModal();
+      }
+    });
+  </script>
 
 </body>
 </html>

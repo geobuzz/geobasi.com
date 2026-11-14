@@ -1,5 +1,61 @@
 [
   {
+    "timestamp": "2026-11-14T18:17:26.288665+00:00",
+    "source": "site_builder",
+    "status": "SUCCESS",
+    "records_processed": 1,
+    "message": "Homepage index.html, cv-it.html e cv-en.html compilati con successo"
+  },
+  {
+    "timestamp": "2026-11-14T18:17:26.284569+00:00",
+    "source": "instagram_api",
+    "status": "SKIPPED",
+    "records_processed": 4,
+    "message": "Token Instagram non presente. Galleria attiva con 4 fotografie autentiche locali"
+  },
+  {
+    "timestamp": "2026-11-14T18:17:26.283818+00:00",
+    "source": "linkedin_api",
+    "status": "SKIPPED",
+    "records_processed": 0,
+    "message": "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py"
+  },
+  {
+    "timestamp": "2026-11-14T18:17:26.283148+00:00",
+    "source": "substack",
+    "status": "SUCCESS",
+    "records_processed": 12,
+    "message": "Estratti e compilati 12 articoli con pagine interne da geobuzz.substack.com"
+  },
+  {
+    "timestamp": "2026-11-14T18:16:43.549304+00:00",
+    "source": "site_builder",
+    "status": "SUCCESS",
+    "records_processed": 1,
+    "message": "Homepage index.html, cv-it.html e cv-en.html compilati con successo"
+  },
+  {
+    "timestamp": "2026-11-14T18:16:43.538801+00:00",
+    "source": "instagram_api",
+    "status": "SKIPPED",
+    "records_processed": 4,
+    "message": "Token Instagram non presente. Galleria attiva con 4 fotografie autentiche locali"
+  },
+  {
+    "timestamp": "2026-11-14T18:16:43.537813+00:00",
+    "source": "linkedin_api",
+    "status": "SKIPPED",
+    "records_processed": 0,
+    "message": "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py"
+  },
+  {
+    "timestamp": "2026-11-14T18:16:43.536961+00:00",
+    "source": "substack",
+    "status": "SUCCESS",
+    "records_processed": 12,
+    "message": "Estratti e compilati 12 articoli con pagine interne da geobuzz.substack.com"
+  },
+  {
     "timestamp": "2026-11-14T17:59:58.614644+00:00",
     "source": "site_builder",
     "status": "ERROR",

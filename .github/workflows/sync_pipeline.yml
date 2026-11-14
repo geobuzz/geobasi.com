@@ -22,11 +22,12 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Esegui Sync Engine
+      - name: Esegui Sync Engine (fail fast su errori critici)
         env:
           LINKEDIN_PORTABILITY_TOKEN: ${{ secrets.LINKEDIN_PORTABILITY_TOKEN }}
           INSTAGRAM_GRAPH_TOKEN: ${{ secrets.INSTAGRAM_GRAPH_TOKEN }}
         run: |
+          set -e
           python3 scripts/sync_engine.py
 
       - name: Configura identità Git
@@ -34,24 +35,29 @@ jobs:
           git config --global user.name 'geobasi-sync-bot[bot]'
           git config --global user.email 'geobasi-sync-bot[bot]@users.noreply.github.com'
 
-      # Se cambiano articoli o log, commit diretto su main
-      - name: Commit aggiornamenti non critici (Substack, Log)
+      # Se cambiano articoli, pagine generate, foto o log, commit diretto su main
+      - name: Commit aggiornamenti non critici (Substack, Articoli, Log)
         run: |
-          git add data/articles.json data/sync_log.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(sync): aggiornamento articoli Substack e sync log [skip ci]" && git push origin main)
+          git add data/articles.json data/photos.json data/sync_log.json index.html articoli/*.html assets/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(sync): aggiornamento automatico articoli, pagine e sync log [skip ci]" && git push origin main)
 
-      # Se cambiano i dati del CV da LinkedIn, apri una Pull Request per revisione umana prima della pubblicazione
-      - name: Crea Pull Request per modifiche al CV
+      # Se cambiano i dati del CV da LinkedIn, apri una Pull Request se non già aperta
+      - name: Gestione Pull Request per modifiche al CV
         run: |
           git add data/cv_*.json cv-*.html
           if ! git diff --quiet || ! git diff --staged --quiet; then
             BRANCH="sync/linkedin-cv-$(date +%Y%m%d)"
-            git checkout -b "$BRANCH"
-            git commit -m "feat(cv): aggiornamento esperienze professionali da LinkedIn (richiede revisione)"
-            git push -u origin "$BRANCH"
-            gh pr create --title "Aggiornamento CV e Percorso Professionale da LinkedIn" \
-                         --body "Questa Pull Request è stata generata automaticamente dal Sync Engine a seguito di modifiche rilevate su LinkedIn. Revisiona il diff prima di unire su main." \
-                         --base main --head "$BRANCH"
+            EXISTING_PR=$(gh pr list --head "$BRANCH" --json number -q '.[0].number' || echo "")
+            if [ -n "$EXISTING_PR" ]; then
+              echo "Pull Request per il branch $BRANCH già esistente (#$EXISTING_PR). Nessuna duplicazione."
+            else
+              git checkout -b "$BRANCH"
+              git commit -m "feat(cv): aggiornamento esperienze professionali da LinkedIn (richiede revisione)"
+              git push -u origin "$BRANCH"
+              gh pr create --title "Aggiornamento CV e Percorso Professionale da LinkedIn" \
+                           --body "Questa Pull Request è stata generata automaticamente dal Sync Engine a seguito di modifiche rilevate su LinkedIn. Revisiona il diff prima di unire su main." \
+                           --base main --head "$BRANCH"
+            fi
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

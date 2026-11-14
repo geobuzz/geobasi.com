@@ -16,6 +16,9 @@ import os
 import sys
 import argparse
 
+# Assicura importazione corretta moduli sibling
+sys.path.insert(0, os.path.dirname(__file__))
+
 BASE_DIR = os.path.join(os.path.dirname(__file__), "..")
 DATA_DIR = os.path.join(BASE_DIR, "data")
 CV_IT_PATH = os.path.join(DATA_DIR, "cv_it.json")

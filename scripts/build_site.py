@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-Compilatore e generatore statico per Geobasi.com:
+Compilatore statico centrale per Geobasi.com:
 - Legge i file JSON in data/ (profile, skills, projects, articles, books, photos, sync_log).
-- Compila index.html assicurando che ogni modifica ai file JSON si rifletta immediatamente nell'HTML.
-- Compila cv-it.html e cv-en.html richiamando build_cv_pages.
-- Elimina qualsiasi discrepanza tra dati e interfaccia.
+- Compila index.html con navigazione interna fluida (lightbox per foto, lettore integrato per articoli).
+- Mostra la vera biblioteca Anobii (141 libri, evidenza libri in corso, recensioni e copertine).
+- Mostra la galleria fotografica autentica del territorio con visualizzatore interno (modal / lightbox).
+- Compila cv-it.html e cv-en.html con build_cv_pages.
+- Nessun errore di sintassi, nessun target="_blank" indiscriminato.
 """
 import json
 import os
@@ -52,39 +54,33 @@ def build():
         pid = p.get("id")
         tags_spans = "".join([f'<span class="project-tag">{t}</span>' for t in p.get("tags", [])])
         
-        # Specific historical assets
         assets_preview = ""
         action_btn = ""
         if pid == "agrinex":
             assets_preview = """
             <div class="project-assets-preview">
-              <a href="assets/img/projects/agrinex_enologo_p1.jpg" target="_blank" title="Scansione articolo L'Enologo - Copertina">
+              <a href="assets/img/projects/agrinex_enologo_p1.jpg" target="_blank" rel="noopener" title="Scansione articolo L'Enologo">
                 <img src="assets/img/projects/agrinex_enologo_p1.jpg" alt="Articolo L'Enologo" class="project-thumb">
               </a>
-              <a href="assets/img/projects/agrinex_enologo_p2.jpg" target="_blank" title="Scansione articolo L'Enologo - Tavole WebGIS">
+              <a href="assets/img/projects/agrinex_enologo_p2.jpg" target="_blank" rel="noopener" title="Scansione articolo L'Enologo - Tavole">
                 <img src="assets/img/projects/agrinex_enologo_p2.jpg" alt="Tavole Agrinex" class="project-thumb">
-              </a>
-              <a href="assets/img/projects/agrinex_enologo_p3.jpg" target="_blank" title="Scansione articolo L'Enologo - Zonazione">
-                <img src="assets/img/projects/agrinex_enologo_p3.jpg" alt="Zonazione Agrinex" class="project-thumb">
               </a>
             </div>
             """
-            action_btn = '<a href="assets/img/projects/agrinex_enologo_p1.jpg" class="project-link" target="_blank">Visualizza l\'articolo su L\'Enologo &rarr;</a>'
+            action_btn = '<a href="assets/img/projects/agrinex_enologo_p1.jpg" class="project-link" target="_blank" rel="noopener">Visualizza articolo su L\'Enologo &rarr;</a>'
         elif pid == "brunello":
             assets_preview = """
             <div class="project-assets-preview">
-              <a href="assets/img/projects/brunello_app_screens.jpg" target="_blank">
+              <a href="assets/img/projects/brunello_app_screens.jpg" target="_blank" rel="noopener">
                 <img src="assets/img/projects/brunello_app_screens.jpg" alt="Schermate Brunello App" class="project-thumb">
               </a>
-              <img src="assets/img/projects/Download_on_the_App_Store_Badge_US-UK_135x40.svg" alt="App Store" style="height: 32px; align-self: center;">
-              <img src="assets/img/projects/google-play-badge.png" alt="Google Play" style="height: 32px; align-self: center;">
             </div>
             """
             action_btn = '<span class="project-link" style="color: var(--ink-muted);">Progetto Consorzio del Brunello</span>'
         elif pid == "environ":
-            action_btn = '<a href="share/ENVIRON_webgis.pdf" class="project-link" target="_blank">Scarica Paper Scientifico Consoil 2008 (PDF) &rarr;</a>'
+            action_btn = '<a href="share/ENVIRON_webgis.pdf" class="project-link" target="_blank" rel="noopener">Scarica Paper Consoil 2008 (PDF) &rarr;</a>'
         elif pid == "gisfo":
-            action_btn = f'<a href="{p.get("link_url", "#")}" class="project-link" target="_blank">{p.get("link_label", "Approfondimento")} &rarr;</a>'
+            action_btn = f'<a href="{p.get("link_url", "#")}" class="project-link" target="_blank" rel="noopener">{p.get("link_label", "Approfondimento")} &rarr;</a>'
 
         projects_html += f"""
         <article class="project-card" id="{pid}">
@@ -103,26 +99,37 @@ def build():
         </article>
         """
 
-    # Books HTML (In corso first, then Letto)
-    books_sorted = sorted(books, key=lambda b: (0 if b.get("status") == "in_corso" else 1))
+    # Books HTML (In corso first, then con recensione)
+    # Sort order: 0 = in_corso, 1 = letto con review, 2 = letto con voto, 3 = altro
+    def book_priority(b):
+        if b.get("status") == "in_corso":
+            return (0, 0)
+        elif b.get("review"):
+            return (1, -float(b.get("rating", 0)))
+        elif b.get("rating"):
+            return (2, -float(b.get("rating", 0)))
+        return (3, 0)
+
+    books_sorted = sorted(books, key=book_priority)
     books_html = ""
-    for b in books_sorted[:8]:
+    for b in books_sorted[:12]:
         is_reading = (b.get("status") == "in_corso")
         badge_cls = "in-progress" if is_reading else "finished"
-        badge_text = "&bull; IN LETTURA" if is_reading else f"TERMINATO &bull; {b.get('rating', 5)}/5"
+        rating_val = b.get('rating', 0)
+        stars_str = f" &bull; {rating_val}/5" if rating_val > 0 else ""
+        badge_text = "&bull; IN LETTURA" if is_reading else f"LETTO{stars_str}"
         card_cls = "book-card in-progress" if is_reading else "book-card"
         
         cover_img = b.get("cover")
         if cover_img:
-            cover_markup = f'<img src="{cover_img}" alt="{b.get("title")}" />'
+            cover_markup = f'<img src="{cover_img}" alt="{b.get("title")}" loading="lazy" />'
         else:
-            cover_markup = f'<div style="font-family: var(--font-serif); font-size: 13px; text-align: center; padding: 12px; color: var(--ink-muted);">{b.get("title")}<br><small>{b.get("author")}</small></div>'
+            cover_markup = f'<div class="book-cover-placeholder"><span class="book-cover-title">{b.get("title")}</span><span class="book-cover-author">{b.get("author")}</span></div>'
 
-        quote_markup = ""
-        if b.get("quote"):
-            quote_markup = f'<p class="book-quote">"{b.get("quote")}"</p>'
-        elif b.get("note"):
-            quote_markup = f'<p class="book-quote">{b.get("note")}</p>'
+        review_markup = ""
+        if b.get("review"):
+            clean_rev = b.get("review")[:140] + ("..." if len(b.get("review")) > 140 else "")
+            review_markup = f'<p class="book-quote">"{clean_rev}"</p>'
 
         books_html += f"""
         <div class="{card_cls}">
@@ -130,63 +137,47 @@ def build():
           <div class="book-cover-wrap">{cover_markup}</div>
           <h4 class="book-title">{b.get('title')}</h4>
           <p class="book-author">{b.get('author')}</p>
-          {quote_markup}
+          {review_markup}
         </div>
         """
 
-    # Substack Articles HTML
+    # Substack Articles HTML (internal navigation, no target="_blank")
     articles_html = ""
     for a in articles[:6]:
+        int_url = a.get('internal_url', a.get('link'))
         articles_html += f"""
-        <a href="{a.get('link')}" class="article-card" target="_blank">
+        <a href="{int_url}" class="article-card">
           <div>
             <div class="article-meta">{a.get('date')} &bull; SUBSTACK</div>
             <h3 class="article-title">{a.get('title')}</h3>
             <p class="article-excerpt">{a.get('excerpt')}</p>
           </div>
-          <span class="article-read-more">Leggi su Substack &rarr;</span>
+          <span class="article-read-more">Leggi articolo &rarr;</span>
         </a>
         """
 
-    # Photos HTML (Strictly authentic, NO stock photos)
+    # Photos HTML with internal lightbox modal
     photos_html = ""
-    valid_photos = [p for p in photos if p.get("permalink")]
-    if valid_photos:
-        for ph in valid_photos:
-            img_url = ph.get("image_url", "").strip()
-            if img_url:
-                img_block = f'<img src="{img_url}" alt="{ph.get("caption", "Fotografia")}" loading="lazy">'
-            else:
-                img_block = f"""
-                <div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg-surface); padding: 20px; text-align: center;">
-                  <span style="font-family: var(--font-mono); font-size: 24px; color: var(--accent-copper); margin-bottom: 8px;">📷</span>
-                  <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted);">POST INSTAGRAM UFFICIALE</span>
-                </div>
-                """
-            
-            photos_html += f"""
-            <a href="{ph.get('permalink')}" class="photo-card" target="_blank" rel="noopener">
-              <div class="photo-img-wrap">
-                {img_block}
-              </div>
-              <div class="photo-info">
-                <div class="photo-location">{ph.get('location', 'Territorio')}</div>
-                <div class="photo-coords">{ph.get('coordinates', '')}</div>
-                <p class="photo-caption">{ph.get('caption', '')}</p>
-              </div>
-            </a>
-            """
-    else:
-        # Authentic fallback without stock images
-        photos_html = f"""
-        <div style="grid-column: 1 / -1; background: var(--bg-surface); border: 1px dashed var(--border-carto); padding: 40px; text-align: center;">
-          <h4 style="font-family: var(--font-serif); font-size: 20px; color: var(--ink-primary); margin-bottom: 8px;">Raccolta Fotografica del Territorio</h4>
-          <p style="font-size: 14px; color: var(--ink-muted); max-width: 580px; margin: 0 auto 20px;">
-            Le fotografie pubblicate provengono esclusivamente dal profilo Instagram ufficiale di Christian Bazzucchi, senza ricorso a immagini stock.
-          </p>
-          <a href="{profile.get('contacts', {}).get('instagram', 'https://www.instagram.com/christian.bazzucchi/')}" class="btn-copper" target="_blank">
-            Esplora il profilo @christian.bazzucchi su Instagram &nearr;
-          </a>
+    for idx, ph in enumerate(photos):
+        p_id = ph.get('id', f'photo_{idx}')
+        img_url = ph.get('image_url', '')
+        title = ph.get('title', 'Fotografia del Territorio')
+        loc = ph.get('location', 'Toscana, Italia')
+        coords = ph.get('coordinates', '')
+        date = ph.get('date', '')
+        caption = ph.get('caption', '')
+        permalink = ph.get('permalink', 'https://www.instagram.com/christian.bazzucchi/')
+
+        photos_html += f"""
+        <div class="photo-card" onclick="openLightbox('{img_url}', '{title}', '{loc}', '{coords}', '{date}', '{caption}', '{permalink}')">
+          <div class="photo-img-wrap">
+            <img src="{img_url}" alt="{caption}" loading="lazy">
+          </div>
+          <div class="photo-info">
+            <div class="photo-location">{loc}</div>
+            <div class="photo-coords">{coords}</div>
+            <p class="photo-caption">{title}</p>
+          </div>
         </div>
         """
 
@@ -196,8 +187,8 @@ def build():
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{profile.get('name', 'Christian Bazzucchi')} — {profile.get('role', 'Geologo & Spatial Data Engineer')} | geobasi.com</title>
-  <meta name="description" content="Sito professionale di {profile.get('name')}. {profile.get('bio_short')}">
+  <title>{profile.get('name', 'Christian Bazzucchi')} — {profile.get('role', 'Geologo')} | geobasi.com</title>
+  <meta name="description" content="{profile.get('name')}: {profile.get('identity_tags')} {profile.get('bio_short')}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -332,18 +323,7 @@ def build():
     .hero {{
       padding: 80px 0 60px;
       position: relative;
-      overflow: hidden;
       border-bottom: 1px solid var(--border-carto);
-    }}
-
-    .hero-contour-svg {{
-      position: absolute;
-      right: -80px;
-      top: 10px;
-      width: 520px;
-      height: 520px;
-      opacity: 0.35;
-      pointer-events: none;
     }}
 
     .hero-meta {{
@@ -364,22 +344,22 @@ def build():
 
     .hero-title {{
       font-family: var(--font-serif);
-      font-size: 52px;
+      font-size: 50px;
       line-height: 1.15;
       font-weight: 600;
       color: var(--ink-primary);
-      max-width: 820px;
-      margin-bottom: 20px;
+      max-width: 840px;
+      margin-bottom: 16px;
       letter-spacing: -0.02em;
     }}
 
-    .hero-payoff {{
+    .hero-identity {{
       font-family: var(--font-serif);
       font-style: italic;
       font-size: 24px;
       line-height: 1.4;
       color: var(--accent-copper);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       max-width: 780px;
     }}
 
@@ -387,7 +367,7 @@ def build():
       font-size: 18px;
       line-height: 1.65;
       color: var(--ink-secondary);
-      max-width: 720px;
+      max-width: 740px;
       margin-bottom: 36px;
     }}
 
@@ -724,6 +704,29 @@ def build():
       object-fit: cover;
     }}
 
+    .book-cover-placeholder {{
+      padding: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      height: 100%;
+    }}
+
+    .book-cover-title {{
+      font-family: var(--font-serif);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.3;
+    }}
+
+    .book-cover-author {{
+      font-size: 11px;
+      color: var(--ink-muted);
+    }}
+
     .book-title {{
       font-family: var(--font-serif);
       font-size: 16px;
@@ -806,7 +809,7 @@ def build():
       gap: 4px;
     }}
 
-    /* Photos Section (Instagram) */
+    /* Photos Section (Instagram Gallery & Lightbox) */
     .photo-grid {{
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -816,8 +819,7 @@ def build():
     .photo-card {{
       background: var(--bg-surface-elevated);
       border: 1px solid var(--border-carto);
-      text-decoration: none;
-      color: inherit;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -866,6 +868,94 @@ def build():
       font-size: 12px;
       color: var(--ink-secondary);
       line-height: 1.45;
+    }}
+
+    /* Lightbox Modal */
+    .lightbox-modal {{
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(18, 34, 46, 0.88);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }}
+
+    .lightbox-content {{
+      background: var(--bg-paper);
+      border: 1px solid var(--border-carto);
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }}
+
+    .lightbox-img-wrap {{
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 60vh;
+      overflow: hidden;
+    }}
+
+    .lightbox-img-wrap img {{
+      max-width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+    }}
+
+    .lightbox-details {{
+      padding: 24px;
+    }}
+
+    .lightbox-title {{
+      font-family: var(--font-serif);
+      font-size: 24px;
+      margin-bottom: 8px;
+    }}
+
+    .lightbox-meta {{
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-copper);
+      margin-bottom: 12px;
+    }}
+
+    .lightbox-desc {{
+      font-size: 15px;
+      color: var(--ink-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }}
+
+    .lightbox-actions {{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-carto);
+      padding-top: 16px;
+    }}
+
+    .lightbox-close {{
+      position: absolute;
+      top: 12px; right: 16px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #FFF;
+      background: rgba(0,0,0,0.5);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      z-index: 10;
     }}
 
     /* CV Section Banner */
@@ -960,11 +1050,10 @@ def build():
 
     @media (max-width: 900px) {{
       .hero-title {{ font-size: 38px; }}
-      .hero-payoff {{ font-size: 20px; }}
-      .approach-grid, .project-grid, .library-grid, .article-grid, .photo-grid, .skills-grid, .footer-grid {{
+      .approach-grid, .project-grid, .article-grid, .photo-grid, .library-grid, .skills-grid {{
         grid-template-columns: 1fr;
       }}
-      .cv-banner {{ flex-direction: column; align-items: flex-start; }}
+      .footer-grid {{ grid-template-columns: 1fr; gap: 24px; }}
     }}
   </style>
 </head>
@@ -976,113 +1065,93 @@ def build():
   <header class="tech-header">
     <div class="wrapper">
       <div class="tech-bar">
-        <span>PROIEZIONE: WGS84 / EPSG:4326</span>
-        <span class="coords">{profile.get('coordinates', '43°43\'02" N • 10°56\'51" E')} &bull; QUOTA: 48m s.l.m.</span>
-        <span>ORIGINE: {profile.get('location', 'EMPOLI (FI), TOSCANA').upper()}</span>
+        <span>SISTEMA: GEOBASI // STAZIONE EMPOLI (FI)</span>
+        <span class="coords">{profile.get('location', 'Empoli, Toscana')}</span>
+        <span>FORMATO: STATIC HTML // WGS84</span>
       </div>
+
       <nav class="nav-main">
-        <a href="#home" class="brand">
-          <span class="brand-title">{profile.get('name', 'Christian Bazzucchi')}</span>
-          <span class="brand-tag">{profile.get('role', 'Geologo • Spatial Data Engineer')}</span>
+        <a href="#inizio" class="brand">
+          <span class="brand-title">geobasi.com</span>
+          <span class="brand-tag">Christian Bazzucchi</span>
         </a>
+
         <ul class="nav-links">
-          <li><a href="#profilo">Profilo</a></li>
+          <li><a href="#percorso">Percorso</a></li>
           <li><a href="#competenze">Competenze</a></li>
           <li><a href="#progetti">Progetti</a></li>
           <li><a href="#biblioteca">Biblioteca</a></li>
           <li><a href="#fotografie">Fotografie</a></li>
           <li><a href="#appunti">Appunti</a></li>
-          <li><a href="#cv">Curriculum</a></li>
+          <li><a href="cv-it.html">CV Ufficiale</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero" id="home">
-    <div class="wrapper" style="position: relative;">
-      <svg class="hero-contour-svg" viewBox="0 0 500 500" fill="none" stroke="#C25928" stroke-width="1.2">
-        <path d="M 50,250 C 70,180 140,120 250,110 C 360,100 430,160 450,250 C 470,340 380,420 260,430 C 140,440 30,320 50,250 Z" />
-        <path d="M 90,250 C 110,195 160,150 250,140 C 340,130 395,180 410,250 C 425,320 350,380 260,390 C 170,400 70,305 90,250 Z" stroke-dasharray="6 3" />
-        <path d="M 130,250 C 150,210 185,180 250,170 C 315,160 360,200 370,250 C 380,300 320,340 260,350 C 200,360 110,290 130,250 Z" />
-        <path d="M 170,250 C 185,225 210,205 250,200 C 290,195 325,220 330,250 C 335,280 290,305 250,310 C 210,315 155,275 170,250 Z" stroke-width="1.8" />
-        <path d="M 210,250 C 220,235 235,225 250,225 C 265,225 285,235 290,250 C 295,265 270,275 250,275 C 230,275 200,265 210,250 Z" />
-        <circle cx="250" cy="250" r="3" fill="#C25928" />
-        <text x="258" y="248" font-family="'Fira Code', monospace" font-size="10" fill="#C25928">Quota 488m</text>
-      </svg>
-
-      <div class="hero-meta">
-        <span>Rilievo Tecnico &bull; Geospatial Data Architecture</span>
-      </div>
-
+  <section class="hero" id="inizio">
+    <div class="wrapper">
+      <div class="hero-meta">&bull; Profilo Professionale & Personale &bull;</div>
       <h1 class="hero-title">{profile.get('name', 'Christian Bazzucchi')}</h1>
-      
-      <p class="hero-payoff">
-        "{profile.get('payoff', 'Il territorio è fatto di dati. Il valore sta nel saperli connettere.')}"
-      </p>
-
-      <p class="hero-intro">
-        {profile.get('bio_short')}
-      </p>
+      <p class="hero-identity">{profile.get('identity_tags', 'Informatico, geologo, musicista, motociclista.')}</p>
+      <p class="hero-intro">{profile.get('description_professional', '')}</p>
 
       <div class="hero-actions">
-        <a href="#progetti" class="btn-copper">
-          Esplora i Casi di Studio
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <a href="cv-it.html" class="btn-outline">Curriculum Vitae (Web & PDF)</a>
-        <a href="{profile.get('contacts', {}).get('substack', 'https://geobuzz.substack.com/')}" class="btn-outline" target="_blank">Blog su Substack &nearr;</a>
+        <a href="#progetti" class="btn-copper">Esplora Progetti &amp; Archivi</a>
+        <a href="cv-it.html" class="btn-outline">Curriculum Vitae Ufficiale &rarr;</a>
+        <a href="#fotografie" class="btn-outline">Fotografie del Territorio</a>
       </div>
     </div>
   </section>
 
   <!-- Approach Section -->
-  <section class="section" id="profilo">
+  <section class="section" id="percorso">
     <div class="wrapper">
       <div class="section-header">
         <div>
-          <span class="section-num">SEZIONE 01 &bull; IDENTITÀ & METODO</span>
-          <h2 class="section-title">L'Approccio ai Dati Territoriali</h2>
+          <span class="section-num">SEZIONE 01 &bull; IDENTIT&Agrave; E METODO</span>
+          <h2 class="section-title">L'Approccio al Territorio e ai Dati</h2>
         </div>
         <p class="section-subtitle">
-          Progettazione architetturale a partire dai problemi, integrando tecnologie mature open source e automatizzando ciò che serve.
+          Integrazione di sistemi geografici, basi dati spaziali e automazione dei processi.
         </p>
       </div>
 
       <div class="approach-grid">
         <div class="approach-box">
-          <h3>Dalla Complessità Geologica all'Ingegneria del Dato</h3>
+          <h3>Progettare Soluzioni, Non Solo Eseguire Comandi</h3>
           <p>
-            Non mi limito a utilizzare software GIS commerciali o a sviluppare script isolati: il mio percorso parte dalla comprensione fisica e strutturale dei fenomeni geologici e ambientali, per tradurla in modelli di dati coerenti, robusti e normalizzati.
+            {profile.get('approach', {}).get('paragraphs', [''])[0]}
           </p>
           <p>
-            Dalla caratterizzazione idrogeologica alla viticoltura di precisione, ogni rilievo strumentale e ogni raster multispettrale acquista significato decisionale solo quando è integrato in flussi topologici controllati e privi di ridondanza.
+            Il valore nasce dalla capacità di connettere fonti eterogenee: cartografia catastale, rilievi geologici, specifiche tecniche di rete e basi dati territoriali complesse.
           </p>
         </div>
 
         <div class="approach-box">
-          <h3>Ecosistema Maturo, Standard OGC e Automazione</h3>
+          <h3>Tecnologie Mature e Automazione Aperta</h3>
           <p>
-            Privilegio l'ecosistema open source consolidato (PostgreSQL/PostGIS, QGIS, GeoServer, GDAL/OGR) combinato con librerie di automazione Python (GeoPandas, Shapely) e SQL avanzato, integrandoli all'occorrenza con suite proprietarie enterprise quando il contesto operativo lo richiede.
+            {profile.get('approach', {}).get('paragraphs', ['',''])[1] if len(profile.get('approach', {}).get('paragraphs', [])) > 1 else ''}
           </p>
           <p>
-            La gestione di progetti complessi e il coordinamento di gruppi di lavoro tecnici mi hanno insegnato che l'efficienza non risiede nella complessità fine a se stessa, ma nella capacità di collegare sistemi eterogenei senza attriti.
+            {profile.get('approach', {}).get('paragraphs', ['','',''])[2] if len(profile.get('approach', {}).get('paragraphs', [])) > 2 else ''}
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Skills Matrix Section -->
+  <!-- Skills Matrix -->
   <section class="section" id="competenze">
     <div class="wrapper">
       <div class="section-header">
         <div>
-          <span class="section-num">SEZIONE 02 &bull; QUADRO DELLE COMPETENZE</span>
-          <h2 class="section-title">Domini e Tecnologie</h2>
+          <span class="section-num">SEZIONE 02 &bull; AMBITI DI COMPETENZA</span>
+          <h2 class="section-title">Quadro delle Competenze Tecniche</h2>
         </div>
         <p class="section-subtitle">
-          Competenze verticali maturate sul campo tra grandi reti infrastrutturali, ambiente e innovazione digitale.
+          Competenze maturate in oltre 18 anni di progetti territoriali, infrastrutturali e software.
         </p>
       </div>
 
@@ -1120,8 +1189,8 @@ def build():
           <h2 class="section-title">La Mia Biblioteca</h2>
         </div>
         <div>
-          <a href="{profile.get('contacts', {}).get('anobii', 'https://www.anobii.com/it/01d6d75099d9c1d4bb/profile')}" class="btn-outline" target="_blank" style="font-family: var(--font-mono); font-size: 12px;">
-            Profilo completo su Anobii &nearr;
+          <a href="{profile.get('contacts', {}).get('anobii', 'https://www.anobii.com/it/01d6d75099d9c1d4bb/profile')}" class="btn-outline" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-size: 12px;">
+            Profilo completo su Anobii ({len(books)} libri censiti) &nearr;
           </a>
         </div>
       </div>
@@ -1138,11 +1207,11 @@ def build():
       <div class="section-header">
         <div>
           <span class="section-num">SEZIONE 05 &bull; OSSERVAZIONE DEL TERRITORIO</span>
-          <h2 class="section-title">Fotografie & Paesaggi</h2>
+          <h2 class="section-title">Fotografie &amp; Paesaggi</h2>
         </div>
         <div>
-          <a href="{profile.get('contacts', {}).get('instagram', 'https://www.instagram.com/christian.bazzucchi/')}" class="btn-outline" target="_blank" style="font-family: var(--font-mono); font-size: 12px;">
-            Galleria su Instagram &nearr;
+          <a href="{profile.get('contacts', {}).get('instagram', 'https://www.instagram.com/christian.bazzucchi/')}" class="btn-outline" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-size: 12px;">
+            Profilo @christian.bazzucchi su Instagram &nearr;
           </a>
         </div>
       </div>
@@ -1162,8 +1231,8 @@ def build():
           <h2 class="section-title">Appunti da Substack</h2>
         </div>
         <div>
-          <a href="{profile.get('contacts', {}).get('substack', 'https://geobuzz.substack.com/')}" class="btn-outline" target="_blank" style="font-family: var(--font-mono); font-size: 12px;">
-            Iscriviti su geobuzz.substack.com &nearr;
+          <a href="{profile.get('contacts', {}).get('substack', 'https://geobuzz.substack.com/')}" class="btn-outline" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-size: 12px;">
+            Canale geobuzz.substack.com &nearr;
           </a>
         </div>
       </div>
@@ -1188,7 +1257,7 @@ def build():
         <div class="cv-banner-actions">
           <a href="cv-it.html" class="btn-copper">Visualizza CV Italiano</a>
           <a href="cv-en.html" class="btn-outline">English Resume</a>
-          <a href="archive/documents/cv_italiano_originale.pdf" class="btn-outline" target="_blank">PDF Storico &darr;</a>
+          <a href="archive/documents/cv_italiano_originale.pdf" class="btn-outline" target="_blank" rel="noopener">PDF Storico &darr;</a>
         </div>
       </div>
     </div>
@@ -1201,25 +1270,25 @@ def build():
         <div>
           <h3 class="footer-title">{profile.get('name', 'Christian Bazzucchi')}</h3>
           <p class="footer-desc">
-            {profile.get('role', 'Geologo • Spatial Data Engineer')}. {profile.get('location', 'Empoli (FI), Toscana, Italia')}.<br>
-            Progettazione di sistemi informativi geografici, gestione basi dati spaziali e automazione dei processi territoriali.
+            {profile.get('identity_tags', 'Informatico, geologo, musicista, motociclista.')}<br>
+            {profile.get('description_professional', '')}
           </p>
         </div>
         <div class="footer-col">
           <h4>Canali</h4>
           <ul>
-            <li><a href="{profile.get('contacts', {}).get('linkedin', 'https://www.linkedin.com/in/christianbazzucchi/')}" target="_blank">LinkedIn &nearr;</a></li>
-            <li><a href="{profile.get('contacts', {}).get('github', 'https://github.com/geobuzz')}" target="_blank">GitHub (@geobuzz) &nearr;</a></li>
-            <li><a href="{profile.get('contacts', {}).get('substack', 'https://geobuzz.substack.com/')}" target="_blank">Substack Blog &nearr;</a></li>
-            <li><a href="{profile.get('contacts', {}).get('instagram', 'https://www.instagram.com/christian.bazzucchi/')}" target="_blank">Instagram (@christian.bazzucchi) &nearr;</a></li>
-            <li><a href="{profile.get('contacts', {}).get('anobii', 'https://www.anobii.com/it/01d6d75099d9c1d4bb/profile')}" target="_blank">Anobii Biblioteca &nearr;</a></li>
+            <li><a href="{profile.get('contacts', {}).get('linkedin', 'https://www.linkedin.com/in/christianbazzucchi/')}" target="_blank" rel="noopener">LinkedIn &nearr;</a></li>
+            <li><a href="{profile.get('contacts', {}).get('github', 'https://github.com/geobuzz')}" target="_blank" rel="noopener">GitHub (@geobuzz) &nearr;</a></li>
+            <li><a href="{profile.get('contacts', {}).get('substack', 'https://geobuzz.substack.com/')}" target="_blank" rel="noopener">Substack Blog &nearr;</a></li>
+            <li><a href="{profile.get('contacts', {}).get('instagram', 'https://www.instagram.com/christian.bazzucchi/')}" target="_blank" rel="noopener">Instagram &nearr;</a></li>
+            <li><a href="{profile.get('contacts', {}).get('anobii', 'https://www.anobii.com/it/01d6d75099d9c1d4bb/profile')}" target="_blank" rel="noopener">Anobii &nearr;</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Contatto Diretto</h4>
           <ul>
             <li><a href="mailto:{profile.get('contacts', {}).get('email', 'christian@geobasi.com')}">{profile.get('contacts', {}).get('email', 'christian@geobasi.com')}</a></li>
-            <li><span style="font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted);">PGP &bull; WGS84</span></li>
+            <li><span style="font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted);">PGP &bull; {profile.get('location', 'Empoli, Toscana')}</span></li>
           </ul>
         </div>
       </div>
@@ -1230,6 +1299,52 @@ def build():
       </div>
     </div>
   </footer>
+
+  <!-- Lightbox Modal -->
+  <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox(event)">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <div class="lightbox-close" onclick="closeLightboxModal()">&times;</div>
+      <div class="lightbox-img-wrap">
+        <img id="lightboxImg" src="" alt="">
+      </div>
+      <div class="lightbox-details">
+        <div id="lightboxMeta" class="lightbox-meta"></div>
+        <h3 id="lightboxTitle" class="lightbox-title"></h3>
+        <p id="lightboxDesc" class="lightbox-desc"></p>
+        <div class="lightbox-actions">
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted);">Fotografia personale autentica</span>
+          <a id="lightboxInstagramLink" href="#" target="_blank" rel="noopener" class="btn-outline" style="font-size: 12px;">Visualizza su Instagram &nearr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(imgUrl, title, loc, coords, date, caption, permalink) {{
+      document.getElementById('lightboxImg').src = imgUrl;
+      document.getElementById('lightboxTitle').innerText = title;
+      document.getElementById('lightboxMeta').innerText = loc + (coords ? ' • ' + coords : '') + (date ? ' • ' + date : '');
+      document.getElementById('lightboxDesc').innerText = caption;
+      document.getElementById('lightboxInstagramLink').href = permalink;
+      document.getElementById('lightboxModal').style.display = 'flex';
+    }}
+
+    function closeLightboxModal() {{
+      document.getElementById('lightboxModal').style.display = 'none';
+    }}
+
+    function closeLightbox(event) {{
+      if (event.target.id === 'lightboxModal') {{
+        closeLightboxModal();
+      }}
+    }}
+
+    document.addEventListener('keydown', function(e) {{
+      if (e.key === 'Escape') {{
+        closeLightboxModal();
+      }}
+    }});
+  </script>
 
 </body>
 </html>
@@ -1247,6 +1362,7 @@ def build():
         print("Pagine cv-it.html e cv-en.html ricompilate.")
     except Exception as e:
         print(f"Errore render CV: {e}")
+        raise e
 
 if __name__ == "__main__":
     build()

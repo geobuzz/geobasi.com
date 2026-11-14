@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """
 Sincronizzatore della biblioteca Anobii per Geobasi.com:
-- Importa l'esportazione ufficiale CSV da Anobii (Libreria -> Impostazioni -> Esporta libreria CSV).
-- Esegue il match conservativo per ISBN o titolo/autore normalizzato.
-- Preserva recensioni arricchite, citazioni personali e valutazioni.
-- Non inventa alcun contenuto mancante.
-- Recupera le copertine tramite ISBN su Open Library Covers API verificando con default=false
-  che l'immagine esista realmente e non sia un pixel vuoto (HTTP 404).
-- Gestisce i libri non presenti nel CSV segnalandoli nel report come selezioni editoriali
-  senza cancellarli silenziosamente, consentendo la rimozione solo con flag esplicito --prune.
+- Supporta nativamente l'esportazione ufficiale di Anobii (inclusi i file con byte nulli/encoding cp1252/utf-16).
+- Campi Anobii gestiti: ISBN, Titolo, Sottotitolo, Autore, Editore, Formato, Stato di lettura, Voto, Titolo Commento, Contenuto Commento.
+- Supporta anche i file Goodreads/StoryGraph (Title, Author, ISBN, My Rating, Bookshelves, My Review).
+- Non inventa MAI citazioni o testi non presenti nell'esportazione originale.
+- Preserva note e arricchimenti esistenti qualora il CSV in ingresso presenti campi vuoti.
+- Verifica le copertine reali tramite Open Library Books API (default=false per evitare pixel vuoti).
+- Gestisce i libri rimossi: segnalazione analitica e rimozione consentita ESCLUSIVAMENTE con flag esplicito --prune.
 """
 import csv
 import json
 import os
 import sys
+import io
 import argparse
 import urllib.request
 import re
@@ -28,81 +28,124 @@ def normalize_text(text):
         return ""
     return re.sub(r'[^a-z0-9]', '', text.lower())
 
-def verify_and_get_cover_url(isbn):
-    if not isbn:
+def clean_isbn(isbn_str):
+    if not isbn_str:
         return ""
-    clean_isbn = re.sub(r'[^0-9X]', '', isbn.upper())
-    if not clean_isbn:
+    digits = re.sub(r'[^0-9X]', '', isbn_str.upper())
+    return digits if len(digits) in (10, 13) else ""
+
+def verify_and_get_cover_url(isbn):
+    clean = clean_isbn(isbn)
+    if not clean:
         return ""
 
-    test_url = f"https://covers.openlibrary.org/b/isbn/{clean_isbn}-M.jpg?default=false"
+    test_url = f"https://covers.openlibrary.org/b/isbn/{clean}-M.jpg?default=false"
     try:
         req = urllib.request.Request(test_url, headers={"User-Agent": "GeobasiSync/1.0"})
         with urllib.request.urlopen(req, timeout=3) as resp:
             if resp.status == 200:
-                # OpenLibrary image exists
-                return f"https://covers.openlibrary.org/b/isbn/{clean_isbn}-M.jpg"
+                return f"https://covers.openlibrary.org/b/isbn/{clean}-M.jpg"
     except Exception:
         pass
     return ""
 
-def import_anobii_csv(csv_path, prune=False):
+def read_anobii_or_generic_csv(csv_path):
+    with open(csv_path, "rb") as f:
+        raw = f.read()
+
+    # Rimuove byte nulli spuri tipici di export Anobii Windows
+    clean_bytes = raw.replace(b'\x00', b'')
+
+    text = None
+    for enc in ['utf-8-sig', 'utf-8', 'cp1252', 'latin1']:
+        try:
+            text = clean_bytes.decode(enc)
+            break
+        except Exception:
+            continue
+
+    if text is None:
+        raise ValueError(f"Impossibile decodificare il file CSV {csv_path}")
+
+    reader = csv.DictReader(io.StringIO(text))
+    rows = []
+    for r in reader:
+        # Rileva colonne Anobii ufficiali o Goodreads
+        title = r.get("Titolo") or r.get("Title") or ""
+        subtitle = r.get("Sottotitolo") or r.get("Subtitle") or ""
+        author = r.get("Autore") or r.get("Author") or ""
+        isbn = r.get("ISBN") or r.get("ISBN13") or ""
+        status_raw = r.get("Stato di lettura") or r.get("Status") or r.get("Bookshelves") or ""
+        rating_raw = r.get("Voto") or r.get("Rating") or r.get("My Rating") or "0"
+        
+        # Commenti e recensioni autentiche
+        comm_title = r.get("Titolo Commento") or ""
+        comm_body = r.get("Contenuto Commento") or r.get("My Review") or r.get("Review") or ""
+        review_full = f"{comm_title}: {comm_body}".strip(": ") if comm_title and comm_body else (comm_body or comm_title)
+
+        if not title.strip():
+            continue
+
+        # Normalizzazione dello stato
+        status_lower = status_raw.lower()
+        if any(w in status_lower for w in ["in lettura", "reading", "currently-reading", "in corso", "started"]):
+            status = "in_corso"
+        elif any(w in status_lower for w in ["da leggere", "to-read"]):
+            status = "da_leggere"
+        else:
+            status = "letto"
+
+        try:
+            rating = float(rating_raw) if rating_raw else 0
+        except ValueError:
+            rating = 0
+
+        rows.append({
+            "title": title.strip(),
+            "subtitle": subtitle.strip(),
+            "author": author.strip(),
+            "isbn": clean_isbn(isbn),
+            "status": status,
+            "status_raw": status_raw.strip(),
+            "rating": rating,
+            "review": review_full.strip(),
+            "publisher": (r.get("Editore") or r.get("Publisher") or "").strip()
+        })
+
+    return rows
+
+def import_books(csv_path, prune=False):
     if not os.path.exists(csv_path):
-        print(f"Errore: file CSV non trovato {csv_path}")
+        print(f"[ERRORE] File CSV non trovato: {csv_path}")
         return False, "File CSV non trovato"
 
-    # Load existing books
+    incoming_rows = read_anobii_or_generic_csv(csv_path)
+    print(f"Letti {len(incoming_rows)} libri dal file CSV {csv_path}.")
+
     existing_books = []
     if os.path.exists(BOOKS_JSON_PATH):
-        with open(BOOKS_JSON_PATH, "r", encoding="utf-8") as f:
-            existing_books = json.load(f)
+        try:
+            with open(BOOKS_JSON_PATH, "r", encoding="utf-8") as f:
+                existing_books = json.load(f)
+        except Exception:
+            existing_books = []
 
-    # Index existing books by ISBN and by normalized title+author
     isbn_map = {}
     title_map = {}
     for idx, b in enumerate(existing_books):
-        b_isbn = re.sub(r'[^0-9X]', '', (b.get("isbn") or "").upper())
+        b_isbn = clean_isbn(b.get("isbn", ""))
         if b_isbn:
             isbn_map[b_isbn] = idx
         t_key = normalize_text(b.get("title", "")) + normalize_text(b.get("author", ""))
         title_map[t_key] = idx
 
-    incoming_rows = []
-    with open(csv_path, "r", encoding="utf-8-sig", errors="ignore") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            title = row.get("Title") or row.get("Titolo") or ""
-            author = row.get("Author") or row.get("Autore") or ""
-            isbn = row.get("ISBN") or row.get("ISBN13") or ""
-            status_raw = (row.get("Status") or row.get("Stato") or "").lower()
-            rating_raw = row.get("Rating") or row.get("Valutazione") or "0"
-            review = row.get("Review") or row.get("Recensione") or row.get("Comment") or ""
-            quote = row.get("Quote") or row.get("Citazione") or ""
-
-            if title.strip():
-                status = "in_corso" if any(w in status_raw for w in ["leggendo", "reading", "in corso", "started"]) else "letto"
-                try:
-                    rating = int(float(rating_raw))
-                except ValueError:
-                    rating = 0
-
-                incoming_rows.append({
-                    "title": title.strip(),
-                    "author": author.strip(),
-                    "isbn": isbn.strip(),
-                    "status": status,
-                    "rating": rating,
-                    "review": review.strip(),
-                    "quote": quote.strip()
-                })
-
     matched_indices = set()
-    added_books = []
+    final_books = []
     updated_count = 0
-    preserved_count = 0
+    added_count = 0
 
     for inc in incoming_rows:
-        inc_isbn = re.sub(r'[^0-9X]', '', inc["isbn"].upper())
+        inc_isbn = inc["isbn"]
         inc_key = normalize_text(inc["title"]) + normalize_text(inc["author"])
 
         target_idx = None
@@ -112,68 +155,71 @@ def import_anobii_csv(csv_path, prune=False):
             target_idx = title_map[inc_key]
 
         if target_idx is not None:
-            # Match existing book: Conservative merge
             matched_indices.add(target_idx)
-            curr = existing_books[target_idx]
-
+            curr = dict(existing_books[target_idx])
+            
+            # Aggiornamento dati reali
             curr["status"] = inc["status"]
+            curr["status_raw"] = inc["status_raw"]
             if inc["rating"] > 0:
                 curr["rating"] = inc["rating"]
-            if inc["isbn"] and not curr.get("isbn"):
+            if inc["isbn"]:
                 curr["isbn"] = inc["isbn"]
+            if inc["subtitle"]:
+                curr["subtitle"] = inc["subtitle"]
+            if inc["publisher"]:
+                curr["publisher"] = inc["publisher"]
 
-            # Preserve existing note/quote if incoming is empty
+            # Preserva recensioni se presenti nell'incoming, altrimenti mantieni quelle esistenti
             if inc["review"]:
-                curr["note"] = inc["review"]
-            if inc["quote"]:
-                curr["quote"] = inc["quote"]
-
-            # If cover is missing or broken, try fetching
+                curr["review"] = inc["review"]
+            
+            # Recupera copertina autentica se non già presente
             if not curr.get("cover") and curr.get("isbn"):
-                cover = verify_and_get_cover_url(curr.get("isbn"))
-                if cover:
-                    curr["cover"] = cover
+                cov = verify_and_get_cover_url(curr.get("isbn"))
+                if cov:
+                    curr["cover"] = cov
 
+            final_books.append(curr)
             updated_count += 1
         else:
-            # New book from Anobii CSV
-            cover_url = verify_and_get_cover_url(inc["isbn"]) if inc["isbn"] else ""
-            new_book = {
+            # Nuovo libro da Anobii
+            cov = verify_and_get_cover_url(inc["isbn"]) if inc["isbn"] else ""
+            new_b = {
                 "title": inc["title"],
+                "subtitle": inc["subtitle"],
                 "author": inc["author"],
-                "status": inc["status"],
-                "rating": inc["rating"],
                 "isbn": inc["isbn"],
-                "note": inc["review"],
-                "quote": inc["quote"],
-                "cover": cover_url,
+                "status": inc["status"],
+                "status_raw": inc["status_raw"],
+                "rating": inc["rating"],
+                "review": inc["review"],
+                "publisher": inc["publisher"],
+                "cover": cov,
                 "anobii_url": ANOBII_PROFILE
             }
-            added_books.append(new_book)
+            final_books.append(new_b)
+            added_count += 1
 
-    # Check books present in books.json but missing from Anobii CSV
-    missing_from_csv = [b for i, b in enumerate(existing_books) if i not in matched_indices]
-
-    if missing_from_csv:
-        print(f"\n[REPORT VERIFICA RIMODULAZIONI / RIMODULAZIONI]")
-        print(f"Rilevati {len(missing_from_csv)} libri presenti nel sito ma non inclusi nel CSV Anobii:")
-        for m in missing_from_csv:
+    # Libri nel JSON ma non nel CSV in ingresso
+    unmatched_existing = [b for idx, b in enumerate(existing_books) if idx not in matched_indices]
+    if unmatched_existing:
+        print(f"\n[REPORT VERIFICA CONFRONTO LIBRERIA]")
+        print(f"Rilevati {len(unmatched_existing)} libri presenti in data/books.json ma non inclusi nel CSV importato:")
+        for m in unmatched_existing:
             print(f"  * '{m.get('title')}' di {m.get('author')}")
 
         if prune:
-            print("Flag --prune attivo: rimozione applicata ai libri non presenti nel CSV.")
-            final_books = [b for i, b in enumerate(existing_books) if i in matched_indices] + added_books
+            print("Flag --prune attivo: rimozione applicata ai libri non presenti nel CSV Anobii.")
         else:
             print("Flag --prune non specificato: i libri sono stati CONSERVATI come selezioni editoriali del sito.")
-            final_books = existing_books + added_books
-    else:
-        final_books = existing_books + added_books
+            final_books.extend(unmatched_existing)
 
-    # Save books.json
+    # Scrittura finale del file JSON
     with open(BOOKS_JSON_PATH, "w", encoding="utf-8") as f:
         json.dump(final_books, f, indent=2, ensure_ascii=False)
 
-    summary = f"Anobii Sync: {updated_count} aggiornati, {len(added_books)} aggiunti, {len(missing_from_csv)} mantenuti come editoriali"
+    summary = f"Anobii Sync: {updated_count} libri aggiornati, {added_count} nuovi libri aggiunti. Totale biblioteca: {len(final_books)} libri."
     print(f"\n[COMPLETATO] {summary}")
     return True, summary
 
@@ -183,6 +229,6 @@ if __name__ == "__main__":
     parser.add_argument("--prune", action="store_true", help="Rimuovi dal sito i libri non più presenti nel CSV di Anobii")
     args = parser.parse_args()
 
-    success, msg = import_anobii_csv(args.csv_file, args.prune)
+    success, msg = import_books(args.csv_file, args.prune)
     if not success:
         sys.exit(1)

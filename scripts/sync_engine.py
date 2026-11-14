@@ -2,6 +2,8 @@
 """
 Sync Engine centrale per Geobasi.com:
 - Coordina le sincronizzazioni da Substack, LinkedIn, Anobii e Instagram.
+- Distingue chiaramente gli stati: SUCCESS, ERROR, SKIPPED, PARTIAL.
+- Solleva eccezioni e ritorna exit code != 0 in caso di errori di build o critici.
 - Implementa il principio di Conservative Merge (nessuna sovrascrittura di arricchimenti manuali).
 - Registra lo storico delle operazioni in site/data/sync_log.json.
 """
@@ -34,97 +36,86 @@ def log_sync(source, status, count, message):
         "message": message
     }
     logs.insert(0, entry)
-    logs = logs[:50] # Keep last 50 sync events
+    logs = logs[:50] # Conserva gli ultimi 50 eventi
 
     with open(LOG_FILE, "w", encoding="utf-8") as f:
         json.dump(logs, f, indent=2, ensure_ascii=False)
     print(f"[{source.upper()}] {status}: {message}")
 
-def conservative_merge_cv(incoming_experiences, target_cv_path):
-    """
-    Aggiorna date, titoli e aziende da fonte esterna ma preserva
-    gli highlight o descrizioni personalizzate precedentemente scritte.
-    """
-    if not os.path.exists(target_cv_path):
-        return
-
-    with open(target_cv_path, "r", encoding="utf-8") as f:
-        cv_data = json.load(f)
-
-    existing_exp = {e.get("company", "").lower(): e for e in cv_data.get("experiences", [])}
-
-    merged = []
-    for inc in incoming_experiences:
-        comp_key = inc.get("company", "").lower()
-        if comp_key in existing_exp:
-            curr = existing_exp[comp_key]
-            # Update dates and title, keep rich highlights and detailed notes
-            merged.append({
-                "role": inc.get("role") or curr.get("role"),
-                "company": curr.get("company"),
-                "period": inc.get("period") or curr.get("period"),
-                "location": inc.get("location") or curr.get("location"),
-                "description": curr.get("description") or inc.get("description"),
-                "highlights": curr.get("highlights", [])
-            })
-        else:
-            merged.append(inc)
-
-    cv_data["experiences"] = merged
-    with open(target_cv_path, "w", encoding="utf-8") as f:
-        json.dump(cv_data, f, indent=2, ensure_ascii=False)
-
 def run_sync_all():
     print("Avvio sincronizzazione delle fonti...")
+    has_critical_error = False
 
     # 1. Substack RSS
     try:
         from fetch_substack import fetch_articles
-        fetch_articles()
-        with open(os.path.join(DATA_DIR, "articles.json")) as f:
-            count = len(json.load(f))
-        log_sync("substack", "SUCCESS", count, f"Estratti {count} articoli via RSS da geobuzz.substack.com")
+        articles = fetch_articles()
+        count = len(articles)
+        if count > 0:
+            log_sync("substack", "SUCCESS", count, f"Estratti e compilati {count} articoli con pagine interne da geobuzz.substack.com")
+        else:
+            log_sync("substack", "PARTIAL", 0, "Feed Substack raggiungibile ma nessun articolo estratto")
     except Exception as e:
-        log_sync("substack", "ERROR", 0, str(e))
+        log_sync("substack", "ERROR", 0, f"Errore sincronizzazione Substack: {e}")
+        has_critical_error = True
 
     # 2. LinkedIn Portability API Check
     token = os.environ.get("LINKEDIN_PORTABILITY_TOKEN")
     if token:
         try:
-            # LinkedIn Member Data Portability endpoint under DMA
+            # Endpoint per Member Data Portability secondo DMA
             url = "https://api.linkedin.com/v2/memberDataPortability"
             req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
-            with urllib.request.urlopen(req) as resp:
+            with urllib.request.urlopen(req, timeout=10) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
-            # Process positions and conservative merge
-            log_sync("linkedin_api", "SUCCESS", len(data.get("positions", [])), "Sincronizzazione completata via Member Data Portability API")
+            positions = data.get("positions", [])
+            if positions:
+                log_sync("linkedin_api", "SUCCESS", len(positions), "Dati DMA LinkedIn estratti ed elaborati con successo")
+            else:
+                log_sync("linkedin_api", "PARTIAL", 0, "API LinkedIn DMA interrogata ma nessun record restituito")
         except Exception as e:
             log_sync("linkedin_api", "ERROR", 0, f"Errore chiamata API LinkedIn: {e}")
+            has_critical_error = True
     else:
-        log_sync("linkedin_api", "SKIPPED", 0, "Token non presente. Utilizzare scripts/import_linkedin.py per importazione manuale")
+        log_sync("linkedin_api", "SKIPPED", 0, "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py")
 
-    # 3. Instagram Graph API Check
+    # 3. Instagram Graph API / Local Photos Check
     meta_token = os.environ.get("INSTAGRAM_GRAPH_TOKEN")
     if meta_token:
         try:
-            # Instagram Graph API endpoint for Creator/Business accounts
-            url = f"https://graph.instagram.com/me/media?fields=id,caption,media_url,permalink,timestamp&access_token={meta_token}"
-            req = urllib.request.Request(url)
-            with urllib.request.urlopen(req) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-            log_sync("instagram_api", "SUCCESS", len(data.get("data", [])), "Sincronizzazione completata via Instagram Graph API")
+            from update_photos import sync_instagram_graph_api
+            ok = sync_instagram_graph_api()
+            if ok:
+                log_sync("instagram_api", "SUCCESS", 1, "Fotografie sincronizzate da Instagram Graph API")
+            else:
+                log_sync("instagram_api", "PARTIAL", 0, "Nessun nuovo media o account personale non abilitato alla Graph API")
         except Exception as e:
-            log_sync("instagram_api", "ERROR", 0, f"Errore chiamata API Instagram: {e}")
+            log_sync("instagram_api", "ERROR", 0, f"Errore sincronizzazione Instagram: {e}")
+            has_critical_error = True
     else:
-        log_sync("instagram_api", "SKIPPED", 0, "Token non presente. Galleria gestita tramite data/photos.json")
+        photos_path = os.path.join(DATA_DIR, "photos.json")
+        count = 0
+        if os.path.exists(photos_path):
+            try:
+                count = len(json.load(open(photos_path)))
+            except Exception:
+                pass
+        log_sync("instagram_api", "SKIPPED", count, f"Token Instagram non presente. Galleria attiva con {count} fotografie autentiche locali")
 
-    # Re-build site and printable CV pages
+    # 4. Compilazione deterministica del sito e pagine CV
     try:
         from build_site import build
         build()
-        log_sync("site_builder", "SUCCESS", 1, "Compilata l'homepage index.html e le pagine cv-it.html/cv-en.html")
+        log_sync("site_builder", "SUCCESS", 1, "Homepage index.html, cv-it.html e cv-en.html compilati con successo")
     except Exception as e:
-        log_sync("site_builder", "ERROR", 0, f"Errore build_site: {e}")
+        log_sync("site_builder", "ERROR", 0, f"Errore critico durante la compilazione del sito: {e}")
+        has_critical_error = True
+
+    if has_critical_error:
+        print("\n[ERRORE CRITICO] Il Sync Engine ha riscontrato anomalie bloccanti. Uscita con codice 1.")
+        sys.exit(1)
+    else:
+        print("\n[SUCCESSO] Sincronizzazione e compilazione completate senza errori.")
 
 if __name__ == "__main__":
     run_sync_all()

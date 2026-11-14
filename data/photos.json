@@ -1,10 +1,42 @@
 [
   {
-    "title": "Campagna Toscana e Reticolo Idrografico",
-    "location": "Toscana, Italia",
-    "coordinates": "43°43'10\"N 10°57'02\"E",
-    "caption": "Morfologie collinari e tracciati poderali: l'impronta geologica nella modellazione del territorio.",
-    "image_url": "",
+    "id": "crinale_appennino",
+    "title": "Crinali Appenninici e Orizzonte",
+    "location": "Appennino Tosco-Emiliano (Quota 1178m)",
+    "coordinates": "44°01'12\"N 10°59'19\"E",
+    "date": "09 Giu 2024",
+    "caption": "Traversata appenninica in quota: morfologie di crinale, versanti boscosi e geologia strutturale toscana.",
+    "image_url": "assets/img/photos/crinale_appennino.jpg",
+    "permalink": "https://www.instagram.com/christian.bazzucchi/"
+  },
+  {
+    "id": "costa_tirrenica",
+    "title": "Litorale Tirrenico e Linea di Costa",
+    "location": "Costa Tirrenica, Toscana",
+    "coordinates": "43°30'15\"N 10°18'22\"E",
+    "date": "Maggio 2024",
+    "caption": "Morfologie costiere, dinamica dei litorali sabbiosi e interazione tra mare e rilievi retrostanti.",
+    "image_url": "assets/img/photos/costa_tirrenica.jpg",
+    "permalink": "https://www.instagram.com/christian.bazzucchi/"
+  },
+  {
+    "id": "spoleto_paesaggio",
+    "title": "Ponte delle Torri e Morfologie Collinari",
+    "location": "Spoleto, Umbria",
+    "coordinates": "42°44'04\"N 12°44'43\"E",
+    "date": "Aprile 2026",
+    "caption": "Ingegneria storica inserita nella gola calcarea del torrente Tessino: architettura, roccia e territorio.",
+    "image_url": "assets/img/photos/spoleto_paesaggio.jpg",
+    "permalink": "https://www.instagram.com/christian.bazzucchi/"
+  },
+  {
+    "id": "passo_stelvio",
+    "title": "Passo dello Stelvio e Tornanti",
+    "location": "Passo dello Stelvio (2758m)",
+    "coordinates": "46°31'43\"N 10°27'10\"E",
+    "date": "Maggio 2024",
+    "caption": "Motociclismo alpino e orografia glaciale: l'ascesa mitica tra muraglioni di neve e pareti rocciose.",
+    "image_url": "assets/img/photos/passo_stelvio.jpg",
     "permalink": "https://www.instagram.com/christian.bazzucchi/"
   }
 ]

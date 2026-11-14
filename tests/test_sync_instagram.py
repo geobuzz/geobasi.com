@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-Test Suite per la validazione di Instagram e la simulazione del fallimento della scansione live:
+Test Suite Completa per Sync Engine e Sincronizzazione Instagram:
 1. Validazione formato shortcode (base64url).
 2. Verifica coerenza shortcode <-> permalink.
-3. Simulazione fallimento scansione live:
-   - instagram_catalog.json rimane invariato;
-   - i 4 post precedenti sono mantenuti;
-   - lo stato registrato e' PARTIAL, mai SUCCESS.
-4. Distinzione chiara tra esito singole fonti ed esito pipeline.
+3. Test d'integrazione di run_sync_all():
+   - Esegue il flusso reale di run_sync_all() con dipendenze esterne simulate.
+   - Simula il fallimento della scansione Instagram.
+   - Verifica che catalogo e 4 post precedenti rimangano invariati.
+   - Verifica che Instagram e pipeline risultino entrambi PARTIAL (e mai SUCCESS).
+4. Test unitario sul calcolo dello stato globale della pipeline in presenza di ERROR, PARTIAL e SKIPPED.
 """
 import os
 import sys
@@ -26,7 +27,6 @@ class TestInstagramValidation(unittest.TestCase):
 
     def test_shortcode_format_validation(self):
         """Verifica che la validazione distingua shortcode validi da stringhe non conformi."""
-        # Shortcode autentici validi (base64url 9-15 caratteri)
         valid_codes = [
             "De9uhu9jBpH",
             "DTYRRCOjN3Y",
@@ -41,7 +41,6 @@ class TestInstagramValidation(unittest.TestCase):
                 f"Lo shortcode autentico '{sc}' dovrebbe risultare valido"
             )
 
-        # Shortcode non conformi (troppo corti, troppo lunghi, caratteri speciali non ammessi, spazi)
         invalid_codes = [
             "",
             None,
@@ -100,26 +99,83 @@ class TestInstagramValidation(unittest.TestCase):
         self.assertIn("non conforme a Instagram", reason)
 
 
-class TestInstagramFailureAndPartialStatus(unittest.TestCase):
+class TestPipelineStatusCalculation(unittest.TestCase):
+    """Verifica il calcolo dello stato globale della pipeline in presenza di combinazioni ERROR, PARTIAL, SKIPPED."""
+
+    def test_all_success(self):
+        sources = {
+            "substack": {"status": "SUCCESS", "count": 10},
+            "instagram": {"status": "SUCCESS", "count": 4},
+            "site_builder": {"status": "SUCCESS", "count": 1}
+        }
+        status, _ = sync_engine.compute_pipeline_status(sources, has_critical_error=False)
+        self.assertEqual(status, "SUCCESS")
+
+    def test_success_with_skipped(self):
+        sources = {
+            "substack": {"status": "SUCCESS", "count": 10},
+            "linkedin_api": {"status": "SKIPPED", "count": 0},
+            "instagram": {"status": "SUCCESS", "count": 4},
+            "site_builder": {"status": "SUCCESS", "count": 1}
+        }
+        status, _ = sync_engine.compute_pipeline_status(sources, has_critical_error=False)
+        self.assertEqual(status, "SUCCESS")
+
+    def test_partial_status(self):
+        sources = {
+            "substack": {"status": "SUCCESS", "count": 10},
+            "linkedin_api": {"status": "SKIPPED", "count": 0},
+            "instagram": {"status": "PARTIAL", "count": 4},
+            "site_builder": {"status": "SUCCESS", "count": 1}
+        }
+        status, _ = sync_engine.compute_pipeline_status(sources, has_critical_error=False)
+        self.assertEqual(status, "PARTIAL")
+
+    def test_error_status_takes_precedence_over_partial(self):
+        sources = {
+            "substack": {"status": "SUCCESS", "count": 10},
+            "linkedin_api": {"status": "ERROR", "count": 0},
+            "instagram": {"status": "PARTIAL", "count": 4},
+            "site_builder": {"status": "SUCCESS", "count": 1}
+        }
+        status, _ = sync_engine.compute_pipeline_status(sources, has_critical_error=False)
+        self.assertEqual(status, "ERROR")
+
+    def test_has_critical_error_forces_error(self):
+        sources = {
+            "substack": {"status": "SUCCESS", "count": 10},
+            "instagram": {"status": "SUCCESS", "count": 4}
+        }
+        status, _ = sync_engine.compute_pipeline_status(sources, has_critical_error=True)
+        self.assertEqual(status, "ERROR")
+
+
+class TestSyncEngineIntegration(unittest.TestCase):
+    """
+    Test d'integrazione che esegue il flusso reale di sync_engine.run_sync_all()
+    con dipendenze esterne simulate.
+    """
 
     def setUp(self):
-        self.test_dir = os.path.join(os.path.dirname(__file__), "tmp_data")
+        self.test_dir = os.path.join(os.path.dirname(__file__), "tmp_integration_data")
         os.makedirs(self.test_dir, exist_ok=True)
         
         self.catalog_file = os.path.join(self.test_dir, "instagram_catalog.json")
         self.photos_file = os.path.join(self.test_dir, "photos.json")
         self.log_file = os.path.join(self.test_dir, "sync_log.json")
 
-        # Catalogo mock con 5 post validi
+        # Catalogo mock con 6 post validi
         self.initial_catalog = [
             {
-                "shortcode": f"CODE_{i:02d}_TESTX",
-                "permalink": f"https://www.instagram.com/p/CODE_{i:02d}_TESTX/",
-                "title": f"Post n. {i}",
+                "shortcode": f"POST_{i:02d}_TEST",
+                "permalink": f"https://www.instagram.com/p/POST_{i:02d}_TEST/",
+                "title": f"Post mock n. {i}",
                 "caption": f"Didascalia {i}",
-                "date": "14 Nov 2026"
+                "date": "14 Nov 2026",
+                "is_video": False,
+                "likes": i * 10
             }
-            for i in range(1, 6)
+            for i in range(1, 7)
         ]
         with open(self.catalog_file, "w", encoding="utf-8") as f:
             json.dump(self.initial_catalog, f, indent=2)
@@ -134,18 +190,18 @@ class TestInstagramFailureAndPartialStatus(unittest.TestCase):
         if os.path.exists(self.test_dir):
             shutil.rmtree(self.test_dir)
 
-    def test_live_scan_failure_preserves_catalog_and_photos_and_logs_partial(self):
+    def test_run_sync_all_with_simulated_instagram_failure(self):
         """
-        Simula il fallimento della scansione live e verifica tassativamente che:
-        - instagram_catalog.json rimanga invariato;
-        - i 4 post precedenti in photos.json siano mantenuti invariati;
-        - lo stato registrato per Instagram sia PARTIAL e mai SUCCESS.
+        Esegue il flusso reale di sync_engine.run_sync_all():
+        - Dipendenze esterne simulate (Substack mock, build mock, Instagram rate limit 429).
+        - Verifica che catalogo e 4 post rimangano invariati.
+        - Verifica che Instagram e pipeline risultino entrambi PARTIAL (e MAI SUCCESS).
         """
-        # Patch dei percorsi dei file nei moduli
-        with patch.object(update_photos, "CATALOG_FILE", self.catalog_file), \
-             patch.object(update_photos, "PHOTOS_FILE", self.photos_file), \
+        with patch.object(sync_engine, "DATA_DIR", self.test_dir), \
              patch.object(sync_engine, "LOG_FILE", self.log_file), \
-             patch.object(sync_engine, "DATA_DIR", self.test_dir):
+             patch.object(update_photos, "DATA_DIR", self.test_dir), \
+             patch.object(update_photos, "CATALOG_FILE", self.catalog_file), \
+             patch.object(update_photos, "PHOTOS_FILE", self.photos_file):
 
             # Snapshot prima dell'esecuzione
             with open(self.catalog_file, "r", encoding="utf-8") as f:
@@ -153,58 +209,72 @@ class TestInstagramFailureAndPartialStatus(unittest.TestCase):
             with open(self.photos_file, "r", encoding="utf-8") as f:
                 photos_before = f.read()
 
-            # Mock del fallimento di instaloader (es. Rate Limit 429 o Login Wall)
-            with patch("instaloader.Instaloader") as mock_instaloader:
+            # Mock delle dipendenze esterne:
+            # 1. Substack restituisce articoli mock con successo
+            # 2. Build mock eseguita con successo
+            # 3. Instagram solleva errore di scansione (Rate Limit 429 / Login Wall)
+            mock_articles = [{"title": "Articolo di test", "slug": "test-slug", "date": "14 Nov 2026"}]
+            with patch("fetch_substack.fetch_articles", return_value=mock_articles), \
+                 patch("build_site.build", return_value=True), \
+                 patch("instaloader.Instaloader") as mock_instaloader:
+
                 mock_instaloader.side_effect = ConnectionError("HTTP 429 Too Many Requests - Login Required")
 
-                # Esecuzione della fase 1: scansione live
-                scan_ok, catalog, msg = update_photos.scan_instagram_profile()
-                self.assertFalse(scan_ok, "La scansione simulata doveva fallire")
+                # Esecuzione del flusso REALE di run_sync_all()
+                pipeline_status, sources_status = sync_engine.run_sync_all()
 
-                # Esecuzione della fase 2: campionamento con preserve_existing=True
-                pick_ok, selected_posts = update_photos.pick_random_posts(4, preserve_existing=True)
-                self.assertTrue(pick_ok, "La selezione con catalogo locale valido doveva riuscire")
-                self.assertEqual(len(selected_posts), 4)
+                # Verifica 1: Stato Instagram restituito e' PARTIAL e MAI SUCCESS
+                ig_status = sources_status.get("instagram", {}).get("status")
+                self.assertEqual(
+                    ig_status, "PARTIAL",
+                    f"Lo stato di Instagram nel Sync Engine deve essere PARTIAL, rilevato invece '{ig_status}'"
+                )
+                self.assertNotEqual(
+                    ig_status, "SUCCESS",
+                    "Lo stato di Instagram non deve MAI essere SUCCESS se la scansione live fallisce!"
+                )
 
-                # Verifica 1: instagram_catalog.json e' rimasto rigorosamente invariato
+                # Verifica 2: Stato Pipeline globale e' PARTIAL e MAI SUCCESS
+                self.assertEqual(
+                    pipeline_status, "PARTIAL",
+                    f"Lo stato globale della pipeline deve essere PARTIAL, rilevato invece '{pipeline_status}'"
+                )
+                self.assertNotEqual(
+                    pipeline_status, "SUCCESS",
+                    "Lo stato globale della pipeline non deve MAI essere SUCCESS se una fonte e' PARTIAL!"
+                )
+
+                # Verifica 3: instagram_catalog.json e' rimasto rigorosamente invariato
                 with open(self.catalog_file, "r", encoding="utf-8") as f:
                     catalog_after = f.read()
                 self.assertEqual(
                     catalog_before, catalog_after,
-                    "CRITICO: instagram_catalog.json non deve essere modificato se la scansione fallisce!"
+                    "CRITICO: instagram_catalog.json e' stato modificato nonostante il fallimento della scansione!"
                 )
 
-                # Verifica 2: i 4 post precedenti sono stati mantenuti invariati
+                # Verifica 4: i 4 post precedenti in photos.json sono stati mantenuti invariati
                 with open(self.photos_file, "r", encoding="utf-8") as f:
                     photos_after = f.read()
                 self.assertEqual(
                     photos_before, photos_after,
-                    "CRITICO: I 4 post precedenti in photos.json devono essere mantenuti se la scansione live fallisce!"
+                    "CRITICO: I 4 post precedenti in photos.json sono stati modificati invece di essere mantenuti!"
                 )
 
-                # Registrazione dell'esito come avviene in sync_engine
-                if not scan_ok:
-                    sync_engine.log_sync(
-                        "instagram", "PARTIAL", len(selected_posts),
-                        f"{msg}. Mantenuti i 4 post precedenti e catalogo locale invariato"
-                    )
-
-                # Verifica 3: lo stato registrato e' PARTIAL e MAI SUCCESS
+                # Verifica 5: Controllo del file di persistenza sync_log.json
                 with open(self.log_file, "r", encoding="utf-8") as f:
                     logs = json.load(f)
 
-                ig_logs = [l for l in logs if l.get("source") == "instagram"]
-                self.assertTrue(len(ig_logs) > 0, "Deve esistere almeno una voce di log per instagram")
-                last_ig_status = ig_logs[0].get("status")
-                
-                self.assertEqual(
-                    last_ig_status, "PARTIAL",
-                    f"Lo stato registrato deve essere PARTIAL, invece e' '{last_ig_status}'"
-                )
-                self.assertNotEqual(
-                    last_ig_status, "SUCCESS",
-                    "Lo stato registrato non deve MAI essere SUCCESS se la scansione live fallisce!"
-                )
+                logged_ig = [l for l in logs if l.get("source") == "instagram"]
+                logged_pipeline = [l for l in logs if l.get("source") == "pipeline"]
+
+                self.assertTrue(len(logged_ig) > 0, "Manca la voce instagram in sync_log.json")
+                self.assertTrue(len(logged_pipeline) > 0, "Manca la voce pipeline in sync_log.json")
+
+                self.assertEqual(logged_ig[0]["status"], "PARTIAL")
+                self.assertNotEqual(logged_ig[0]["status"], "SUCCESS")
+
+                self.assertEqual(logged_pipeline[0]["status"], "PARTIAL")
+                self.assertNotEqual(logged_pipeline[0]["status"], "SUCCESS")
 
 if __name__ == "__main__":
     unittest.main()

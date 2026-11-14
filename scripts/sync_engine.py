@@ -48,6 +48,20 @@ def log_sync(source, status, count, message, details=None):
         json.dump(logs, f, indent=2, ensure_ascii=False)
     print(f"[{source.upper()}] {status}: {message}")
 
+def compute_pipeline_status(sources_status, has_critical_error=False):
+    """
+    Calcola lo stato globale della pipeline in base allo stato delle singole fonti:
+    - ERROR: se has_critical_error e' True o se una qualsiasi fonte ha status 'ERROR'.
+    - PARTIAL: se non vi sono errori critici ma almeno una fonte ha status 'PARTIAL'.
+    - SUCCESS: se tutte le fonti attive hanno status 'SUCCESS' (o 'SKIPPED').
+    """
+    if has_critical_error or any(s.get("status") == "ERROR" for s in sources_status.values()):
+        return "ERROR", "Pipeline completata con errori critici su una o più fonti"
+    elif any(s.get("status") == "PARTIAL" for s in sources_status.values()):
+        return "PARTIAL", "Pipeline completata con successo parziale (una o più fonti in stato PARTIAL)"
+    else:
+        return "SUCCESS", "Pipeline completata con pieno successo per tutte le fonti attive"
+
 def run_sync_all():
     print("Avvio sincronizzazione delle fonti...")
     has_critical_error = False
@@ -208,15 +222,7 @@ def run_sync_all():
     )
 
     # 5. Determinazione e registrazione dello stato GLOBALE della pipeline
-    if has_critical_error:
-        pipeline_status = "ERROR"
-        pipeline_msg = "Pipeline completata con errori critici su una o più fonti"
-    elif any(s["status"] == "PARTIAL" for s in sources_status.values()):
-        pipeline_status = "PARTIAL"
-        pipeline_msg = "Pipeline completata con successo parziale (una o più fonti in stato PARTIAL)"
-    else:
-        pipeline_status = "SUCCESS"
-        pipeline_msg = "Pipeline completata con pieno successo per tutte le fonti attive"
+    pipeline_status, pipeline_msg = compute_pipeline_status(sources_status, has_critical_error)
 
     sources_summary = {k: v["status"] for k, v in sources_status.items()}
     total_processed = sum(v["count"] for v in sources_status.values())
@@ -239,10 +245,13 @@ def run_sync_all():
     print("=" * 70 + "\n")
 
     if has_critical_error:
-        print("[ERRORE CRITICO] Il Sync Engine ha riscontrato anomalie bloccanti. Uscita con codice 1.")
-        sys.exit(1)
+        print("[ERRORE CRITICO] Il Sync Engine ha riscontrato anomalie bloccanti.")
     else:
         print("[COMPLETATO] Esecuzione Sync Engine terminata regolarmente.")
 
+    return pipeline_status, sources_status
+
 if __name__ == "__main__":
-    run_sync_all()
+    status, _ = run_sync_all()
+    if status == "ERROR":
+        sys.exit(1)

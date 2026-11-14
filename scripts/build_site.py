@@ -99,32 +99,23 @@ def build():
         </article>
         """
 
-    # Books HTML (In corso first, then con recensione)
-    # Sort order: 0 = in_corso, 1 = letto con review, 2 = letto con voto, 3 = altro
-    def book_priority(b):
-        if b.get("status") == "in_corso":
-            return (0, 0)
-        elif b.get("review"):
-            return (1, -float(b.get("rating", 0)))
-        elif b.get("rating"):
-            return (2, -float(b.get("rating", 0)))
-        return (3, 0)
-
-    books_sorted = sorted(books, key=book_priority)
+    # Books HTML: nella home page mostriamo al massimo 4 volumi tra quelli attualmente "in_corso" (in lettura)
+    in_progress_books = [b for b in books if b.get("status") == "in_corso"]
+    home_books = in_progress_books[:4]
     books_html = ""
-    for b in books_sorted[:12]:
-        is_reading = (b.get("status") == "in_corso")
-        badge_cls = "in-progress" if is_reading else "finished"
+    for b in home_books:
+        badge_cls = "in-progress"
         rating_val = b.get('rating', 0)
-        stars_str = f" &bull; {rating_val}/5" if rating_val > 0 else ""
-        badge_text = "&bull; IN LETTURA" if is_reading else f"LETTO{stars_str}"
-        card_cls = "book-card in-progress" if is_reading else "book-card"
+        badge_text = "&bull; IN LETTURA"
+        card_cls = "book-card in-progress"
         
         cover_img = b.get("cover")
-        if cover_img:
+        cover_file = os.path.join(BASE_DIR, cover_img) if cover_img and not cover_img.startswith("http") else None
+        if cover_img and (cover_img.startswith("http") or (cover_file and os.path.exists(cover_file))):
             cover_markup = f'<img src="{cover_img}" alt="{b.get("title")}" loading="lazy" />'
         else:
-            cover_markup = f'<div class="book-cover-placeholder"><span class="book-cover-title">{b.get("title")}</span><span class="book-cover-author">{b.get("author")}</span></div>'
+            pub_tag = f'<span class="book-cover-pub">{b.get("publisher")}</span>' if b.get("publisher") else ''
+            cover_markup = f'<div class="book-cover-placeholder"><span class="book-cover-title">{b.get("title")}</span><span class="book-cover-author">{b.get("author")}</span>{pub_tag}</div>'
 
         review_markup = ""
         if b.get("review"):
@@ -1241,17 +1232,24 @@ def build():
       <div class="section-header">
         <div>
           <span class="section-num">SEZIONE 04 &bull; BIBLIOTECA PERSONALE</span>
-          <h2 class="section-title">La Mia Biblioteca</h2>
+          <h2 class="section-title">In Lettura</h2>
         </div>
         <div>
-          <a href="{profile.get('contacts', {}).get('anobii', 'https://www.anobii.com/it/01d6d75099d9c1d4bb/profile')}" class="btn-outline" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-size: 12px;">
-            Profilo completo su Anobii ({len(books)} libri censiti) &nearr;
+          <a href="biblioteca.html" class="btn-outline" style="font-family: var(--font-mono); font-size: 12px;">
+            Tutti i {len(books)} libri &nearr;
           </a>
         </div>
       </div>
 
       <div class="library-grid">
         {books_html}
+      </div>
+
+      <div style="margin-top: 36px; text-align: center; border-top: 1px dashed var(--border-carto); padding-top: 24px;">
+        <a href="biblioteca.html" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
+          <span>Esplora l'intera biblioteca ({len(books)} libri censiti, {len(in_progress_books)} in lettura, note critiche)</span>
+          <span>&rarr;</span>
+        </a>
       </div>
     </div>
   </section>
@@ -1371,6 +1369,14 @@ def build():
         print("Pagine cv-it.html e cv-en.html ricompilate.")
     except Exception as e:
         print(f"Errore render CV: {e}")
+        raise e
+
+    # Render dedicated library page (biblioteca.html and libri/index.html)
+    try:
+        from build_library_page import render_biblioteca_page
+        render_biblioteca_page()
+    except Exception as e:
+        print(f"Errore render biblioteca: {e}")
         raise e
 
 if __name__ == "__main__":

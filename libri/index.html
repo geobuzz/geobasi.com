@@ -2,28 +2,3511 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=/#biblioteca">
-  <link rel="canonical" href="https://geobasi.com/#biblioteca">
-  <title>Reindirizzamento: La Mia Biblioteca</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Mia Biblioteca — Christian Bazzucchi | geobasi.com</title>
+  <meta name="description" content="Catalogo completo della biblioteca personale di Christian Bazzucchi: letture in corso, recensioni critiche e archivio sincronizzato con Anobii.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: system-ui, sans-serif;
-      background: #FBF9F4;
-      color: #12222E;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
+    :root {
+      --bg-paper: #FBF9F4;
+      --bg-surface: #F3ECE1;
+      --bg-surface-elevated: #FFFFFF;
+      --border-carto: #DDD5C7;
+      --border-subtle: #EBE4D8;
+      
+      --ink-primary: #12222E;
+      --ink-secondary: #3D505D;
+      --ink-muted: #6B7C87;
+      
+      --accent-copper: #C25928;
+      --accent-copper-hover: #A8481A;
+      --accent-copper-soft: rgba(194, 89, 40, 0.08);
+      
+      --font-serif: "Newsreader", Georgia, serif;
+      --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+      --font-mono: "Fira Code", monospace;
     }
-    a { color: #C25928; font-weight: 600; text-decoration: none; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-paper);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .carto-topo-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url('assets/img/valtopina_contours.svg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      opacity: 0.38;
+    }
+
+    .carto-graticule {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.20;
+      background-image: 
+        linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    .wrapper {
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 3.5vw, 48px);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header Nav */
+    header.site-header {
+      background: rgba(251, 249, 244, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-carto);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo:hover { color: var(--accent-copper); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--ink-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover { color: var(--accent-copper); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-copper);
+      background: transparent;
+      border: 1px solid var(--accent-copper);
+      padding: 6px 14px;
+      text-decoration: none;
+      transition: all 0.2s;
+      border-radius: 2px;
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-copper);
+      color: #FFF;
+    }
+
+    /* Main Page Content */
+    main {
+      flex: 1;
+      padding: 48px 0 80px;
+    }
+
+    .biblio-hero {
+      margin-bottom: 36px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border-carto);
+    }
+
+    .biblio-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-copper);
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .biblio-title {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 4.5vw, 48px);
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .biblio-desc {
+      font-size: 17px;
+      color: var(--ink-secondary);
+      max-width: 820px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-carto);
+      padding: 16px 20px;
+      border-radius: 2px;
+      margin-bottom: 32px;
+    }
+
+    .stat-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-num {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+
+    /* Filter & Search Bar */
+    .filter-panel {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-carto);
+      padding: 18px 24px;
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-chip {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-carto);
+      color: var(--ink-secondary);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 2px;
+    }
+
+    .filter-chip:hover {
+      border-color: var(--accent-copper);
+      color: var(--accent-copper);
+    }
+
+    .filter-chip.active {
+      background: var(--accent-copper);
+      border-color: var(--accent-copper);
+      color: #FFF;
+      font-weight: 600;
+    }
+
+    .search-wrap {
+      flex: 1;
+      max-width: 420px;
+      min-width: 240px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-paper);
+      border: 1px solid var(--border-carto);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      padding: 8px 12px 8px 34px;
+      border-radius: 2px;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent-copper);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-muted);
+      pointer-events: none;
+      font-size: 14px;
+    }
+
+    .results-info {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    /* Library Grid */
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 1200px) {
+      .library-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    }
+    @media (max-width: 860px) {
+      .library-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    }
+    @media (max-width: 520px) {
+      .library-grid { grid-template-columns: 1fr; }
+    }
+
+    .book-card {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-carto);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .book-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(18, 34, 46, 0.06);
+    }
+
+    .book-card.in-progress {
+      border: 1px solid var(--accent-copper);
+      background: #FFFDF9;
+    }
+
+    .book-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .book-status-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 6px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .book-status-badge.in-progress {
+      background: var(--accent-copper-soft);
+      color: var(--accent-copper);
+      font-weight: 600;
+      border: 1px solid rgba(194, 89, 40, 0.3);
+    }
+
+    .book-status-badge.finished {
+      background: var(--bg-surface);
+      color: var(--ink-muted);
+      border: 1px solid var(--border-carto);
+    }
+
+    .book-cover-wrap {
+      width: 100%;
+      height: 220px;
+      background: var(--bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
+    .book-cover-wrap img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .book-cover-placeholder {
+      padding: 16px 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      height: 100%;
+      width: 100%;
+      background: #ECE5D8;
+      border: 1px dashed var(--border-carto);
+    }
+
+    .book-cover-placeholder .book-cover-title {
+      font-family: var(--font-serif);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.25;
+    }
+
+    .book-cover-placeholder .book-cover-author {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--ink-secondary);
+    }
+
+    .book-cover-placeholder .book-cover-pub {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+    }
+
+    .book-title {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .book-subtitle {
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .book-meta {
+      font-size: 13px;
+      color: var(--ink-secondary);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .book-review-box {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-carto);
+    }
+
+    .book-quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--ink-secondary);
+      line-height: 1.45;
+    }
+
+    .book-review-details {
+      margin-top: 6px;
+    }
+
+    .book-review-details summary {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-copper);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .book-review-details summary:hover {
+      text-decoration: underline;
+    }
+
+    .book-full-review {
+      margin-top: 8px;
+      padding: 10px;
+      background: var(--bg-paper);
+      border-left: 2px solid var(--accent-copper);
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--ink-primary);
+      white-space: pre-line;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 60px 20px;
+      text-align: center;
+      background: var(--bg-surface-elevated);
+      border: 1px dashed var(--border-carto);
+      color: var(--ink-muted);
+      display: none;
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-carto);
+      padding: 32px 0;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    .footer-inner a {
+      color: var(--ink-secondary);
+      text-decoration: none;
+    }
+
+    .footer-inner a:hover {
+      color: var(--accent-copper);
+    }
   </style>
 </head>
 <body>
-  <div>
-    <p>Reindirizzamento a <strong>La Mia Biblioteca</strong> in corso...</p>
-    <p><a href="/#biblioteca">Clicca qui se non vieni reindirizzato automaticamente</a></p>
-  </div>
+  <div class="carto-topo-bg" aria-hidden="true"></div>
+  <div class="carto-graticule" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="wrapper">
+      <div class="nav-inner">
+        <a href="/" class="nav-logo">
+          <span>&larr;</span>
+          <span>Christian Bazzucchi</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); font-weight: 400;">geobasi.com</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="/" class="nav-link">&larr; Home</a></li>
+          <li><a href="/#articoli" class="nav-link">Articoli</a></li>
+          <li><a href="/#progetti" class="nav-link">Progetti</a></li>
+          <li><a href="https://www.anobii.com/it/01d6d75099d9c1d4bb/profile" class="btn-outline" target="_blank" rel="noopener">Profilo su Anobii &nearr;</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="wrapper">
+      <!-- Hero -->
+      <section class="biblio-hero">
+        <span class="biblio-tag">SEZIONE 04 &bull; ARCHIVIO LETTURE &bull; BIBLIOTECA PERSONALE</span>
+        <h1 class="biblio-title">La Mia Biblioteca</h1>
+        <p class="biblio-desc">
+          Catalogo integrale delle letture sincronizzato con Anobii: volumi attualmente in lettura, note critiche, recensioni e archivio storico. Le copertine sono verificate tramite Amazon CDN e Open Library.
+        </p>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+          <div class="stat-box">
+            <span class="stat-num">141</span>
+            <span class="stat-label">Libri Censiti</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">27</span>
+            <span class="stat-label">In Lettura</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">28</span>
+            <span class="stat-label">Recensioni Scritte</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">85</span>
+            <span class="stat-label">Valutati con Voto</span>
+          </div>
+        </div>
+
+        <!-- Filter Panel -->
+        <div class="filter-panel">
+          <div class="filter-row">
+            <div class="filter-chips">
+              <button class="filter-chip active" data-filter="all">Tutti (141)</button>
+              <button class="filter-chip" data-filter="in_corso">In Lettura (27)</button>
+              <button class="filter-chip" data-filter="reviewed">Con Recensione (28)</button>
+              <button class="filter-chip" data-filter="rated">Valutati ★ (85)</button>
+              <button class="filter-chip" data-filter="letto">Letti (114)</button>
+            </div>
+            <div class="search-wrap">
+              <span class="search-icon">&telrec;</span>
+              <input type="text" id="library-search" class="search-input" placeholder="Cerca titolo, autore, editore o parola chiave..." autocomplete="off">
+            </div>
+          </div>
+          <div class="results-info">
+            Mostrati <strong id="visible-count">141</strong> libri su 141
+          </div>
+        </div>
+      </section>
+
+      <!-- Grid -->
+      <section class="library-grid" id="books-container">
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="le vie della psicologia. storia e tendenze contemporanee  roberto marchesini sugarco 9788871987613">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788871987613.jpg" alt="Le vie della psicologia. Storia e tendenze contemporanee" loading="lazy" />
+          </div>
+          <h3 class="book-title">Le vie della psicologia. Storia e tendenze contemporanee</h3>
+          
+          <div class="book-meta"><span class="b-author">Roberto Marchesini</span> &bull; <span class="b-pub">SugarCo</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="iliade  omero marsilio 9788831743020">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788831743020.jpg" alt="Iliade" loading="lazy" />
+          </div>
+          <h3 class="book-title">Iliade</h3>
+          
+          <div class="book-meta"><span class="b-author">Omero</span> &bull; <span class="b-pub">Marsilio</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="frammenti di un insegnamento sconosciuto la testimonianza degli otto anni di lavoro di ouspensky come discepolo di gurdjieff petr d. uspenskij astrolabio ubaldini 9788834004111">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788834004111.jpg" alt="Frammenti di un insegnamento sconosciuto" loading="lazy" />
+          </div>
+          <h3 class="book-title">Frammenti di un insegnamento sconosciuto</h3>
+          <div class="book-subtitle">La testimonianza degli otto anni di lavoro di Ouspensky come discepolo di Gurdjieff</div>
+          <div class="book-meta"><span class="b-author">Petr D. Uspenskij</span> &bull; <span class="b-pub">Astrolabio Ubaldini</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="l'eredità di roma storia d'europa dal 400 al 1000 d.c. chris wickham laterza 9788858114094">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788858114094.jpg" alt="L'eredità di Roma" loading="lazy" />
+          </div>
+          <h3 class="book-title">L'eredità di Roma</h3>
+          <div class="book-subtitle">Storia d'Europa dal 400 al 1000 d.C.</div>
+          <div class="book-meta"><span class="b-author">Chris Wickham</span> &bull; <span class="b-pub">Laterza</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="i vangeli canonici traduzione dalla vulgata di san girolamo con testo latino a fronte  fede & cultura 9791254781975">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">I Vangeli canonici</span>
+              <span class="book-cover-author"></span>
+              <span class="book-cover-pub">Fede & Cultura</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">I Vangeli canonici</h3>
+          <div class="book-subtitle">Traduzione dalla vulgata di San Girolamo con testo latino a fronte</div>
+          <div class="book-meta"><span class="b-pub">Fede & Cultura</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="credo. compendio della fede cattolica  athanasius schneider fede & cultura 9791254781715">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9791254781715.jpg" alt="Credo. Compendio della Fede Cattolica" loading="lazy" />
+          </div>
+          <h3 class="book-title">Credo. Compendio della Fede Cattolica</h3>
+          
+          <div class="book-meta"><span class="b-author">Athanasius Schneider</span> &bull; <span class="b-pub">Fede & Cultura</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="storia d'italia - vol. 1 dalla caduta dell'impero romano al secolo xviii - la società medievale e le corti del rinascimento  einaudi - il sole 24 ore ">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Storia d'Italia - Vol. 1</span>
+              <span class="book-cover-author"></span>
+              <span class="book-cover-pub">Einaudi - Il Sole 24 Ore</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Storia d'Italia - Vol. 1</h3>
+          <div class="book-subtitle">Dalla caduta dell'impero romano al secolo XVIII - La società medievale e le corti del Rinascimento</div>
+          <div class="book-meta"><span class="b-pub">Einaudi - Il Sole 24 Ore</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="introduzione a tommaso d'aquino  sofia vanni rovighi laterza 9788842004967">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788842004967.jpg" alt="Introduzione a Tommaso d'Aquino" loading="lazy" />
+          </div>
+          <h3 class="book-title">Introduzione a Tommaso d'Aquino</h3>
+          
+          <div class="book-meta"><span class="b-author">Sofia Vanni Rovighi</span> &bull; <span class="b-pub">Laterza</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="casti connubii on christian marriage  pope pius xi createspace independent pub 9781533169198">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9781533169198.jpg" alt="Casti Connubii on Christian Marriage" loading="lazy" />
+          </div>
+          <h3 class="book-title">Casti Connubii on Christian Marriage</h3>
+          
+          <div class="book-meta"><span class="b-author">Pope Pius XI</span> &bull; <span class="b-pub">Createspace Independent Pub</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="storia d'europa dalle invasioni al xvi secolo  henri pirenne newton compton 9788854126138">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Storia d'Europa dalle invasioni al XVI secolo</span>
+              <span class="book-cover-author">Henri Pirenne</span>
+              <span class="book-cover-pub">Newton Compton</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Storia d'Europa dalle invasioni al XVI secolo</h3>
+          
+          <div class="book-meta"><span class="b-author">Henri Pirenne</span> &bull; <span class="b-pub">Newton Compton</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="respiro  ted chiang frassinelli 9788893428538">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788893428538.jpg" alt="Respiro" loading="lazy" />
+          </div>
+          <h3 class="book-title">Respiro</h3>
+          
+          <div class="book-meta"><span class="b-author">Ted Chiang</span> &bull; <span class="b-pub">Frassinelli</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="il pianto del cristo  fulton john sheen mimep-docete 9788884248053">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788884248053.jpg" alt="Il pianto del Cristo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il pianto del Cristo</h3>
+          
+          <div class="book-meta"><span class="b-author">Fulton John Sheen</span> &bull; <span class="b-pub">Mimep-Docete</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="san paolo l'apostolo delle genti benedetto xvi libreria editrice vaticana / san paolo ">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/San_Paolo.jpg" alt="San Paolo" loading="lazy" />
+          </div>
+          <h3 class="book-title">San Paolo</h3>
+          <div class="book-subtitle">L'Apostolo delle genti</div>
+          <div class="book-meta"><span class="b-author">Benedetto XVI</span> &bull; <span class="b-pub">Libreria Editrice Vaticana / San Paolo</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="l'italia del seicento storia d'italia vol.5: 1600-1700 indro montanelli, roberto gervaso rizzoli 9788817044318">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788817044318.jpg" alt="L'Italia del Seicento" loading="lazy" />
+          </div>
+          <h3 class="book-title">L'Italia del Seicento</h3>
+          <div class="book-subtitle">Storia d'Italia vol.5: 1600-1700</div>
+          <div class="book-meta"><span class="b-author">Indro Montanelli, Roberto Gervaso</span> &bull; <span class="b-pub">Rizzoli</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="la storia infinita  michael ende longanesi & c. (la gaja scienza, 39) ">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/La_storia_infinita.jpg" alt="La storia infinita" loading="lazy" />
+          </div>
+          <h3 class="book-title">La storia infinita</h3>
+          
+          <div class="book-meta"><span class="b-author">Michael Ende</span> &bull; <span class="b-pub">Longanesi & C. (La Gaja Scienza, 39)</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="tutto don camillo  giovannino guareschi rizzoli 9788817680059">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788817680059.jpg" alt="Tutto don Camillo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Tutto don Camillo</h3>
+          
+          <div class="book-meta"><span class="b-author">Giovannino Guareschi</span> &bull; <span class="b-pub">Rizzoli</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="l'educazione cristiana  alain delagneau edizioni piane 9791280131522">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">L'educazione cristiana</span>
+              <span class="book-cover-author">Alain Delagneau</span>
+              <span class="book-cover-pub">Edizioni Piane</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">L'educazione cristiana</h3>
+          
+          <div class="book-meta"><span class="b-author">Alain Delagneau</span> &bull; <span class="b-pub">Edizioni Piane</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="il medioevo delle libertà  guglielmo piombini leonardo facco - goware 9788833633893">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788833633893.jpg" alt="Il Medioevo delle Libertà" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il Medioevo delle Libertà</h3>
+          
+          <div class="book-meta"><span class="b-author">Guglielmo Piombini</span> &bull; <span class="b-pub">Leonardo Facco - goWare</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="la divina provvidenza  giovanni (san) crisostomo monasterium 9791280938206">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">La divina provvidenza</span>
+              <span class="book-cover-author">Giovanni (san) Crisostomo</span>
+              <span class="book-cover-pub">Monasterium</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">La divina provvidenza</h3>
+          
+          <div class="book-meta"><span class="b-author">Giovanni (san) Crisostomo</span> &bull; <span class="b-pub">Monasterium</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="i vinti del risorgimento storia e storie di chi combatté per i borbone di napoli gigi di fiore utet 9788851125301">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788851125301.jpg" alt="I vinti del Risorgimento" loading="lazy" />
+          </div>
+          <h3 class="book-title">I vinti del Risorgimento</h3>
+          <div class="book-subtitle">Storia e storie di chi combatté per i Borbone di Napoli</div>
+          <div class="book-meta"><span class="b-author">Gigi Di Fiore</span> &bull; <span class="b-pub">UTET</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="racconti di un pellegrino russo   editrice shalom 9788884042996">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788884042996.jpg" alt="Racconti di un pellegrino russo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Racconti di un pellegrino russo</h3>
+          
+          <div class="book-meta"><span class="b-pub">Editrice Shalom</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="storia sacra  bosco giovanni (san) amicizia cristiana 9788889757338">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788889757338.jpg" alt="Storia sacra" loading="lazy" />
+          </div>
+          <h3 class="book-title">Storia sacra</h3>
+          
+          <div class="book-meta"><span class="b-author">Bosco Giovanni (san)</span> &bull; <span class="b-pub">Amicizia Cristiana</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="dio. la scienza, le prove. l'alba di una rivoluzione michel-yves bolloré, olivier bonnassies sonda 9788872242353">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788872242353.jpg" alt="Dio. La scienza, le prove." loading="lazy" />
+          </div>
+          <h3 class="book-title">Dio. La scienza, le prove.</h3>
+          <div class="book-subtitle">L'alba di una rivoluzione</div>
+          <div class="book-meta"><span class="b-author">Michel-Yves Bolloré, Olivier Bonnassies</span> &bull; <span class="b-pub">Sonda</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="rivoluzione e contro-rivoluzione  plinio corrêa de oliveira sugarco 9788871985855">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788871985855.jpg" alt="Rivoluzione e contro-rivoluzione" loading="lazy" />
+          </div>
+          <h3 class="book-title">Rivoluzione e contro-rivoluzione</h3>
+          
+          <div class="book-meta"><span class="b-author">Plinio Corrêa de Oliveira</span> &bull; <span class="b-pub">SugarCo</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="l'italia del seicento 1600-1700 indro montanelli, roberto gervaso rizzoli ">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">L'Italia del Seicento</span>
+              <span class="book-cover-author">Indro Montanelli, Roberto Gervaso</span>
+              <span class="book-cover-pub">Rizzoli</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">L'Italia del Seicento</h3>
+          <div class="book-subtitle">1600-1700</div>
+          <div class="book-meta"><span class="b-author">Indro Montanelli, Roberto Gervaso</span> &bull; <span class="b-pub">Rizzoli</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="un esorcista racconta  gabriele amorth edb 9788810521014">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788810521014.jpg" alt="Un esorcista racconta" loading="lazy" />
+          </div>
+          <h3 class="book-title">Un esorcista racconta</h3>
+          
+          <div class="book-meta"><span class="b-author">Gabriele Amorth</span> &bull; <span class="b-pub">EDB</span></div>
+          
+        </article>
+        
+        <article class="book-card in-progress" 
+                 data-status="in_corso" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="voci dall'altrove racconti dell'orrore e del soprannaturale roger pater gondolin 9788898647828">
+          <div class="book-card-top">
+            <span class="book-status-badge in-progress">&bull; IN LETTURA</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788898647828.jpg" alt="Voci dall'Altrove" loading="lazy" />
+          </div>
+          <h3 class="book-title">Voci dall'Altrove</h3>
+          <div class="book-subtitle">Racconti dell'orrore e del soprannaturale</div>
+          <div class="book-meta"><span class="b-author">Roger Pater</span> &bull; <span class="b-pub">Gondolin</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="il rabbino che si arrese a cristo  judith cabaud san paolo edizioni 9788821546297">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★★ 5.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788821546297.jpg" alt="Il rabbino che si arrese a Cristo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il rabbino che si arrese a Cristo</h3>
+          
+          <div class="book-meta"><span class="b-author">Judith Cabaud</span> &bull; <span class="b-pub">San Paolo Edizioni</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">""Il rabbino che si arrese a Cristo" di Judith Cabaud è un libro che colpisce profondamente, sia per la potenza della sua narrazione sia per le riflessioni ..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">"Il rabbino che si arrese a Cristo" di Judith Cabaud è un libro che colpisce profondamente, sia per la potenza della sua narrazione sia per le riflessioni che suscita nel lettore. Il testo racconta la straordinaria vicenda di Eugenio Zolli, ex rabbino capo di Roma, la cui conversione al cattolicesimo rappresenta un percorso umano e spirituale di rara intensità.
+
+Ciò che rende il libro particolarmente commovente è il modo in cui l'autrice riesce a tratteggiare la figura di Zolli, mostrandolo non come un uomo che tradisce le proprie radici, ma come qualcuno che, nel pieno della sua fedeltà alla ricerca della verità, giunge a riconoscere Cristo come il compimento della storia ebraica. Il lettore segue il suo cammino interiore, dalle sofferenze della Seconda Guerra Mondiale all'incontro con il messaggio evangelico, attraversando momenti di dubbio, persecuzione e rivelazione.
+
+Il libro è denso di riflessioni sulla fede, sulla continuità tra Antico e Nuovo Testamento e sul significato della conversione come risposta a una chiamata interiore più forte di qualsiasi condizionamento esterno. La scrittura di Judith Cabaud è al tempo stesso rigorosa e appassionata, capace di rendere accessibili temi profondi senza mai banalizzarli.
+
+"Il rabbino che si arrese a Cristo" non è solo una biografia, ma una testimonianza che invita a interrogarsi sul senso della propria fede e sulla sete di verità che abita ogni cuore. È un libro che emoziona e che lascia nel lettore un eco duratura, come le grandi storie di conversione che hanno segnato la storia del cristianesimo.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="lo stato falsario ecco cosa i governi hanno fatto ai nostri soldi murray n. rothbard leonardo facco editore ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★★ 5.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="https://covers.openlibrary.org/b/isbn/9788849845013-M.jpg" alt="Lo Stato Falsario" loading="lazy" />
+          </div>
+          <h3 class="book-title">Lo Stato Falsario</h3>
+          <div class="book-subtitle">Ecco cosa i governi hanno fatto ai nostri soldi</div>
+          <div class="book-meta"><span class="b-author">Murray N. Rothbard</span> &bull; <span class="b-pub">Leonardo Facco Editore</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Assolutamente da leggere: Perché occorre abolire le banche centrali"</p>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="la mappa che cambiò il mondo  simon winchester guanda 9788882463946">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★★ 5.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788882463946.jpg" alt="La mappa che cambiò il mondo" loading="lazy" />
+          </div>
+          <h3 class="book-title">La mappa che cambiò il mondo</h3>
+          
+          <div class="book-meta"><span class="b-author">Simon Winchester</span> &bull; <span class="b-pub">Guanda</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Il libro narra la storia della creazione della mappa geologica dell'Inghilterra di William Smith, considerato il padre della geologia moderna. Winchester e..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Il libro narra la storia della creazione della mappa geologica dell'Inghilterra di William Smith, considerato il padre della geologia moderna. Winchester esplora non solo l'importanza scientifica della mappa, ma anche il contesto storico e le sfide che Smith affrontò per realizzarla.E'&nbsp;scritto in uno stile accessibile e coinvolgente, che combina narrazione storica, biografia e spiegazioni scientifiche, alternando storie personali e aneddoti sulla vita di William Smith con dettagli sulla geologia e la storia della cartografia. La prosa è ricca di descrizioni vivide e una narrazione fluida, che rende la lettura scorrevole e interessante. Winchester utilizza anche un approccio narrativo che tiene il lettore coinvolto, rendendo la storia di Smith e della sua mappa non solo informativa ma anche emozionante.In sintesi, il libro è scritto in modo chiaro e avvincente, rendendolo una lettura piacevole per chiunque sia interessato alla storia ed alla geologia ma anche in generale alla scienza o alla geografia.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="la libertà e la legge  bruno leoni liberilibri 9788885140196">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★★ 5.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788885140196.jpg" alt="La libertà e la legge" loading="lazy" />
+          </div>
+          <h3 class="book-title">La libertà e la legge</h3>
+          
+          <div class="book-meta"><span class="b-author">Bruno Leoni</span> &bull; <span class="b-pub">Liberilibri</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"La Libertà e la legge è un'opera fondamentale nella riflessione filosofica e giuridica del XX secolo. Bruno Leoni, filosofo e giurista italiano, offre un'a..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">La Libertà e la legge è un'opera fondamentale nella riflessione filosofica e giuridica del XX secolo. Bruno Leoni, filosofo e giurista italiano, offre un'analisi profonda e lucida dei rapporti tra libertà individuale e struttura legislativa, proponendo un approccio innovativo che mette in discussione il ruolo preponderante dello Stato nella creazione del diritto.Leoni parte da una critica alle concezioni moderne del diritto, spesso legate a legislazioni centralizzate e a interventi statali sempre più estesi. Egli contrappone a questo modello un'idea di legge che si sviluppa spontaneamente attraverso la consuetudine e le interazioni individuali, in linea con il pensiero della Scuola Austriaca di economia, a cui si avvicina. L'autore attinge molto dalla tradizione giuridica romana e anglosassone, in particolare il "Common Law", per argomentare che le leggi migliori sono quelle che emergono da processi evolutivi e non da imposizioni legislative dall'alto.Un punto centrale del libro è la distinzione tra "legge" e "legislazione". Secondo Leoni, la vera legge non è il risultato di decreti autoritativi, ma piuttosto un insieme di norme che si formano nel tempo attraverso pratiche condivise, permettendo così una maggiore adattabilità e rispetto delle libertà individuali. L'intervento massiccio dello Stato nella creazione di leggi, a suo avviso, rischia di comprimere la libertà, poiché porta a una standardizzazione eccessiva che non tiene conto delle diverse circostanze individuali e locali.Uno degli aspetti più affascinanti di "La Libertà e la legge" è la capacità di Leoni di collegare concetti economici e filosofici. L'autore si sofferma, infatti, sull'importanza delle scelte individuali in un contesto libero, affermando che l'evoluzione del diritto attraverso la "domanda e offerta" di giustizia è un processo analogo a quello che avviene in un libero mercato. Così, come in economia, la legge dovrebbe adattarsi dinamicamente alle necessità della società piuttosto che essere imposta da un'autorità centrale.Il libro è scritto in maniera chiara e concisa, ma richiede comunque una certa familiarità con la filosofia politica e giuridica per essere pienamente apprezzato. Le argomentazioni di Leoni sono solide e ben articolate, e il suo approccio interdisciplinare tra diritto, economia e filosofia rende l'opera stimolante per una vasta gamma di lettori.In conclusione, "La Libertà e la legge" è un testo fondamentale per chiunque sia interessato a comprendere i limiti del potere statale e le implicazioni di un approccio più libero e spontaneo alla creazione del diritto. Leoni offre una visione radicale e provocatoria, che stimola la riflessione critica su come le leggi influenzano la libertà individuale e collettiva, e su quali basi esse dovrebbero essere fondate per garantire una società più equa e libera.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="paradiso perduto  john milton mondadori 9788804630883">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★★ 5.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804630883.jpg" alt="Paradiso perduto" loading="lazy" />
+          </div>
+          <h3 class="book-title">Paradiso perduto</h3>
+          
+          <div class="book-meta"><span class="b-author">John Milton</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Potente e soave, triste e fidente, assolutamente da leggere in questa magnifica traduzione."</p>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="ultime conversazioni  benedetto xvi (joseph ratzinger) garzanti 9788811688242">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★½ 4.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788811688242.jpg" alt="Ultime conversazioni" loading="lazy" />
+          </div>
+          <h3 class="book-title">Ultime conversazioni</h3>
+          
+          <div class="book-meta"><span class="b-author">Benedetto XVI (Joseph Ratzinger)</span> &bull; <span class="b-pub">Garzanti</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"un libro che dovrebbe essere letto più dai suoi detrattori che dai suoi ammiratori"</p>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="tomismo per tutti breve e semplice corso sulla filosofia di san tommaso roberto marchesini sugarco 9788871988474">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788871988474.jpg" alt="Tomismo per tutti" loading="lazy" />
+          </div>
+          <h3 class="book-title">Tomismo per tutti</h3>
+          <div class="book-subtitle">Breve e semplice corso sulla filosofia di san Tommaso</div>
+          <div class="book-meta"><span class="b-author">Roberto Marchesini</span> &bull; <span class="b-pub">SugarCo</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Breve libro per essere introdotti nella filosofia di Tommaso, una finestra su un mondo tutto da riscoprire, un mondo dove si respira aria buona. In fondo a..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Breve libro per essere introdotti nella filosofia di Tommaso, una finestra su un mondo tutto da riscoprire, un mondo dove si respira aria buona. In fondo anche consigli per cominciare l'approfondimento.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="in solitaria. le mie salite  krzysztof wielicki corbaccio 9791259920843">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">In solitaria. Le mie salite</span>
+              <span class="book-cover-author">Krzysztof Wielicki</span>
+              <span class="book-cover-pub">Corbaccio</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">In solitaria. Le mie salite</h3>
+          
+          <div class="book-meta"><span class="b-author">Krzysztof Wielicki</span> &bull; <span class="b-pub">Corbaccio</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"I racconti sono senza dubbio affascinanti e spesso riescono a farti essere lì spettatore sospeso nel vuoto di gelide pareti verticali, ma forse sarebbe sta..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">I racconti sono senza dubbio affascinanti e spesso riescono a farti essere lì spettatore sospeso nel vuoto di gelide pareti verticali, ma forse sarebbe stato meglio per l'autore farsi aiutare da uno dei mestiere perché a volte la scrittura è frettolosa o confusionaria</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="il pilota  frederick forsyth mondadori ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/Il_pilota.jpg" alt="Il pilota" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il pilota</h3>
+          
+          <div class="book-meta"><span class="b-author">Frederick Forsyth</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"se hai bisogno di un'ora di svago, questo è il libro giusto, Forsyth sa come portarti nella storia e questa è proprio bella e lieve come deve essere una st..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">se hai bisogno di un'ora di svago, questo è il libro giusto, Forsyth sa come portarti nella storia e questa è proprio bella e lieve come deve essere una storia di Natale 
+valutate anche il cortometraggio, forse è addirittura meglio del racconto</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="la prova matematica dell'esistenza di dio  kurt gödel bollati boringhieri 9788833916798">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788833916798.jpg" alt="La prova matematica dell'esistenza di Dio" loading="lazy" />
+          </div>
+          <h3 class="book-title">La prova matematica dell'esistenza di Dio</h3>
+          
+          <div class="book-meta"><span class="b-author">Kurt Gödel</span> &bull; <span class="b-pub">Bollati Boringhieri</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"La prova è una rielaborazione moderna dell'argomento ontologico di Anselmo d'Aosta, con cui si cerca di dimostrare l'esistenza di Dio attraverso la logica ..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">La prova è una rielaborazione moderna dell'argomento ontologico di Anselmo d'Aosta, con cui si cerca di dimostrare l'esistenza di Dio attraverso la logica formale. Gödel, noto per il suo lavoro nel campo della logica matematica, non pubblicò questa prova durante la sua vita; fu scoperta solo dopo la sua morte e ha suscitato molto interesse tra filosofi e matematici.L'argomento ontologico di Gödel è una dimostrazione logica a priori basata su una serie di assiomi, definizioni e teoremi che intendono portare alla conclusione che un essere perfettissimo esiste necessariamente. Gödel definisce Dio come "un essere che possiede tutte le proprietà positive". e dimostra che, se l'esistenza di Dio è possibile, allora Dio esiste necessariamente, poiché la non esistenza sarebbe una contraddizione con il concetto di perfezione.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="magellano  gianluca barbera castelvecchi 9788832826241">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788832826241.jpg" alt="Magellano" loading="lazy" />
+          </div>
+          <h3 class="book-title">Magellano</h3>
+          
+          <div class="book-meta"><span class="b-author">Gianluca Barbera</span> &bull; <span class="b-pub">Castelvecchi</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Magellano è un avvincente racconto storico che ripercorre la straordinaria impresa del navigatore portoghese Ferdinando Magellano, il primo a compiere la c..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Magellano è un avvincente racconto storico che ripercorre la straordinaria impresa del navigatore portoghese Ferdinando Magellano, il primo a compiere la circumnavigazione del globo scoprendo il passaggio a Sud dell'Argentina che ora porta il suo nome. L autore riesce a trasportare il lettore in un avventura epica, fatta di pericoli, scoperte e coraggio, mantenendo un buon equilibrio tra narrazione storica e romanzo d'avventura.Uno degli aspetti migliori del libro è la sua capacità di restituire la grandezza e la complessità del personaggio di Magellano. Barbera ne mette in luce la determinazione, la visione e l audacia, ma anche il lato oscuro e ostinato, che lo rende una figura sfaccettata e intrigante. La descrizione del viaggio è ben curata, ricca di dettagli su luoghi esotici e situazioni difficili, che immergono il lettore nell atmosfera di un impresa eroica e pericolosa.Il ritmo della narrazione a volte rallenta, ci sono momenti in cui il racconto si perde in lunghe descrizioni ma a me non dispiace poter respirare ed ammirare il paesaggio ogni tanto, ma immagino a molti, abituati ai film d'azione americani, questo possa dar fastidio... a me no ma ve lo segnalo.Un altro punto di forza è la capacità di Barbera di rendere accessibili i fatti storici senza sacrificare il piacere della lettura. La storia di Magellano, seppur nota, viene presentata in una luce nuova, con enfasi non solo sulle difficoltà logistiche e politiche della sua impresa, ma anche sui conflitti interiori che accompagnano il protagonista.In conclusione, "Magellano" è un libro coinvolgente e ben scritto, perfetto per chi ama i racconti storici con un tocco di avventura, anche se con qualche rallentamento nel ritmo. Una lettura piacevole, che offre uno sguardo affascinante su una delle più grandi imprese dell esplorazione umana.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="il novizio del diavolo le indagini di fratello cadfael ellis peters cde ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Il novizio del diavolo</span>
+              <span class="book-cover-author">Ellis Peters</span>
+              <span class="book-cover-pub">CDE</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Il novizio del diavolo</h3>
+          <div class="book-subtitle">Le indagini di fratello Cadfael</div>
+          <div class="book-meta"><span class="b-author">Ellis Peters</span> &bull; <span class="b-pub">CDE</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Ambientato nell'Inghilterra del XII secolo, la trama ruota attorno un novizio nell'abbazia di Shrewsbury, che entra portando con sé un oscuro segreto che l..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Ambientato nell'Inghilterra del XII secolo, la trama ruota attorno un novizio nell'abbazia di Shrewsbury, che entra portando con sé un oscuro segreto che lo tormenta. Ben presto, il suo comportamento irregolare e i suoi incubi attirano l'attenzione di Fratello Cadfael. Quando viene trovato morto un altro personaggio, l'astuto monaco si troverà ad affrontare non solo un mistero di omicidio, ma anche i demoni personali del giovane novizio. L'indagine lo porta a scoprire un intreccio di segreti familiari, vendette e tensioni religiose.Uno degli aspetti più affascinanti del romanzo è la profonda caratterizzazione dei personaggi. Peters dipinge Meriet (il novizio) come un giovane fragile, intrappolato tra le aspettative del padre e il desiderio di redenzione, mentre Fratello Cadfael emerge come la figura paterna e investigatore empatico, con la sua saggezza e capacità di comprendere la natura umana. La sua abilità nel risolvere i crimini non si basa solo su deduzioni logiche, ma anche sulla sua esperienza di vita e sulla comprensione dei conflitti interiori delle persone.L'autrice riesce a fondere il mistero con il contesto storico in modo naturale e avvincente. L'ambientazione medievale, con le sue tensioni politiche e religiose, non è mai solo uno sfondo, ma parte integrante della narrazione. Le descrizioni della vita monastica e delle dinamiche all'interno dell'abbazia offrono un'immersione autentica nell'epoca, e la cura per i dettagli storici è un segno distintivo della scrittura di Peters.In conclusione, "Il novizio del diavolo" è un giallo storico avvincente, che mescola abilmente intrighi e riflessioni sulla colpa, il perdono e la redenzione. Ellis Peters regala ai lettori un altra indagine intrigante e profondamente umana, dove storia e mistero si fondono in modo magistrale. Un libro consigliato sia agli amanti del genere che a chi cerca una lettura ricca di atmosfera e introspezione.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="gli adelphi della dissoluzione  maurizio blondet ares 9788881550067">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Gli adelphi della dissoluzione</span>
+              <span class="book-cover-author">Maurizio Blondet</span>
+              <span class="book-cover-pub">Ares</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Gli adelphi della dissoluzione</h3>
+          
+          <div class="book-meta"><span class="b-author">Maurizio Blondet</span> &bull; <span class="b-pub">Ares</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Questo saggio di Maurizio Blondet, pubblicato per la prima volta nel 1994, analizza la casa editrice Adelphi, e in particolare il suo catalogo e le figure ..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Questo saggio di Maurizio Blondet, pubblicato per la prima volta nel 1994, analizza la casa editrice Adelphi, e in particolare il suo catalogo e le figure chiave ad essa legate, come Roberto Calasso e Massimo Cacciari, individuandovi una cospirazione iniziatica volta alla diffusione di una visione del mondo nichilista e anti-cristiana. L'autore ripercorre la storia dell'Adelphi e dei suoi autori di punta, evidenziando come le loro opere siano intrise di temi gnostici, dionisiaci e batailliani, con una fascinazione per l'oscuro, l'erotico e il violento.Blondet individua nel concetto di katechon, così come analizzato da Cacciari, la chiave di lettura per comprendere il presunto progetto dell'Adelphi. Il katechon, secondo la teologia cristiana, è ciò che "trattiene" l'avvento dell'Anticristo, ma è pur sempre una forza mondana, ambigua e destinata a fallire. L'autore suggerisce che l'Adelphi, con la sua proposta culturale, anziché arginare l'avvento dell'Anticristo, ne anticipi l'arrivo, promuovendo una "dissoluzione" dell'ordine costituito e dei valori cristiani.Il libro si caratterizza per uno stile polemico e provocatorio, ricco di citazioni erudite e riferimenti a personaggi e correnti di pensiero spesso sconosciuti al grande pubblico. Blondet non esita ad attaccare frontalmente intellettuali di spicco, accusandoli di promuovere, consapevolmente o meno, una visione del mondo pericolosa e distruttiva.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="il concilio vaticano ii una storia mai scritta roberto de mattei lindau 9788871808949">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788871808949.jpg" alt="Il Concilio Vaticano II" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il Concilio Vaticano II</h3>
+          <div class="book-subtitle">Una storia mai scritta</div>
+          <div class="book-meta"><span class="b-author">Roberto De Mattei</span> &bull; <span class="b-pub">Lindau</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Assolutamente da leggere per capire la Chiesa di oggi: Il Concilio Vaticano II: Una storia mai scritta di Roberto De Mattei è un opera fondamentale per ch..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Assolutamente da leggere per capire la Chiesa di oggi: Il Concilio Vaticano II: Una storia mai scritta di Roberto De Mattei è un opera fondamentale per chiunque voglia comprendere a fondo uno dei momenti più significativi e complessi della Chiesa cattolica nel XX secolo. De Mattei ci offre una prospettiva unica e coraggiosa, svelando le dinamiche interne al Concilio che non sono sempre evidenti nei resoconti ufficiali. Attraverso un'analisi meticolosa e documentata, l'autore esplora le questioni teologiche, politiche e sociali che hanno plasmato il Concilio, fornendo al lettore una comprensione chiara dei conflitti e delle tensioni che ne hanno determinato l'evoluzione e le conseguenze.La forza di questo libro risiede nell ampiezza della sua ricerca: De Mattei si basa su una vasta gamma di documenti, testimonianze e fonti d archivio, molti dei quali raramente esaminati in altre opere. L approccio è profondamente rispettoso, ma al tempo stesso critico, permettendo al lettore di percepire sia la grandezza che la complessità delle decisioni prese durante il Concilio. L autore non si limita a descrivere i fatti, ma li inserisce in un contesto più ampio, mostrando come abbiano influenzato non solo la teologia e la liturgia, ma anche la struttura stessa della Chiesa e il suo rapporto con il mondo moderno.L'aspetto che più colpisce di Una storia mai scritta è la capacità di De Mattei di guidare il lettore tra i molteplici e a volte oscuri dettagli storici senza mai perdere di vista il quadro generale. Questo rende l'opera accessibile anche ai lettori che non siano esperti di storia ecclesiastica, pur rimanendo una risorsa preziosa per studiosi e appassionati di teologia e storia religiosa.De Mattei non ha paura di sfidare le interpretazioni più diffuse e consolidate sul Concilio Vaticano II, e lo fa con rigore e competenza, offrendo un punto di vista che invita alla riflessione e alla discussione. Con questo libro, egli ci regala una prospettiva illuminante e arricchente su un periodo cruciale, aiutandoci a cogliere meglio le radici e le implicazioni delle trasformazioni che il Concilio ha portato nella Chiesa cattolica e nel mondo intero.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="padre mio, mi abbandono a te un commento alla preghiera di charles de foucauld carlo carretto città nuova 9788831143097">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788831143097.jpg" alt="Padre mio, mi abbandono a te" loading="lazy" />
+          </div>
+          <h3 class="book-title">Padre mio, mi abbandono a te</h3>
+          <div class="book-subtitle">Un commento alla preghiera di Charles de Foucauld</div>
+          <div class="book-meta"><span class="b-author">Carlo Carretto</span> &bull; <span class="b-pub">Città Nuova</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Padre, non abbandonarmi tra i collettivisti: È un libro che ho trovato profondamente toccante sul piano spirituale. Nei momenti in cui si concentra sulla p..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Padre, non abbandonarmi tra i collettivisti: È un libro che ho trovato profondamente toccante sul piano spirituale. Nei momenti in cui si concentra sulla preghiera e sull abbandono fiducioso a Dio, il testo fa volare l anima e guida il lettore verso un intimità con Dio rara e intensa. Poi però arrivano le digressioni politiche: un moralismo socialista che ti sbatte a terra senza alcun preavviso. Sei immerso nella contemplazione e all improvviso ti arriva in faccia il secchio gelato di ideali sociali e collettivisti, un orticaria che distoglie dall esperienza spirituale pura e lascia un retrogusto amaro. Non si tratta di marxismo, Carretto non diventa né un teorico né un ideologo, ma alcuni suoi ideali   l ossessione per i poveri, la convinzione che la vita cristiana debba tradursi in forme collettive di solidarietà   finiscono per entrare in conflitto con la libertà individuale, rischiando di schiacciare la dimensione personale e contemplativa della fede. Intendiamoci, la costruzione di comunità basata sulla condivisione volontaria e sull aiuto reciproco non è sbagliata, ma tutto dovrebbe fondarsi sulla scelta libera e sull abbandono alla guida divina, senza utopie socialiste imposte in terra.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="alma  federica manzon feltrinelli 9788807035784">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788807035784.jpg" alt="Alma" loading="lazy" />
+          </div>
+          <h3 class="book-title">Alma</h3>
+          
+          <div class="book-meta"><span class="b-author">Federica Manzon</span> &bull; <span class="b-pub">Feltrinelli</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"no, poi si, poi boh: All'inizio della lettura di Alma, ho faticato a entrare nella storia. Per buona parte del libro, il ritmo e i temi sembravano trascina..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">no, poi si, poi boh: All'inizio della lettura di Alma, ho faticato a entrare nella storia. Per buona parte del libro, il ritmo e i temi sembravano trascinarsi, portandomi a considerare di abbandonarlo. La narrazione si concentra sulla vita quotidiana della protagonista, le sue relazioni e le sue esperienze personali, ma mi sembrava che mancasse una direzione chiara. Tuttavia, quando la storia inizia a trattare il tema della guerra, ho notato un cambiamento significativo. La parte dedicata al conflitto, con la sua intensità e il suo dramma, è decisamente la migliore del libro. Manzon riesce a catturare la brutalità della guerra e le sue conseguenze devastanti, mostrando come questi eventi storici influenzino le vite dei personaggi.Le descrizioni dell'assedio di Vukovar e della sofferenza della popolazione colpita sono particolarmente toccanti, rendendo evidente il prezzo umano della guerra. La protagonista si confronta con le esperienze traumatiche che la circondano, e questo aspetto offre una riflessione profonda sulla memoria e sulla resilienza.Tuttavia, il finale del libro mi ha lasciato un po' insoddisfatto. Sebbene ci siano momenti di risoluzione, ho avuto l'impressione che la conclusione non fosse pienamente soddisfacente, come se non riuscisse a riunire tutte le tematiche esplorate nel corso della narrazione.In definitiva, sebbene il libro abbia avuto delle difficoltà iniziali e un finale che non mi ha completamente convinto, la parte centrale sulla guerra rende Alma un'opera interessante, seppur imperfetta. Non sono sicuro di consigliarlo a tutti, ma per chi è interessato a comprendere le conseguenze del conflitto nei Balcani e il modo in cui queste esperienze influenzano le vite personali, potrebbe valere la pena dargli una chance.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="le 10 mappe che spiegano il mondo  tim marshall garzanti 9788811673781">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788811673781.jpg" alt="Le 10 mappe che spiegano il mondo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Le 10 mappe che spiegano il mondo</h3>
+          
+          <div class="book-meta"><span class="b-author">Tim Marshall</span> &bull; <span class="b-pub">Garzanti</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Attraverso dieci mappe di regioni strategiche, Marshall spiega in modo chiaro e accessibile come fattori geografici determinino le scelte e i conflitti dei..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Attraverso dieci mappe di regioni strategiche, Marshall spiega in modo chiaro e accessibile come fattori geografici determinino le scelte e i conflitti dei principali attori internazionali. Pur semplificando alcune questioni geopolitiche complesse, il libro riesce a rendere comprensibili dinamiche globali spesso intricate, risultando un'introduzione interessante per chi vuole comprendere meglio le forze che plasmano il mondo di oggi.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="unità a mezzogiorno. come l'italia ha messo assieme i pezzi  paolo macry il mulino 9788815239907">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788815239907.jpg" alt="Unità a Mezzogiorno. Come l'Italia ha messo assieme i pezzi" loading="lazy" />
+          </div>
+          <h3 class="book-title">Unità a Mezzogiorno. Come l'Italia ha messo assieme i pezzi</h3>
+          
+          <div class="book-meta"><span class="b-author">Paolo Macry</span> &bull; <span class="b-pub">Il Mulino</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Unità a Mezzogiorno. Come l'Italia ha messo assieme i pezzi è un libro che esplora in maniera approfondita uno dei temi più complessi della storia italiana..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Unità a Mezzogiorno. Come l'Italia ha messo assieme i pezzi è un libro che esplora in maniera approfondita uno dei temi più complessi della storia italiana: l'unificazione del Sud Italia nel contesto del Risorgimento. Scritto con precisione storica e una narrazione avvincente, l'autore riesce a mettere in luce le sfide, i protagonisti e le dinamiche sociali che hanno caratterizzato la nascita dell'Italia unita, con particolare attenzione alla situazione del Mezzogiorno.Uno dei punti di forza del libro è la sua capacità di intrecciare eventi politici e militari con l'evoluzione culturale e sociale del Sud. Il testo non si limita a raccontare i fatti, ma li colloca all'interno di un contesto più ampio, in cui la questione meridionale emerge come un elemento chiave, non solo per comprendere il passato, ma anche per analizzare le sfide attuali del Paese.L'autore pone particolare enfasi sulla figura di Giuseppe Garibaldi e il suo ruolo nella spedizione dei Mille, descrivendo in dettaglio le battaglie, le alleanze e i tradimenti che hanno segnato questa fase cruciale della storia. Tuttavia, il libro non si ferma solo alla celebrazione degli eroi risorgimentali: offre anche una visione critica delle difficoltà politiche ed economiche che seguirono l'unificazione, evidenziando come il divario Nord-Sud, sebbene ridotto, rimase una questione irrisolta.Il linguaggio utilizzato è accessibile, nonostante la complessità dei temi trattati, il che rende il libro adatto sia agli appassionati di storia sia a chi si avvicina per la prima volta al tema del Risorgimento. Le fonti storiche sono ben documentate, e le analisi sono supportate da un solido impianto storiografico.In conclusione, "Unità a Mezzogiorno" rappresenta un contributo importante alla comprensione dell'unificazione italiana, offrendo una prospettiva fresca e approfondita su un periodo storico che ha plasmato l'identità del Paese. Un'opera consigliata a chiunque voglia approfondire la storia del Mezzogiorno e il complesso processo di formazione dell'Italia moderna.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="la mente olotropica le esperienze che conducono ai livelli più profondi della psiche stanislav grof red edizioni 9788874474943">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★ 3.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788874474943.jpg" alt="La mente olotropica" loading="lazy" />
+          </div>
+          <h3 class="book-title">La mente olotropica</h3>
+          <div class="book-subtitle">Le esperienze che conducono ai livelli più profondi della psiche</div>
+          <div class="book-meta"><span class="b-author">Stanislav Grof</span> &bull; <span class="b-pub">Red Edizioni</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Interessante lo è, un po' troppo prolisso anche, si poteva dire le stesse cose con la metà delle pagine, a volte bisogna tenere duro per andare avanti...
+P..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Interessante lo è, un po' troppo prolisso anche, si poteva dire le stesse cose con la metà delle pagine, a volte bisogna tenere duro per andare avanti...
+Però ti lascia sospeso, con la voglia di sapere di più e di provare in prima persona ma ancora non si può purtroppo</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="giallo umbro  pietro del re la lepre edizioni 9788896052624">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★ 3.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788896052624.jpg" alt="Giallo umbro" loading="lazy" />
+          </div>
+          <h3 class="book-title">Giallo umbro</h3>
+          
+          <div class="book-meta"><span class="b-author">Pietro Del Re</span> &bull; <span class="b-pub">La Lepre Edizioni</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"il libro non è un granché ma carino se conosci i luoghi in cui si svolge, ma penosi sono i 4 commenti qui su Anobii, dalla femminista al leccaculo, passand..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">il libro non è un granché ma carino se conosci i luoghi in cui si svolge, ma penosi sono i 4 commenti qui su Anobii, dalla femminista al leccaculo, passando per l'intellettualoide, fare parte di questa elite di lettori mi devasta</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="tribunali della coscienza inquisitori, confessori, missionari adriano prosperi einaudi 9788806200527">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★ 3.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788806200527.jpg" alt="Tribunali della coscienza" loading="lazy" />
+          </div>
+          <h3 class="book-title">Tribunali della coscienza</h3>
+          <div class="book-subtitle">Inquisitori, confessori, missionari</div>
+          <div class="book-meta"><span class="b-author">Adriano Prosperi</span> &bull; <span class="b-pub">Einaudi</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Non leggerissimo nella lettura, ma cmq ben scritto, il Prosperi esplora la confessione e l'Inquisizione nella Chiesa cattolica durante la Controriforma, ev..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Non leggerissimo nella lettura, ma cmq ben scritto, il Prosperi esplora la confessione e l'Inquisizione nella Chiesa cattolica durante la Controriforma, evidenziando un controllo spirituale e sociale esercitato dal clero. Nonostante la ricchezza di fonti, l opera risente di una chiara faziosità anticlericale, con Prosperi che accentua gli aspetti coercitivi della confessione, trascurandone il valore spirituale e pastorale.L'autore dipinge l'Inquisizione come uno strumento repressivo della Chiesa, ponendo l'accento sui fallimenti morali e lasciando poco spazio a una visione equilibrata. Anche la figura del confessore viene descritta in termini di controllo, ignorando i casi di riconciliazione sincera. Questa tendenza riduce la complessità del ruolo storico della Chiesa, presentandola principalmente come un'istituzione autoritaria.In sintesi, pur basato su un ampia ricerca, il libro manca di equilibrio, offrendo una visione prevalentemente negativa della Chiesa. Va letto con spirito critico, tenendo presente l evidente bias anticlericale.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="l'ombra su innsmouth  h.p. lovecraft feltrinelli (zoomflash) 9788858852545">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★ 3.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="https://covers.openlibrary.org/b/isbn/9788807900891-M.jpg" alt="L'ombra su Innsmouth" loading="lazy" />
+          </div>
+          <h3 class="book-title">L'ombra su Innsmouth</h3>
+          
+          <div class="book-meta"><span class="b-author">H.P. Lovecraft</span> &bull; <span class="b-pub">Feltrinelli (ZoomFlash)</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Un classico dell'orrore lovecraftiano che merita attenzione, pur con qualche riserva.: "Il mostro di Innsmouth" di H.P. Lovecraft è un racconto che incarna..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Un classico dell'orrore lovecraftiano che merita attenzione, pur con qualche riserva.: "Il mostro di Innsmouth" di H.P. Lovecraft è un racconto che incarna alla perfezione l atmosfera oscura e inquietante che è diventata la firma distintiva dell autore. Il racconto segue un narratore che si avventura nella cittadina costiera di Innsmouth, una comunità decadente e isolata, la cui popolazione sembra celare segreti indicibili e inquietanti.Uno degli aspetti più affascinanti di questo racconto è la maestria con cui Lovecraft costruisce l'atmosfera di orrore cosmico. La descrizione dei luoghi è molto vivida: dalle strade desolate di Innsmouth fino agli sguardi inquietanti degli abitanti, ogni dettaglio contribuisce a creare un senso di tensione e di mistero crescente. Lovecraft ci guida lentamente verso la rivelazione finale, mantenendo un ritmo deliberatamente lento e attento, che potrebbe risultare impegnativo per alcuni, ma che permette di assaporare pienamente l esperienza horror che offre.La storia affronta anche temi complessi come la degenerazione, la consanguineità e il terrore verso l ignoto, tipici del lavoro di Lovecraft. Pur essendo un racconto breve, riesce a trasmettere una potente sensazione di angoscia e straniamento. Alcuni lettori potrebbero trovare i personaggi poco sviluppati o persino stereotipati per i gusti di oggi, quasi come si guardasse un vecchio film con effetti speciali "d'epoca" soprattutto quando descrive gli ibridi, ma questo difetto non mina l impatto generale della storia, che rimane coinvolgente.In conclusione, "Il mostro di Innsmouth" è un racconto che merita attenzione per l abilità narrativa e la creazione dell atmosfera. Se amate l horror e le storie di mistero che esplorano i confini tra umanità e mostruosità, questo racconto vi lascerà con una profonda inquietudine, testimone del fascino immortale delle storie di Lovecraft.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="il lampionaio di edimburgo romanzo anthony o'neill tea 9788850210381">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★½ 2.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788850210381.jpg" alt="Il lampionaio di Edimburgo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il lampionaio di Edimburgo</h3>
+          <div class="book-subtitle">Romanzo</div>
+          <div class="book-meta"><span class="b-author">Anthony O'Neill</span> &bull; <span class="b-pub">TEA</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Se cercate una storia inquietante : ma davvero inquietante, non la solita hallowinata più o meno sanguinolenta, beh l'avete trovato..."</p>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="possessioni tre storie improbabili vernon lee sellerio editore palermo 9788838902062">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★½ 2.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Possessioni</span>
+              <span class="book-cover-author">Vernon Lee</span>
+              <span class="book-cover-pub">Sellerio Editore Palermo</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Possessioni</h3>
+          <div class="book-subtitle">Tre storie improbabili</div>
+          <div class="book-meta"><span class="b-author">Vernon Lee</span> &bull; <span class="b-pub">Sellerio Editore Palermo</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Poe +  Foligno = troppe aspettative : comprato perché Amour Dure è citato da Poe, e perché il terzo racconto è ambientato a Foligno
+Effettivamente altri mo..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Poe +  Foligno = troppe aspettative : comprato perché Amour Dure è citato da Poe, e perché il terzo racconto è ambientato a Foligno
+Effettivamente altri motivi per leggerlo non ce ne sono</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="presi per la gola perché quasi tutto quello che ci hanno detto sul cibo è sbagliato tim spector bollati boringhieri 9788833934297">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★½ 2.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788833934297.jpg" alt="Presi per la gola" loading="lazy" />
+          </div>
+          <h3 class="book-title">Presi per la gola</h3>
+          <div class="book-subtitle">Perché quasi tutto quello che ci hanno detto sul cibo è sbagliato</div>
+          <div class="book-meta"><span class="b-author">Tim Spector</span> &bull; <span class="b-pub">Bollati Boringhieri</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Anche meno andava meglio: Ci sono alcune cose interessanti, in mezzo ad un fuoco continuo ed incrociato verso le multinazionali del cibo, ed è scritto bene..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Anche meno andava meglio: Ci sono alcune cose interessanti, in mezzo ad un fuoco continuo ed incrociato verso le multinazionali del cibo, ed è scritto bene.Si può essere d'accordo o meno con le invettive contro l'industria alimentare, ma di sicuro se ce ne fossero meno e meglio argomentate, la lettura ne gioverebbe</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="il mito delle nazioni le origini medievali dell'europa patrick j. geary carocci 9788843083046">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★ 2.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788843083046.jpg" alt="Il mito delle nazioni" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il mito delle nazioni</h3>
+          <div class="book-subtitle">Le origini medievali dell'Europa</div>
+          <div class="book-meta"><span class="b-author">Patrick J. Geary</span> &bull; <span class="b-pub">Carocci</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"illeggibile : Patrick J. Geary parte da una tesi anche condivisibile   che le identità etniche dell alto medioevo non siano entità biologiche, ma costruz..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">illeggibile : Patrick J. Geary parte da una tesi anche condivisibile   che le identità etniche dell alto medioevo non siano entità biologiche, ma costruzioni politiche e culturali   e la trasforma in una crociata ideologica. Il risultato è un libro che più che spiegare la storia, si compiace di demolirla.
+
+Pagina dopo pagina, il tono diventa quello di un professore convinto che il lettore vada redento dalla  barbarie  della tradizione europea. Plinio è liquidato come  etnografo da salotto , Tacito come un credulone, le fonti come materiale da smontare con sarcasmo. Geary non dialoga con il passato: lo deride.
+
+Si legge con crescente fastidio, perché dietro l apparente rigore storiografico si intravede l intento pedagogico-politico: disinnescare ogni idea di radice, di continuità, di identità storica. Un libro scritto più per  correggere  l Europa che per capirla.
+
+Utile come documento del pensiero accademico post- 89, ma se cercate la storia vera, andate da Wickham o Gasparri: lì troverete rigore senza prediche.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="il cabalista di lisbona  richard zimler cde su licenza arnoldo mondadori editore ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★ 1.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Il cabalista di Lisbona</span>
+              <span class="book-cover-author">Richard Zimler</span>
+              <span class="book-cover-pub">CDE su licenza Arnoldo Mondadori Editore</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Il cabalista di Lisbona</h3>
+          
+          <div class="book-meta"><span class="b-author">Richard Zimler</span> &bull; <span class="b-pub">CDE su licenza Arnoldo Mondadori Editore</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"Lo faccio molto raramente ma non ho finito di leggerlo perchè per me è illeggibile... non solo soffre di una visione eccessivamente partigiana del rapporto..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">Lo faccio molto raramente ma non ho finito di leggerlo perchè per me è illeggibile... non solo soffre di una visione eccessivamente partigiana del rapporto tra ebrei e cristiani, ma risente anche dell approccio politico dell autore, che sembra influenzare pesantemente la narrazione. Zimler, con le sue posizioni progressiste e liberali, sembra utilizzare il romanzo come piattaforma per esprimere una visione manichea della storia, in cui ogni complessità viene sacrificata in favore di una denuncia unidirezionale.Questa tendenza emerge anche nel modo in cui l'autore tratta i temi di oppressione e intolleranza religiosa. La condanna dei cristiani è così netta e priva di sfumature che non lascia spazio a una riflessione più equilibrata o a una rappresentazione autentica delle dinamiche storiche. Inoltre, le sue critiche implicite alle istituzioni religiose e al potere sembrano riflettere le sue opinioni politiche moderne, risultando anacronistiche e scollegate dal contesto storico in cui si svolge la storia.L'influenza della sua agenda politica è evidente anche nella mancanza di equilibrio quando affronta temi come la persecuzione, riducendo una questione complessa a un semplice schema di oppressori e vittime. Anche la rappresentazione della cabala, che potrebbe offrire una riflessione più profonda su spiritualità e identità, è affossata da questa visione polarizzata e dalla spinta a trasformare il libro in una denuncia politica piuttosto che in un romanzo storico ricco di sfumature.In conclusione, il romanzo fallisce non solo per la sua partigianeria storica, ma anche per l impatto delle opinioni personali dell'autore, che rendono la narrazione sbilanciata e, a tratti, predicatoria. Questo approccio riduce l efficacia del romanzo, impedendo al lettore di immergersi in una rappresentazione davvero complessa del periodo storico e delle sue problematiche.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="1" 
+                 data-rating="1" 
+                 data-search="il potere che frena  massimo cacciari adelphi 9788845974465">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ½ 0.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788845974465.jpg" alt="Il potere che frena" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il potere che frena</h3>
+          
+          <div class="book-meta"><span class="b-author">Massimo Cacciari</span> &bull; <span class="b-pub">Adelphi</span></div>
+          
+                <div class="book-review-box">
+                  <p class="book-quote">"In questo saggio di teologia politica, Cacciari affronta il complesso concetto del katechon, termine greco che significa "colui che trattiene", e la sua re..."</p>
+                  <details class="book-review-details">
+                    <summary>Leggi nota completa</summary>
+                    <div class="book-full-review">In questo saggio di teologia politica, Cacciari affronta il complesso concetto del katechon, termine greco che significa "colui che trattiene", e la sua relazione con l'avvento dell'Anticristo e la fine dei tempi. Attingendo a fonti bibliche, patristiche e alla filosofia della storia, l'autore si interroga sulla natura del katechon, cercando di identificarne le diverse forme storiche e le sue implicazioni teologiche e politiche.L'analisi di Cacciari non si limita a una semplice esegesi del termine katechon, ma si apre a una riflessione più ampia sul ruolo del potere politico e dell'autorità spirituale nella storia, e sulla tensione escatologica che caratterizza l'agire cristiano nel mondo.L'ambiguità del katechon:Cacciari evidenzia come il katechon, pur essendo ciò che "trattiene" l'anomia e ritarda la venuta dell'Anticristo, non sia una figura univocamente positiva. La sua azione di contenimento, infatti, è temporanea e non può impedire la fine del mondo. Inoltre, il katechon rischia di confondersi con l'Anticristo stesso, finendo per anticipare e preparare l'avvento di ciò che dovrebbe combattere.Le diverse interpretazioni del katechon:L'autore analizza le diverse interpretazioni del katechon che si sono succedute nella storia del cristianesimo:L'Impero Romano: Per alcuni Padri della Chiesa, come Tertulliano, l'Impero Romano, con la sua forza ordinatrice, rappresentava un argine al caos e un katechon in attesa della seconda venuta di Cristo. Cacciari, tuttavia, critica questa visione, evidenziando come l'Impero Romano fosse esso stesso intriso di anomia, ossia di un ordine che si opponeva al Logos cristiano.La Chiesa: Altri, come Teodoreto di Ciro, hanno identificato il katechon con la Chiesa stessa, che con la sua predicazione e la sua testimonianza di fede terrebbe a freno l'avvento dell'Anticristo. Cacciari, pur riconoscendo l'importanza della missione evangelizzatrice della Chiesa, sottolinea come anche al suo interno siano presenti forze anticristiche, che potrebbero condurre all'apostasia.La preghiera: Una terza interpretazione, avanzata da alcuni apologisti cristiani, vede nella preghiera incessante dei fedeli la vera forza che trattiene il male e ritarda la fine del mondo.Il potere politico in generale: In generale, Cacciari sembra suggerire che qualsiasi forma di potere, sia essa politica o religiosa, possa assumere il ruolo di katechon, nella misura in cui cerca di mantenere un ordine e di arginare le forze del caos.La lezione del katechon:La figura del katechon, pur nella sua ambiguità, ci insegna a riflettere sulla natura del potere, sulla sua inevitabile caducità e sulla tensione escatologica che attraversa la storia. Il katechon ci ricorda che la fine del mondo non è un evento che possiamo controllare o anticipare, ma un mistero che ci interpella sulla nostra fede e sulla nostra speranza.</div>
+                  </details>
+                </div>
+                
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="posseduto. come mi sono liberato da 27 legioni di demoni  paolo rodari, francesco vaiasuso piemme 9788856627732">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★★ 5.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788856627732.jpg" alt="Posseduto. Come mi sono liberato da 27 legioni di demoni" loading="lazy" />
+          </div>
+          <h3 class="book-title">Posseduto. Come mi sono liberato da 27 legioni di demoni</h3>
+          
+          <div class="book-meta"><span class="b-author">Paolo Rodari, Francesco Vaiasuso</span> &bull; <span class="b-pub">Piemme</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il silmarillion  john r. r. tolkien bompiani 9788858702208">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★★ 5.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788858702208.jpg" alt="Il Silmarillion" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il Silmarillion</h3>
+          
+          <div class="book-meta"><span class="b-author">John R. R. Tolkien</span> &bull; <span class="b-pub">Bompiani</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il silmarillion  john r. r. tolkien bompiani 9788845256547">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★★ 5.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788845256547.jpg" alt="Il Silmarillion" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il Silmarillion</h3>
+          
+          <div class="book-meta"><span class="b-author">John R. R. Tolkien</span> &bull; <span class="b-pub">Bompiani</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="l'alienista  caleb carr newton compton editori 9788822728210">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★★ 5.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788822728210.jpg" alt="L'alienista" loading="lazy" />
+          </div>
+          <h3 class="book-title">L'alienista</h3>
+          
+          <div class="book-meta"><span class="b-author">Caleb Carr</span> &bull; <span class="b-pub">Newton Compton Editori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il nome della rosa  umberto eco bompiani 9788845210662">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★★ 5.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788845210662.jpg" alt="Il nome della rosa" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il nome della rosa</h3>
+          
+          <div class="book-meta"><span class="b-author">Umberto Eco</span> &bull; <span class="b-pub">Bompiani</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il problema dei tre corpi  liu cixin mondadori 9788804680604">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★½ 4.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804680604.jpg" alt="Il problema dei tre corpi" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il problema dei tre corpi</h3>
+          
+          <div class="book-meta"><span class="b-author">Liu Cixin</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="2001 odissea nello spazio  arthur c. clarke longanesi & c. (la ginestra, 103) ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★½ 4.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/2001_Odissea_nello_spazio.jpg" alt="2001 Odissea nello spazio" loading="lazy" />
+          </div>
+          <h3 class="book-title">2001 Odissea nello spazio</h3>
+          
+          <div class="book-meta"><span class="b-author">Arthur C. Clarke</span> &bull; <span class="b-pub">Longanesi & C. (La Ginestra, 103)</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="le notti bianche sogno d'amore fëdor dostoevskij demetra (acquarelli) 9788871229980">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★½ 4.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788871229980.jpg" alt="Le notti bianche" loading="lazy" />
+          </div>
+          <h3 class="book-title">Le notti bianche</h3>
+          <div class="book-subtitle">Sogno d'amore</div>
+          <div class="book-meta"><span class="b-author">Fëdor Dostoevskij</span> &bull; <span class="b-pub">Demetra (Acquarelli)</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="mono no aware e altre storie  ken liu future fiction - mincione editore 9788899423001">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★½ 4.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788899423001.jpg" alt="Mono No Aware e altre storie" loading="lazy" />
+          </div>
+          <h3 class="book-title">Mono No Aware e altre storie</h3>
+          
+          <div class="book-meta"><span class="b-author">Ken Liu</span> &bull; <span class="b-pub">Future Fiction - Mincione Editore</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="massoneria vaticana. logge, denaro e poteri occulti nell'inchiesta gagnon  charles theodore murr fede & cultura 9791254781043">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★½ 4.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Massoneria vaticana. Logge, denaro e poteri occulti nell'inchiesta Gagnon</span>
+              <span class="book-cover-author">Charles Theodore Murr</span>
+              <span class="book-cover-pub">Fede & Cultura</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Massoneria vaticana. Logge, denaro e poteri occulti nell'inchiesta Gagnon</h3>
+          
+          <div class="book-meta"><span class="b-author">Charles Theodore Murr</span> &bull; <span class="b-pub">Fede & Cultura</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="silicio dall'invenzione del microprocessore alla nuova scienza della consapevolezza federico faggin mondadori 9788804712589">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804712589.jpg" alt="Silicio" loading="lazy" />
+          </div>
+          <h3 class="book-title">Silicio</h3>
+          <div class="book-subtitle">Dall'invenzione del microprocessore alla nuova scienza della consapevolezza</div>
+          <div class="book-meta"><span class="b-author">Federico Faggin</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="un semplice esistere. la ricerca di dio e la poetica di un artista controcorrente  paolo trianni, juri camisasca queriniana 9788839932419">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788839932419.jpg" alt="Un semplice esistere. La ricerca di Dio e la poetica di un artista controcorrente" loading="lazy" />
+          </div>
+          <h3 class="book-title">Un semplice esistere. La ricerca di Dio e la poetica di un artista controcorrente</h3>
+          
+          <div class="book-meta"><span class="b-author">Paolo Trianni, Juri Camisasca</span> &bull; <span class="b-pub">Queriniana</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="1984  george orwell mondadori (oscar classici moderni; 19) 9788804325734">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804325734.jpg" alt="1984" loading="lazy" />
+          </div>
+          <h3 class="book-title">1984</h3>
+          
+          <div class="book-meta"><span class="b-author">George Orwell</span> &bull; <span class="b-pub">Mondadori (Oscar Classici Moderni; 19)</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="ucciderò dio venerdì  paolo musso dominus production edizioni 9788899835286">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788899835286.jpg" alt="Ucciderò dio venerdì" loading="lazy" />
+          </div>
+          <h3 class="book-title">Ucciderò dio venerdì</h3>
+          
+          <div class="book-meta"><span class="b-author">Paolo Musso</span> &bull; <span class="b-pub">Dominus Production Edizioni</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="ora pro nobis storia di ussari alati silvana de mari f. picchi 9788894678000">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788894678000.jpg" alt="Ora pro nobis" loading="lazy" />
+          </div>
+          <h3 class="book-title">Ora pro nobis</h3>
+          <div class="book-subtitle">Storia di ussari alati</div>
+          <div class="book-meta"><span class="b-author">Silvana De Mari</span> &bull; <span class="b-pub">F. Picchi</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il mugnaio urlante  arto paasilinna iperborea 9788870910667">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788870910667.jpg" alt="Il mugnaio urlante" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il mugnaio urlante</h3>
+          
+          <div class="book-meta"><span class="b-author">Arto Paasilinna</span> &bull; <span class="b-pub">Iperborea</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="2001: odissea nello spazio  arthur c. clarke tea 9788878196698">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788878196698.jpg" alt="2001: Odissea nello spazio" loading="lazy" />
+          </div>
+          <h3 class="book-title">2001: Odissea nello spazio</h3>
+          
+          <div class="book-meta"><span class="b-author">Arthur C. Clarke</span> &bull; <span class="b-pub">TEA</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="l algoritmo e l oracolo come la scienza predice il futuro e ci aiuta a cambiarlo alessandro vespignani, rosita rijtano il saggiatore 9788842825821">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788842825821.jpg" alt="L algoritmo e l oracolo" loading="lazy" />
+          </div>
+          <h3 class="book-title">L algoritmo e l oracolo</h3>
+          <div class="book-subtitle">Come la scienza predice il futuro e ci aiuta a cambiarlo</div>
+          <div class="book-meta"><span class="b-author">Alessandro Vespignani, Rosita Rijtano</span> &bull; <span class="b-pub">Il Saggiatore</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="fontamara  ignazio silone mondadori 9788804735007">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804735007.jpg" alt="Fontamara" loading="lazy" />
+          </div>
+          <h3 class="book-title">Fontamara</h3>
+          
+          <div class="book-meta"><span class="b-author">Ignazio Silone</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="una bellissima domanda scoprire il disegno profondo della natura frank wilczek le scienze (frontiere) ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Una bellissima domanda</span>
+              <span class="book-cover-author">Frank Wilczek</span>
+              <span class="book-cover-pub">Le Scienze (Frontiere)</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Una bellissima domanda</h3>
+          <div class="book-subtitle">Scoprire il disegno profondo della natura</div>
+          <div class="book-meta"><span class="b-author">Frank Wilczek</span> &bull; <span class="b-pub">Le Scienze (Frontiere)</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="passaggi curvi i misteri delle dimensioni nascoste dell'universo lisa randall mondolibri ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/Passaggi_curvi.jpg" alt="Passaggi curvi" loading="lazy" />
+          </div>
+          <h3 class="book-title">Passaggi curvi</h3>
+          <div class="book-subtitle">I misteri delle dimensioni nascoste dell'Universo</div>
+          <div class="book-meta"><span class="b-author">Lisa Randall</span> &bull; <span class="b-pub">Mondolibri</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il problema dei tre corpi urania - 70 anni di futuro 29 cixin liu rcs la gazzetta dello sport - corriere della sera ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/Il_problema_dei_tre_corpi.jpg" alt="Il problema dei tre corpi" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il problema dei tre corpi</h3>
+          <div class="book-subtitle">Urania - 70 anni di futuro 29</div>
+          <div class="book-meta"><span class="b-author">Cixin Liu</span> &bull; <span class="b-pub">RCS La Gazzetta dello Sport - Corriere della Sera</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="i longobardi dalle origini mitiche alla caduta del regno in italia nicola bergamo leg edizioni 9788861024724">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788861024724.jpg" alt="I Longobardi" loading="lazy" />
+          </div>
+          <h3 class="book-title">I Longobardi</h3>
+          <div class="book-subtitle">Dalle origini mitiche alla caduta del regno in Italia</div>
+          <div class="book-meta"><span class="b-author">Nicola Bergamo</span> &bull; <span class="b-pub">LEG Edizioni</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="exaptation il bricolage dell'evoluzione stephen jay gould, elisabeth s. vrba bollati boringhieri 9788833919461">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788833919461.jpg" alt="Exaptation" loading="lazy" />
+          </div>
+          <h3 class="book-title">Exaptation</h3>
+          <div class="book-subtitle">Il bricolage dell'evoluzione</div>
+          <div class="book-meta"><span class="b-author">Stephen Jay Gould, Elisabeth S. Vrba</span> &bull; <span class="b-pub">Bollati Boringhieri</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il mondo incantato uso, importanza e significati psicoanalitici delle fiabe bruno bettelheim feltrinelli 9788807223822">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Il mondo incantato</span>
+              <span class="book-cover-author">Bruno Bettelheim</span>
+              <span class="book-cover-pub">Feltrinelli</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Il mondo incantato</h3>
+          <div class="book-subtitle">Uso, importanza e significati psicoanalitici delle fiabe</div>
+          <div class="book-meta"><span class="b-author">Bruno Bettelheim</span> &bull; <span class="b-pub">Feltrinelli</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il direttore di notte  john le carré mondadori 9788804413301">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★★ 4.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804413301.jpg" alt="Il direttore di notte" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il direttore di notte</h3>
+          
+          <div class="book-meta"><span class="b-author">John le Carré</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="la legge che muove il mondo  gordon e. moore liberilibri 9791280447555">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">La legge che muove il mondo</span>
+              <span class="book-cover-author">Gordon E. Moore</span>
+              <span class="book-cover-pub">Liberilibri</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">La legge che muove il mondo</h3>
+          
+          <div class="book-meta"><span class="b-author">Gordon E. Moore</span> &bull; <span class="b-pub">Liberilibri</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="luce del mondo il papa, la chiesa e i segni dei tempi peter seewald, benedetto xvi (joseph ratzinger) libreria editrice vaticana 9788820984588">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788820984588.jpg" alt="Luce del mondo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Luce del mondo</h3>
+          <div class="book-subtitle">Il Papa, la Chiesa e i segni dei tempi</div>
+          <div class="book-meta"><span class="b-author">Peter Seewald, Benedetto XVI (Joseph Ratzinger)</span> &bull; <span class="b-pub">Libreria Editrice Vaticana</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="gravità trattazione leggera di un soggetto pesante a. zee bollati boringhieri 9788833930893">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788833930893.jpg" alt="Gravità" loading="lazy" />
+          </div>
+          <h3 class="book-title">Gravità</h3>
+          <div class="book-subtitle">Trattazione leggera di un soggetto pesante</div>
+          <div class="book-meta"><span class="b-author">A. Zee</span> &bull; <span class="b-pub">Bollati Boringhieri</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="ufo 78  wu ming einaudi (stile libero big) 9788806248918">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788806248918.jpg" alt="Ufo 78" loading="lazy" />
+          </div>
+          <h3 class="book-title">Ufo 78</h3>
+          
+          <div class="book-meta"><span class="b-author">Wu Ming</span> &bull; <span class="b-pub">Einaudi (Stile libero big)</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il mondo di sofia per le scuole jostein gaarder garzanti scuola 9788869630026">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788869630026.jpg" alt="Il mondo di Sofia" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il mondo di Sofia</h3>
+          <div class="book-subtitle">Per le Scuole</div>
+          <div class="book-meta"><span class="b-author">Jostein Gaarder</span> &bull; <span class="b-pub">Garzanti Scuola</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="san tommaso d'aquino  gilbert keith chesterton piemme 9788838429132">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">San Tommaso d'Aquino</span>
+              <span class="book-cover-author">Gilbert Keith Chesterton</span>
+              <span class="book-cover-pub">Piemme</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">San Tommaso d'Aquino</h3>
+          
+          <div class="book-meta"><span class="b-author">Gilbert Keith Chesterton</span> &bull; <span class="b-pub">Piemme</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="le parole sognate dai pesci  davide van de sfroos bompiani 9788845255236">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788845255236.jpg" alt="Le parole sognate dai pesci" loading="lazy" />
+          </div>
+          <h3 class="book-title">Le parole sognate dai pesci</h3>
+          
+          <div class="book-meta"><span class="b-author">Davide Van de Sfroos</span> &bull; <span class="b-pub">Bompiani</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="gli adelphi della dissoluzione  maurizio blondet ares 9788881551798">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Gli adelphi della dissoluzione</span>
+              <span class="book-cover-author">Maurizio Blondet</span>
+              <span class="book-cover-pub">Ares</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Gli adelphi della dissoluzione</h3>
+          
+          <div class="book-meta"><span class="b-author">Maurizio Blondet</span> &bull; <span class="b-pub">Ares</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il napoleone di notting hill  g. k. chesterton paoline (maestri ; 71) ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/Il_Napoleone_di_Notting_Hill.jpg" alt="Il Napoleone di Notting Hill" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il Napoleone di Notting Hill</h3>
+          
+          <div class="book-meta"><span class="b-author">G. K. Chesterton</span> &bull; <span class="b-pub">Paoline (Maestri ; 71)</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="l'inferno a rovescio galassia 61 philip jose farmer la tribuna ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/L_inferno_a_rovescio.jpg" alt="L'inferno a rovescio" loading="lazy" />
+          </div>
+          <h3 class="book-title">L'inferno a rovescio</h3>
+          <div class="book-subtitle">Galassia 61</div>
+          <div class="book-meta"><span class="b-author">Philip Jose Farmer</span> &bull; <span class="b-pub">La Tribuna</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="maometto e carlo magno  henri pirenne laterza 9788842002680">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Maometto e Carlo Magno</span>
+              <span class="book-cover-author">Henri Pirenne</span>
+              <span class="book-cover-pub">Laterza</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Maometto e Carlo Magno</h3>
+          
+          <div class="book-meta"><span class="b-author">Henri Pirenne</span> &bull; <span class="b-pub">Laterza</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="l'ultima avventura del pirata long john silver  björn larsson iperborea (iperborea, 221) 9788870915211">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788870915211.jpg" alt="L'ultima avventura del pirata Long John Silver" loading="lazy" />
+          </div>
+          <h3 class="book-title">L'ultima avventura del pirata Long John Silver</h3>
+          
+          <div class="book-meta"><span class="b-author">Björn Larsson</span> &bull; <span class="b-pub">Iperborea (Iperborea, 221)</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="san isidro futbol  pino cacucci metrolibri (parole e immagini, 5) 9788872080054">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788872080054.jpg" alt="San Isidro Futbol" loading="lazy" />
+          </div>
+          <h3 class="book-title">San Isidro Futbol</h3>
+          
+          <div class="book-meta"><span class="b-author">Pino Cacucci</span> &bull; <span class="b-pub">Metrolibri (Parole e immagini, 5)</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="la caduta di gondolin  john r. r. tolkien bompiani 9788845298974">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788845298974.jpg" alt="La caduta di Gondolin" loading="lazy" />
+          </div>
+          <h3 class="book-title">La caduta di Gondolin</h3>
+          
+          <div class="book-meta"><span class="b-author">John R. R. Tolkien</span> &bull; <span class="b-pub">Bompiani</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="le uova del drago  pietrangelo buttafuoco mondadori 9788804535362">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804535362.jpg" alt="Le uova del drago" loading="lazy" />
+          </div>
+          <h3 class="book-title">Le uova del drago</h3>
+          
+          <div class="book-meta"><span class="b-author">Pietrangelo Buttafuoco</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il morso del serpente  elizabeth george rl libri 9788846201706">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Il morso del serpente</span>
+              <span class="book-cover-author">Elizabeth George</span>
+              <span class="book-cover-pub">RL Libri</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Il morso del serpente</h3>
+          
+          <div class="book-meta"><span class="b-author">Elizabeth George</span> &bull; <span class="b-pub">RL Libri</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="tutto quello che dovresti sapere sul tuo bambino  maria montessori garzanti 9788811607557">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788811607557.jpg" alt="Tutto quello che dovresti sapere sul tuo bambino" loading="lazy" />
+          </div>
+          <h3 class="book-title">Tutto quello che dovresti sapere sul tuo bambino</h3>
+          
+          <div class="book-meta"><span class="b-author">Maria Montessori</span> &bull; <span class="b-pub">Garzanti</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="la vittoria della ragione come il cristianesimo ha prodotto libertà, progresso e ricchezza rodney stark lindau 9788871805993">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★½ 3.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788871805993.jpg" alt="La vittoria della ragione" loading="lazy" />
+          </div>
+          <h3 class="book-title">La vittoria della ragione</h3>
+          <div class="book-subtitle">Come il cristianesimo ha prodotto libertà, progresso e ricchezza</div>
+          <div class="book-meta"><span class="b-author">Rodney Stark</span> &bull; <span class="b-pub">Lindau</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il silenzio e l'ascolto conversazioni con panikkar, jodorowsky, mandel e rocchi franco battiato castelvecchi 9788868264123">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★ 3.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788868264123.jpg" alt="Il silenzio e l'ascolto" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il silenzio e l'ascolto</h3>
+          <div class="book-subtitle">Conversazioni con Panikkar, Jodorowsky, Mandel e Rocchi</div>
+          <div class="book-meta"><span class="b-author">Franco Battiato</span> &bull; <span class="b-pub">Castelvecchi</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="anelli nell'io che cosa c'è al cuore della coscienza? douglas r. hofstadter mondadori 9788804595724">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★ 3.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804595724.jpg" alt="Anelli nell'io" loading="lazy" />
+          </div>
+          <h3 class="book-title">Anelli nell'io</h3>
+          <div class="book-subtitle">Che cosa c'è al cuore della coscienza?</div>
+          <div class="book-meta"><span class="b-author">Douglas R. Hofstadter</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il giuoco delle perle di vetro saggio biografico sul magister ludi josef knecht pubblicato insieme con i suoi scritti postumi hermann hesse mondadori 9788804252924">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★ 3.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Il giuoco delle perle di vetro</span>
+              <span class="book-cover-author">Hermann Hesse</span>
+              <span class="book-cover-pub">Mondadori</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Il giuoco delle perle di vetro</h3>
+          <div class="book-subtitle">Saggio biografico sul Magister Ludi Josef Knecht pubblicato insieme con i suoi scritti postumi</div>
+          <div class="book-meta"><span class="b-author">Hermann Hesse</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="finché il caffè è caldo  toshikazu kawaguchi garzanti 9788811815297">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★ 3.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788811815297.jpg" alt="Finché il caffè è caldo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Finché il caffè è caldo</h3>
+          
+          <div class="book-meta"><span class="b-author">Toshikazu Kawaguchi</span> &bull; <span class="b-pub">Garzanti</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="il canto del germano  francesco brocchi bette 9788894493054">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★ 3.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788894493054.jpg" alt="Il canto del germano" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il canto del germano</h3>
+          
+          <div class="book-meta"><span class="b-author">Francesco Brocchi</span> &bull; <span class="b-pub">Bette</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="gli ammutinati del bounty  william bligh white star 9788854002937">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★★ 3.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788854002937.jpg" alt="Gli ammutinati del Bounty" loading="lazy" />
+          </div>
+          <h3 class="book-title">Gli ammutinati del Bounty</h3>
+          
+          <div class="book-meta"><span class="b-author">William Bligh</span> &bull; <span class="b-pub">White Star</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="lo straniero  albert camus bompiani (pegaso letterario, 5) ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★½ 2.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/Lo_straniero.jpg" alt="Lo straniero" loading="lazy" />
+          </div>
+          <h3 class="book-title">Lo straniero</h3>
+          
+          <div class="book-meta"><span class="b-author">Albert Camus</span> &bull; <span class="b-pub">Bompiani (Pegaso Letterario, 5)</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="la vera storia di carlo martello  paolo villaggio dalai editore 9788866200895">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★★ 2.0/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788866200895.jpg" alt="La vera storia di Carlo Martello" loading="lazy" />
+          </div>
+          <h3 class="book-title">La vera storia di Carlo Martello</h3>
+          
+          <div class="book-meta"><span class="b-author">Paolo Villaggio</span> &bull; <span class="b-pub">Dalai Editore</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="true halloween  aa.vv. nero press 9788898739554">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ★½ 1.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">True Halloween</span>
+              <span class="book-cover-author">AA.VV.</span>
+              <span class="book-cover-pub">Nero Press</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">True Halloween</h3>
+          
+          <div class="book-meta"><span class="b-author">AA.VV.</span> &bull; <span class="b-pub">Nero Press</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="1" 
+                 data-search="breve storia del mondo edizione illustrata ernst hans gombrich salani 9788831004664">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO &bull; ½ 0.5/5</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788831004664.jpg" alt="Breve storia del mondo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Breve storia del mondo</h3>
+          <div class="book-subtitle">Edizione illustrata</div>
+          <div class="book-meta"><span class="b-author">Ernst Hans Gombrich</span> &bull; <span class="b-pub">Salani</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="genitori in cammino. crescere un bambino è impresa prodigiosa  clara rech, lucilla brattoli ares 9788892986824">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788892986824.jpg" alt="Genitori in cammino. Crescere un bambino è impresa prodigiosa" loading="lazy" />
+          </div>
+          <h3 class="book-title">Genitori in cammino. Crescere un bambino è impresa prodigiosa</h3>
+          
+          <div class="book-meta"><span class="b-author">Clara Rech, Lucilla Brattoli</span> &bull; <span class="b-pub">Ares</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="etica, religione e stato liberale  jürgen habermas, benedetto xvi (joseph ratzinger) morcelliana 9788837220587">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788837220587.jpg" alt="Etica, religione e stato liberale" loading="lazy" />
+          </div>
+          <h3 class="book-title">Etica, religione e stato liberale</h3>
+          
+          <div class="book-meta"><span class="b-author">Jürgen Habermas, Benedetto XVI (Joseph Ratzinger)</span> &bull; <span class="b-pub">Morcelliana</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="la confusione morale  lodovico festa sellerio editore palermo 9788838938337">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788838938337.jpg" alt="La confusione morale" loading="lazy" />
+          </div>
+          <h3 class="book-title">La confusione morale</h3>
+          
+          <div class="book-meta"><span class="b-author">Lodovico Festa</span> &bull; <span class="b-pub">Sellerio Editore Palermo</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="la libertà e la legge  bruno leoni la biblioteca di libero (i classici del pensiero liberale, 7) ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/La_libert__e_la_legge.jpg" alt="La libertà e la legge" loading="lazy" />
+          </div>
+          <h3 class="book-title">La libertà e la legge</h3>
+          
+          <div class="book-meta"><span class="b-author">Bruno Leoni</span> &bull; <span class="b-pub">La Biblioteca di Libero (I Classici del Pensiero Liberale, 7)</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="q  luther blissett mondadori 9788804501220">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804501220.jpg" alt="Q" loading="lazy" />
+          </div>
+          <h3 class="book-title">Q</h3>
+          
+          <div class="book-meta"><span class="b-author">Luther Blissett</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="balzac e la piccola sarta cinese  sijie dai adelphi 9788845918995">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788845918995.jpg" alt="Balzac e la Piccola Sarta cinese" loading="lazy" />
+          </div>
+          <h3 class="book-title">Balzac e la Piccola Sarta cinese</h3>
+          
+          <div class="book-meta"><span class="b-author">Sijie Dai</span> &bull; <span class="b-pub">Adelphi</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="giorno di confessione  allan folsom rl libri 9788846202086">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Giorno di confessione</span>
+              <span class="book-cover-author">Allan Folsom</span>
+              <span class="book-cover-pub">RL Libri</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Giorno di confessione</h3>
+          
+          <div class="book-meta"><span class="b-author">Allan Folsom</span> &bull; <span class="b-pub">RL Libri</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="i ribelli  sándor márai adelphi 9788845916090">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788845916090.jpg" alt="I ribelli" loading="lazy" />
+          </div>
+          <h3 class="book-title">I ribelli</h3>
+          
+          <div class="book-meta"><span class="b-author">Sándor Márai</span> &bull; <span class="b-pub">Adelphi</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="esilio  enzo bettiza mondadori 9788804459439">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804459439.jpg" alt="Esilio" loading="lazy" />
+          </div>
+          <h3 class="book-title">Esilio</h3>
+          
+          <div class="book-meta"><span class="b-author">Enzo Bettiza</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="il viaggiatore notturno  maurizio maggiani feltrinelli 9788807819216">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788807819216.jpg" alt="Il viaggiatore notturno" loading="lazy" />
+          </div>
+          <h3 class="book-title">Il viaggiatore notturno</h3>
+          
+          <div class="book-meta"><span class="b-author">Maurizio Maggiani</span> &bull; <span class="b-pub">Feltrinelli</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="tommaso d'aquino maestro spirituale jean-pierre torrell città nuova 9788831133340">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Tommaso d'Aquino</span>
+              <span class="book-cover-author">Jean-Pierre Torrell</span>
+              <span class="book-cover-pub">Città Nuova</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Tommaso d'Aquino</h3>
+          <div class="book-subtitle">Maestro spirituale</div>
+          <div class="book-meta"><span class="b-author">Jean-Pierre Torrell</span> &bull; <span class="b-pub">Città Nuova</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="il grande default il grande default è la logica conclusione di quando l'economia mista collassa inevitabilmente nello spettro socialista francesco simoncelli francesco simoncelli 9798340647078">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Il grande default</span>
+              <span class="book-cover-author">Francesco Simoncelli</span>
+              <span class="book-cover-pub">Francesco Simoncelli</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Il grande default</h3>
+          <div class="book-subtitle">Il grande default è la logica conclusione di quando l'economia mista collassa inevitabilmente nello spettro socialista</div>
+          <div class="book-meta"><span class="b-author">Francesco Simoncelli</span> &bull; <span class="b-pub">Francesco Simoncelli</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="introduzione a san tommaso la metafisica tomista e il pensiero moderno cornelio fabro ares 9788881551422">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788881551422.jpg" alt="Introduzione a san Tommaso" loading="lazy" />
+          </div>
+          <h3 class="book-title">Introduzione a san Tommaso</h3>
+          <div class="book-subtitle">La metafisica tomista e il pensiero moderno</div>
+          <div class="book-meta"><span class="b-author">Cornelio Fabro</span> &bull; <span class="b-pub">Ares</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="prima dell'alba autobiografia autorizzata eugenio zolli san paolo edizioni 9788821550621">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788821550621.jpg" alt="Prima dell'alba" loading="lazy" />
+          </div>
+          <h3 class="book-title">Prima dell'alba</h3>
+          <div class="book-subtitle">Autobiografia autorizzata</div>
+          <div class="book-meta"><span class="b-author">Eugenio Zolli</span> &bull; <span class="b-pub">San Paolo Edizioni</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="asterix le storie più belle rené goscinny, albert uderzo mondadori 9788804459781">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804459781.jpg" alt="Asterix" loading="lazy" />
+          </div>
+          <h3 class="book-title">Asterix</h3>
+          <div class="book-subtitle">Le storie più belle</div>
+          <div class="book-meta"><span class="b-author">René Goscinny, Albert Uderzo</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="rerum novarum lettera enciclica sulla condizione degli operai leone xiii edb 9788810106709">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788810106709.jpg" alt="Rerum novarum" loading="lazy" />
+          </div>
+          <h3 class="book-title">Rerum novarum</h3>
+          <div class="book-subtitle">Lettera enciclica sulla condizione degli operai</div>
+          <div class="book-meta"><span class="b-author">Leone XIII</span> &bull; <span class="b-pub">EDB</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="la morte di ivan ilic­-la sonata a kreutzer  lev tolstoj vallardi a. 9788811910541">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">La morte di Ivan Ilic­-La sonata a Kreutzer</span>
+              <span class="book-cover-author">Lev Tolstoj</span>
+              <span class="book-cover-pub">Vallardi A.</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">La morte di Ivan Ilic­-La sonata a Kreutzer</h3>
+          
+          <div class="book-meta"><span class="b-author">Lev Tolstoj</span> &bull; <span class="b-pub">Vallardi A.</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="sull'amore wer lieben kann, ist glùcklich hermann hesse arnoldo mondadori ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">sull'amore</span>
+              <span class="book-cover-author">Hermann Hesse</span>
+              <span class="book-cover-pub">arnoldo mondadori</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">sull'amore</h3>
+          <div class="book-subtitle">wer lieben kann, ist glùcklich</div>
+          <div class="book-meta"><span class="b-author">Hermann Hesse</span> &bull; <span class="b-pub">arnoldo mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="il teorema di cambridge  tony cape rizzoli 9788817114158">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Il Teorema di Cambridge</span>
+              <span class="book-cover-author">Tony Cape</span>
+              <span class="book-cover-pub">Rizzoli</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Il Teorema di Cambridge</h3>
+          
+          <div class="book-meta"><span class="b-author">Tony Cape</span> &bull; <span class="b-pub">Rizzoli</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="sandman slim: la stanza delle tredici porte  richard kadrey fanucci 9788834717554">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788834717554.jpg" alt="Sandman Slim: La stanza delle tredici porte" loading="lazy" />
+          </div>
+          <h3 class="book-title">Sandman Slim: La stanza delle tredici porte</h3>
+          
+          <div class="book-meta"><span class="b-author">Richard Kadrey</span> &bull; <span class="b-pub">Fanucci</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="ritorno all'ordine  john horvat fede & cultura 9791254780985">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Ritorno all'ordine</span>
+              <span class="book-cover-author">John Horvat</span>
+              <span class="book-cover-pub">Fede & Cultura</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Ritorno all'ordine</h3>
+          
+          <div class="book-meta"><span class="b-author">John Horvat</span> &bull; <span class="b-pub">Fede & Cultura</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="la rinascita del tempo dalla crisi della fisica al futuro dell'universo lee smolin einaudi 9788806206970">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788806206970.jpg" alt="La rinascita del tempo" loading="lazy" />
+          </div>
+          <h3 class="book-title">La rinascita del tempo</h3>
+          <div class="book-subtitle">Dalla crisi della fisica al futuro dell'universo</div>
+          <div class="book-meta"><span class="b-author">Lee Smolin</span> &bull; <span class="b-pub">Einaudi</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="la rivoluzione incompiuta di einstein la ricerca di ciò che c'è al di là dei quanti lee smolin einaudi 9788806220341">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788806220341.jpg" alt="La rivoluzione incompiuta di Einstein" loading="lazy" />
+          </div>
+          <h3 class="book-title">La rivoluzione incompiuta di Einstein</h3>
+          <div class="book-subtitle">La ricerca di ciò che c'è al di là dei quanti</div>
+          <div class="book-meta"><span class="b-author">Lee Smolin</span> &bull; <span class="b-pub">Einaudi</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="la divina commedia inferno dante alighieri mondadori 9788804546542">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788804546542.jpg" alt="La Divina Commedia" loading="lazy" />
+          </div>
+          <h3 class="book-title">La Divina Commedia</h3>
+          <div class="book-subtitle">Inferno</div>
+          <div class="book-meta"><span class="b-author">Dante Alighieri</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="gli stregoni romanzo robert hugh benson lindau 9788871809991">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788871809991.jpg" alt="Gli stregoni" loading="lazy" />
+          </div>
+          <h3 class="book-title">Gli stregoni</h3>
+          <div class="book-subtitle">Romanzo</div>
+          <div class="book-meta"><span class="b-author">Robert Hugh Benson</span> &bull; <span class="b-pub">Lindau</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="confessioni di un cittadino depresso  haim burstin photocity.it 9788866823902">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788866823902.jpg" alt="Confessioni di un cittadino depresso" loading="lazy" />
+          </div>
+          <h3 class="book-title">Confessioni di un cittadino depresso</h3>
+          
+          <div class="book-meta"><span class="b-author">Haim Burstin</span> &bull; <span class="b-pub">Photocity.it</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="le porte della percezione paradiso e inferno aldous huxley, lidia sautto mondadori ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Le porte della percezione</span>
+              <span class="book-cover-author">Aldous Huxley, Lidia Sautto</span>
+              <span class="book-cover-pub">Mondadori</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Le porte della percezione</h3>
+          <div class="book-subtitle">Paradiso e inferno</div>
+          <div class="book-meta"><span class="b-author">Aldous Huxley, Lidia Sautto</span> &bull; <span class="b-pub">Mondadori</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="ciò che non va nel mondo  gilbert keith chesterton lindau 9788871809021">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788871809021.jpg" alt="Ciò che non va nel mondo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Ciò che non va nel mondo</h3>
+          
+          <div class="book-meta"><span class="b-author">Gilbert Keith Chesterton</span> &bull; <span class="b-pub">Lindau</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="il mondo nuovo - ritorno al mondo nuovo  aldous huxley mondadori (oscar narrativa, 319 ) ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Il mondo nuovo - Ritorno al mondo nuovo</span>
+              <span class="book-cover-author">Aldous Huxley</span>
+              <span class="book-cover-pub">Mondadori (Oscar Narrativa, 319 )</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Il mondo nuovo - Ritorno al mondo nuovo</h3>
+          
+          <div class="book-meta"><span class="b-author">Aldous Huxley</span> &bull; <span class="b-pub">Mondadori (Oscar Narrativa, 319 )</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="un genitore quasi perfetto  bruno bettelheim feltrinelli 9788807882562">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788807882562.jpg" alt="Un genitore quasi perfetto" loading="lazy" />
+          </div>
+          <h3 class="book-title">Un genitore quasi perfetto</h3>
+          
+          <div class="book-meta"><span class="b-author">Bruno Bettelheim</span> &bull; <span class="b-pub">Feltrinelli</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="qualcosa di nascosto a fondo i mondi quantistici e l'emergere dello spaziotempo sean carroll einaudi 9788806245771">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            <img src="assets/img/covers/9788806245771.jpg" alt="Qualcosa di nascosto a fondo" loading="lazy" />
+          </div>
+          <h3 class="book-title">Qualcosa di nascosto a fondo</h3>
+          <div class="book-subtitle">I mondi quantistici e l'emergere dello spaziotempo</div>
+          <div class="book-meta"><span class="b-author">Sean Carroll</span> &bull; <span class="b-pub">Einaudi</span></div>
+          
+        </article>
+        
+        <article class="book-card" 
+                 data-status="letto" 
+                 data-review="0" 
+                 data-rating="0" 
+                 data-search="contengo moltitudini i microbi dentro di noi e una visione più grande della vita ed yong le scienze (frontiere) ">
+          <div class="book-card-top">
+            <span class="book-status-badge finished">LETTO</span>
+          </div>
+          <div class="book-cover-wrap">
+            
+            <div class="book-cover-placeholder">
+              <span class="book-cover-title">Contengo moltitudini</span>
+              <span class="book-cover-author">Ed Yong</span>
+              <span class="book-cover-pub">Le Scienze (Frontiere)</span>
+            </div>
+            
+          </div>
+          <h3 class="book-title">Contengo moltitudini</h3>
+          <div class="book-subtitle">I microbi dentro di noi e una visione più grande della vita</div>
+          <div class="book-meta"><span class="b-author">Ed Yong</span> &bull; <span class="b-pub">Le Scienze (Frontiere)</span></div>
+          
+        </article>
+        
+        <div class="empty-state" id="empty-state">
+          <h3>Nessun libro trovato</h3>
+          <p style="margin-top: 8px;">Nessun volume corrisponde ai filtri o al termine di ricerca inserito.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="wrapper">
+      <div class="footer-inner">
+        <div>
+          &copy; 2026 Christian Bazzucchi &bull; <a href="/">geobasi.com</a>
+        </div>
+        <div>
+          Biblioteca sincronizzata da Anobii &bull; Ultima sincronizzazione: 2026-11-14 18:58 UTC
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Vanilla JS Filtering & Search -->
+  <script>
+    (function() {
+      const searchInput = document.getElementById('library-search');
+      const filterChips = document.querySelectorAll('.filter-chip');
+      const container = document.getElementById('books-container');
+      const cards = container.querySelectorAll('.book-card');
+      const visibleCountElem = document.getElementById('visible-count');
+      const emptyState = document.getElementById('empty-state');
+
+      let currentFilter = 'all';
+      let currentQuery = '';
+
+      function applyFilters() {
+        let visibleCount = 0;
+        const q = currentQuery.trim().toLowerCase();
+
+        cards.forEach(card => {
+          const cardStatus = card.dataset.status;
+          const cardHasReview = card.dataset.review === '1';
+          const cardHasRating = card.dataset.rating === '1';
+          const cardSearch = card.dataset.search || '';
+
+          // Filtro categoria
+          let matchCategory = true;
+          if (currentFilter === 'in_corso') {
+            matchCategory = (cardStatus === 'in_corso');
+          } else if (currentFilter === 'reviewed') {
+            matchCategory = cardHasReview;
+          } else if (currentFilter === 'rated') {
+            matchCategory = cardHasRating;
+          } else if (currentFilter === 'letto') {
+            matchCategory = (cardStatus === 'letto');
+          }
+
+          // Filtro ricerca testuale
+          let matchSearch = true;
+          if (q.length > 0) {
+            matchSearch = cardSearch.includes(q);
+          }
+
+          if (matchCategory && matchSearch) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        visibleCountElem.textContent = visibleCount;
+        if (visibleCount === 0) {
+          emptyState.style.display = 'block';
+        } else {
+          emptyState.style.display = 'none';
+        }
+      }
+
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          filterChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          currentFilter = chip.dataset.filter;
+          applyFilters();
+        });
+      });
+
+      searchInput.addEventListener('input', (e) => {
+        currentQuery = e.target.value;
+        applyFilters();
+      });
+    })();
+  </script>
 </body>
 </html>

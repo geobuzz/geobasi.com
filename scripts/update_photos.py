@@ -88,14 +88,29 @@ def scan_instagram_profile():
             first_line = clean_caption.split("\n")[0][:80] if clean_caption else "Post dal profilo Instagram"
             dt_str = post.date_utc.strftime("%d %b %Y")
             
+            # Estrazione del geotag autentico nativo dal nodo del post
+            node = getattr(post, "_node", {})
+            loc_dict = node.get("location") if isinstance(node, dict) else None
+            loc_name = loc_dict.get("name") if isinstance(loc_dict, dict) else None
+            
+            # Se manca il geotag nativo ma c'è una didascalia con toponimo
+            effective_loc = loc_name
+            if not effective_loc and clean_caption:
+                cand = clean_caption.split("\n")[0].strip()
+                if not cand.startswith("#") and len(cand) >= 3 and not any(tag in cand.lower() for tag in ["geobasi", "instagram"]):
+                    effective_loc = cand[:50]
+
             post_dict = {
                 "shortcode": post.shortcode,
                 "permalink": f"https://www.instagram.com/p/{post.shortcode}/",
                 "title": first_line,
                 "caption": clean_caption,
+                "location": effective_loc or loc_name or "Territorio & Paesaggio",
+                "raw_location": loc_name or "",
                 "date": dt_str,
                 "is_video": post.is_video,
-                "likes": post.likes
+                "likes": post.likes,
+                "image_url": post.url
             }
             
             is_valid, reason = validate_post_coherence(post_dict)
@@ -110,7 +125,7 @@ def scan_instagram_profile():
         if fresh_catalog:
             with open(CATALOG_FILE, "w", encoding="utf-8") as f:
                 json.dump(fresh_catalog, f, indent=2, ensure_ascii=False)
-            print(f"[INSTAGRAM] Scansione completata con successo: {len(fresh_catalog)} post autentici censiti.")
+            print(f"[INSTAGRAM] Scansione completata con successo: {len(fresh_catalog)} post autentici censiti con luoghi reali.")
             return True, fresh_catalog, f"Scansione completata con successo: {len(fresh_catalog)} post aggiornati"
         else:
             return False, existing_catalog, "Nessun post estratto dal profilo Instagram"
@@ -155,17 +170,23 @@ def download_photo_image(shortcode, image_url=None):
     return rel_path
 
 def determine_location(post_dict):
-    """Estrae il luogo dal geotag o dalla prima riga della didascalia."""
+    """Estrae il luogo autentico da raw_location, geotag o didascalia nativa di Instagram."""
+    raw_loc = post_dict.get("raw_location")
+    if raw_loc and raw_loc.strip() and raw_loc.strip() not in ("Profilo Instagram @christian.bazzucchi", "Toscana, Italia"):
+        return raw_loc.strip()
+        
     loc = post_dict.get("location")
-    if loc and loc != "Profilo Instagram @christian.bazzucchi":
-        return loc
+    if loc and loc.strip() and loc.strip() not in ("Profilo Instagram @christian.bazzucchi", "Toscana, Italia"):
+        return loc.strip()
+        
     caption = post_dict.get("caption", "").strip()
     if caption:
         first_line = caption.split("\n")[0].strip()
         clean = " ".join([w for w in first_line.split() if not w.startswith("#")]).strip()
-        if len(clean) >= 3:
+        if len(clean) >= 3 and not any(tag in clean.lower() for tag in ["geobasi", "instagram", "post dal profilo"]):
             return clean[:50]
-    return "Toscana, Italia"
+            
+    return "Territorio & Paesaggio"
 
 def pick_random_posts(sample_size=4, preserve_existing=False):
     catalog = load_catalog()

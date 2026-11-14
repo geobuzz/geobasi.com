@@ -43,10 +43,10 @@ jobs:
           git config --global user.email 'geobasi-sync-bot[bot]@users.noreply.github.com'
 
       # Se cambiano articoli, pagine generate, foto o log, commit diretto su main
-      - name: Commit aggiornamenti non critici (Substack, Instagram, Articoli, Log)
+      - name: Commit aggiornamenti non critici (Substack, Instagram, Articoli, Log, Biblioteca)
         run: |
-          git add data/articles.json data/photos.json data/instagram_catalog.json data/sync_log.json index.html articoli/*.html assets/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(sync): aggiornamento automatico articoli, Instagram e sync log [skip ci]" && git push origin main)
+          git add data/articles.json data/photos.json data/instagram_catalog.json data/books.json data/sync_log.json index.html biblioteca.html libri/index.html articoli/*.html assets/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(sync): aggiornamento automatico articoli, Instagram, biblioteca e sync log [skip ci]" && git push origin main)
 
       # Se cambiano i dati del CV da LinkedIn, apri una Pull Request se non già aperta
       - name: Gestione Pull Request per modifiche al CV

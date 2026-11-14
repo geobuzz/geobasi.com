@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2026-11-14T18:33:27.766043+00:00",
+    "source": "site_builder",
+    "status": "SUCCESS",
+    "records_processed": 1,
+    "message": "Homepage index.html, cv-it.html e cv-en.html compilati con successo"
+  },
+  {
+    "timestamp": "2026-11-14T18:33:27.762406+00:00",
+    "source": "instagram",
+    "status": "SUCCESS",
+    "records_processed": 4,
+    "message": "Selezionati casualmente 4 post autentici dal catalogo Instagram"
+  },
+  {
+    "timestamp": "2026-11-14T18:33:27.760733+00:00",
+    "source": "linkedin_api",
+    "status": "SKIPPED",
+    "records_processed": 0,
+    "message": "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py"
+  },
+  {
+    "timestamp": "2026-11-14T18:33:27.760370+00:00",
+    "source": "substack",
+    "status": "SUCCESS",
+    "records_processed": 12,
+    "message": "Estratti e compilati 12 articoli con pagine interne da geobuzz.substack.com"
+  },
+  {
     "timestamp": "2026-11-14T18:23:10.702304+00:00",
     "source": "site_builder",
     "status": "SUCCESS",

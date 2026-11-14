@@ -79,28 +79,17 @@ def run_sync_all():
     else:
         log_sync("linkedin_api", "SKIPPED", 0, "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py")
 
-    # 3. Instagram Graph API / Local Photos Check
-    meta_token = os.environ.get("INSTAGRAM_GRAPH_TOKEN")
-    if meta_token:
-        try:
-            from update_photos import sync_instagram_graph_api
-            ok = sync_instagram_graph_api()
-            if ok:
-                log_sync("instagram_api", "SUCCESS", 1, "Fotografie sincronizzate da Instagram Graph API")
-            else:
-                log_sync("instagram_api", "PARTIAL", 0, "Nessun nuovo media o account personale non abilitato alla Graph API")
-        except Exception as e:
-            log_sync("instagram_api", "ERROR", 0, f"Errore sincronizzazione Instagram: {e}")
-            has_critical_error = True
-    else:
-        photos_path = os.path.join(DATA_DIR, "photos.json")
-        count = 0
-        if os.path.exists(photos_path):
-            try:
-                count = len(json.load(open(photos_path)))
-            except Exception:
-                pass
-        log_sync("instagram_api", "SKIPPED", count, f"Token Instagram non presente. Galleria attiva con {count} fotografie autentiche locali")
+    # 3. Instagram Random Posts Selection dal catalogo autentico
+    try:
+        from update_photos import pick_random_posts
+        selected = pick_random_posts(4)
+        if selected:
+            log_sync("instagram", "SUCCESS", len(selected), f"Selezionati casualmente {len(selected)} post autentici dal catalogo Instagram")
+        else:
+            log_sync("instagram", "PARTIAL", 0, "Nessun post selezionato dal catalogo")
+    except Exception as e:
+        log_sync("instagram", "ERROR", 0, f"Errore selezione post Instagram: {e}")
+        has_critical_error = True
 
     # 4. Compilazione deterministica del sito e pagine CV
     try:

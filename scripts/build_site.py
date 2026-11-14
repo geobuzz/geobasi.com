@@ -156,28 +156,22 @@ def build():
         </a>
         """
 
-    # Photos HTML with internal lightbox modal
+    # Photos HTML (Embed ufficiale nativo di Instagram con i post estratti)
     photos_html = ""
     for idx, ph in enumerate(photos):
-        p_id = ph.get('id', f'photo_{idx}')
-        img_url = ph.get('image_url', '')
-        title = ph.get('title', 'Fotografia del Territorio')
-        loc = ph.get('location', 'Toscana, Italia')
-        coords = ph.get('coordinates', '')
-        date = ph.get('date', '')
-        caption = ph.get('caption', '')
         permalink = ph.get('permalink', 'https://www.instagram.com/christian.bazzucchi/')
-
+        date_str = ph.get('date', '')
+        title = ph.get('title', 'Post dal profilo Instagram')
+        
         photos_html += f"""
-        <div class="photo-card" onclick="openLightbox('{img_url}', '{title}', '{loc}', '{coords}', '{date}', '{caption}', '{permalink}')">
-          <div class="photo-img-wrap">
-            <img src="{img_url}" alt="{caption}" loading="lazy">
-          </div>
-          <div class="photo-info">
-            <div class="photo-location">{loc}</div>
-            <div class="photo-coords">{coords}</div>
-            <p class="photo-caption">{title}</p>
-          </div>
+        <div class="instagram-embed-wrap">
+          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{permalink}" data-instgrm-version="14" style="background:#FFF; border:1px solid var(--border-carto); border-radius:3px; margin:0; width:100%; min-width:280px; max-width:540px; padding:0;">
+            <div style="padding:16px;">
+              <a href="{permalink}" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%; font-family:var(--font-mono); font-size:12px; color:var(--accent-copper);" target="_blank" rel="noopener">
+                Visualizza questo post su Instagram &nearr;
+              </a>
+            </div>
+          </blockquote>
         </div>
         """
 
@@ -809,21 +803,20 @@ def build():
       gap: 4px;
     }}
 
-    /* Photos Section (Instagram Gallery & Lightbox) */
+    /* Photos Section (Instagram Embed Grid) */
     .photo-grid {{
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      justify-items: center;
     }}
 
-    .photo-card {{
-      background: var(--bg-surface-elevated);
-      border: 1px solid var(--border-carto);
-      cursor: pointer;
+    .instagram-embed-wrap {{
+      width: 100%;
+      max-width: 500px;
       display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      transition: all 0.15s ease;
+      justify-content: center;
+    }}
     }}
     .photo-card:hover {{
       border-color: var(--accent-copper);
@@ -1339,12 +1332,8 @@ def build():
       }}
     }}
 
-    document.addEventListener('keydown', function(e) {{
-      if (e.key === 'Escape') {{
-        closeLightboxModal();
-      }}
-    }});
   </script>
+  <script async src="//www.instagram.com/embed.js"></script>
 
 </body>
 </html>

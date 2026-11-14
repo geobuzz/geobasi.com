@@ -625,21 +625,20 @@
       gap: 4px;
     }
 
-    /* Photos Section (Instagram Gallery & Lightbox) */
+    /* Photos Section (Instagram Embed Grid) */
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      justify-items: center;
     }
 
-    .photo-card {
-      background: var(--bg-surface-elevated);
-      border: 1px solid var(--border-carto);
-      cursor: pointer;
+    .instagram-embed-wrap {
+      width: 100%;
+      max-width: 500px;
       display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      transition: all 0.15s ease;
+      justify-content: center;
+    }
     }
     .photo-card:hover {
       border-color: var(--accent-copper);
@@ -1229,6 +1228,46 @@
 
       <div class="photo-grid">
         
+        <div class="instagram-embed-wrap">
+          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DLad9K7MuHq/" data-instgrm-version="14" style="background:#FFF; border:1px solid var(--border-carto); border-radius:3px; margin:0; width:100%; min-width:280px; max-width:540px; padding:0;">
+            <div style="padding:16px;">
+              <a href="https://www.instagram.com/p/DLad9K7MuHq/" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%; font-family:var(--font-mono); font-size:12px; color:var(--accent-copper);" target="_blank" rel="noopener">
+                Visualizza questo post su Instagram &nearr;
+              </a>
+            </div>
+          </blockquote>
+        </div>
+        
+        <div class="instagram-embed-wrap">
+          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DLCdR_8MbuY/" data-instgrm-version="14" style="background:#FFF; border:1px solid var(--border-carto); border-radius:3px; margin:0; width:100%; min-width:280px; max-width:540px; padding:0;">
+            <div style="padding:16px;">
+              <a href="https://www.instagram.com/p/DLCdR_8MbuY/" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%; font-family:var(--font-mono); font-size:12px; color:var(--accent-copper);" target="_blank" rel="noopener">
+                Visualizza questo post su Instagram &nearr;
+              </a>
+            </div>
+          </blockquote>
+        </div>
+        
+        <div class="instagram-embed-wrap">
+          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DKe-Xe3sKnF/" data-instgrm-version="14" style="background:#FFF; border:1px solid var(--border-carto); border-radius:3px; margin:0; width:100%; min-width:280px; max-width:540px; padding:0;">
+            <div style="padding:16px;">
+              <a href="https://www.instagram.com/p/DKe-Xe3sKnF/" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%; font-family:var(--font-mono); font-size:12px; color:var(--accent-copper);" target="_blank" rel="noopener">
+                Visualizza questo post su Instagram &nearr;
+              </a>
+            </div>
+          </blockquote>
+        </div>
+        
+        <div class="instagram-embed-wrap">
+          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DLCd3LTs-3l/" data-instgrm-version="14" style="background:#FFF; border:1px solid var(--border-carto); border-radius:3px; margin:0; width:100%; min-width:280px; max-width:540px; padding:0;">
+            <div style="padding:16px;">
+              <a href="https://www.instagram.com/p/DLCd3LTs-3l/" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%; font-family:var(--font-mono); font-size:12px; color:var(--accent-copper);" target="_blank" rel="noopener">
+                Visualizza questo post su Instagram &nearr;
+              </a>
+            </div>
+          </blockquote>
+        </div>
+        
       </div>
     </div>
   </section>
@@ -1404,12 +1443,8 @@
       }
     }
 
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeLightboxModal();
-      }
-    });
   </script>
+  <script async src="//www.instagram.com/embed.js"></script>
 
 </body>
 </html>

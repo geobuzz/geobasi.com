@@ -21,7 +21,7 @@ LOG_FILE = os.path.join(DATA_DIR, "sync_log.json")
 # Assicura reperibilità dei moduli script sibling
 sys.path.insert(0, os.path.dirname(__file__))
 
-def log_sync(source, status, count, message):
+def log_sync(source, status, count, message, details=None):
     os.makedirs(DATA_DIR, exist_ok=True)
     logs = []
     if os.path.exists(LOG_FILE):
@@ -38,6 +38,9 @@ def log_sync(source, status, count, message):
         "records_processed": count,
         "message": message
     }
+    if details:
+        entry["details"] = details
+        
     logs.insert(0, entry)
     logs = logs[:50] # Conserva gli ultimi 50 eventi
 
@@ -48,6 +51,7 @@ def log_sync(source, status, count, message):
 def run_sync_all():
     print("Avvio sincronizzazione delle fonti...")
     has_critical_error = False
+    sources_status = {}
 
     # 1. Substack RSS
     try:
@@ -55,32 +59,73 @@ def run_sync_all():
         articles = fetch_articles()
         count = len(articles)
         if count > 0:
-            log_sync("substack", "SUCCESS", count, f"Estratti e compilati {count} articoli con pagine interne da geobuzz.substack.com")
+            sources_status["substack"] = {
+                "status": "SUCCESS",
+                "count": count,
+                "message": f"Estratti e compilati {count} articoli con pagine interne da geobuzz.substack.com"
+            }
         else:
-            log_sync("substack", "PARTIAL", 0, "Feed Substack raggiungibile ma nessun articolo estratto")
+            sources_status["substack"] = {
+                "status": "PARTIAL",
+                "count": 0,
+                "message": "Feed Substack raggiungibile ma nessun articolo estratto"
+            }
     except Exception as e:
-        log_sync("substack", "ERROR", 0, f"Errore sincronizzazione Substack: {e}")
+        sources_status["substack"] = {
+            "status": "ERROR",
+            "count": 0,
+            "message": f"Errore sincronizzazione Substack: {e}"
+        }
         has_critical_error = True
+    
+    log_sync(
+        "substack",
+        sources_status["substack"]["status"],
+        sources_status["substack"]["count"],
+        sources_status["substack"]["message"]
+    )
 
     # 2. LinkedIn Portability API Check
     token = os.environ.get("LINKEDIN_PORTABILITY_TOKEN")
     if token:
         try:
-            # Endpoint per Member Data Portability secondo DMA
             url = "https://api.linkedin.com/v2/memberDataPortability"
             req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
             with urllib.request.urlopen(req, timeout=10) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
             positions = data.get("positions", [])
             if positions:
-                log_sync("linkedin_api", "SUCCESS", len(positions), "Dati DMA LinkedIn estratti ed elaborati con successo")
+                sources_status["linkedin_api"] = {
+                    "status": "SUCCESS",
+                    "count": len(positions),
+                    "message": "Dati DMA LinkedIn estratti ed elaborati con successo"
+                }
             else:
-                log_sync("linkedin_api", "PARTIAL", 0, "API LinkedIn DMA interrogata ma nessun record restituito")
+                sources_status["linkedin_api"] = {
+                    "status": "PARTIAL",
+                    "count": 0,
+                    "message": "API LinkedIn DMA interrogata ma nessun record restituito"
+                }
         except Exception as e:
-            log_sync("linkedin_api", "ERROR", 0, f"Errore chiamata API LinkedIn: {e}")
+            sources_status["linkedin_api"] = {
+                "status": "ERROR",
+                "count": 0,
+                "message": f"Errore chiamata API LinkedIn: {e}"
+            }
             has_critical_error = True
     else:
-        log_sync("linkedin_api", "SKIPPED", 0, "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py")
+        sources_status["linkedin_api"] = {
+            "status": "SKIPPED",
+            "count": 0,
+            "message": "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py"
+        }
+        
+    log_sync(
+        "linkedin_api",
+        sources_status["linkedin_api"]["status"],
+        sources_status["linkedin_api"]["count"],
+        sources_status["linkedin_api"]["message"]
+    )
 
     # 3. Instagram: Esegui prima scan_instagram_profile() e poi pick_random_posts(4)
     try:
@@ -89,37 +134,115 @@ def run_sync_all():
         # Fase 1: Scansione live del profilo
         scan_ok, catalog, scan_msg = scan_instagram_profile()
         
-        # Fase 2: Campionamento casuale e validazione dei 4 shortcode
-        pick_ok, selected_posts = pick_random_posts(4)
-        
-        if not pick_ok or len(selected_posts) == 0:
-            log_sync("instagram", "ERROR", 0, "Impossibile selezionare i 4 post dal catalogo Instagram")
-            has_critical_error = True
-        elif not scan_ok:
-            # Scansione live fallita ma catalogo precedente preservato: stato PARTIAL rigoroso
-            log_sync("instagram", "PARTIAL", len(selected_posts), f"{scan_msg}. Selezionati e validati 4 post dal catalogo locale")
+        # Fase 2: Campionamento o mantenimento dei 4 shortcode
+        if not scan_ok:
+            # Scansione fallita: mantieni invariati i 4 post precedenti e preserva il catalogo esistente
+            pick_ok, selected_posts = pick_random_posts(4, preserve_existing=True)
+            if not pick_ok or len(selected_posts) == 0:
+                sources_status["instagram"] = {
+                    "status": "ERROR",
+                    "count": 0,
+                    "message": "Impossibile reperire 4 post validi dal catalogo Instagram locale"
+                }
+                has_critical_error = True
+            else:
+                sources_status["instagram"] = {
+                    "status": "PARTIAL",
+                    "count": len(selected_posts),
+                    "message": f"{scan_msg}. Mantenuti i 4 post precedenti e catalogo locale invariato"
+                }
         else:
-            # Scansione live riuscita e post selezionati e validati: stato SUCCESS
-            log_sync("instagram", "SUCCESS", len(selected_posts), f"{scan_msg}. Selezionati e validati 4 post dal catalogo aggiornato")
+            # Scansione live riuscita: aggiorna/campiona 4 post dal catalogo aggiornato
+            pick_ok, selected_posts = pick_random_posts(4, preserve_existing=False)
+            if not pick_ok or len(selected_posts) == 0:
+                sources_status["instagram"] = {
+                    "status": "ERROR",
+                    "count": 0,
+                    "message": "Impossibile selezionare i 4 post dal catalogo Instagram aggiornato"
+                }
+                has_critical_error = True
+            else:
+                sources_status["instagram"] = {
+                    "status": "SUCCESS",
+                    "count": len(selected_posts),
+                    "message": f"{scan_msg}. Selezionati e validati 4 post dal catalogo aggiornato"
+                }
             
     except Exception as e:
-        log_sync("instagram", "ERROR", 0, f"Errore pipeline Instagram: {e}")
+        sources_status["instagram"] = {
+            "status": "ERROR",
+            "count": 0,
+            "message": f"Errore pipeline Instagram: {e}"
+        }
         has_critical_error = True
+        
+    log_sync(
+        "instagram",
+        sources_status["instagram"]["status"],
+        sources_status["instagram"]["count"],
+        sources_status["instagram"]["message"]
+    )
 
     # 4. Compilazione deterministica del sito e pagine CV
     try:
         from build_site import build
         build()
-        log_sync("site_builder", "SUCCESS", 1, "Homepage index.html, cv-it.html e cv-en.html compilati con successo")
+        sources_status["site_builder"] = {
+            "status": "SUCCESS",
+            "count": 1,
+            "message": "Homepage index.html, cv-it.html e cv-en.html compilati con successo"
+        }
     except Exception as e:
-        log_sync("site_builder", "ERROR", 0, f"Errore critico durante la compilazione del sito: {e}")
+        sources_status["site_builder"] = {
+            "status": "ERROR",
+            "count": 0,
+            "message": f"Errore critico durante la compilazione del sito: {e}"
+        }
         has_critical_error = True
+        
+    log_sync(
+        "site_builder",
+        sources_status["site_builder"]["status"],
+        sources_status["site_builder"]["count"],
+        sources_status["site_builder"]["message"]
+    )
+
+    # 5. Determinazione e registrazione dello stato GLOBALE della pipeline
+    if has_critical_error:
+        pipeline_status = "ERROR"
+        pipeline_msg = "Pipeline completata con errori critici su una o più fonti"
+    elif any(s["status"] == "PARTIAL" for s in sources_status.values()):
+        pipeline_status = "PARTIAL"
+        pipeline_msg = "Pipeline completata con successo parziale (una o più fonti in stato PARTIAL)"
+    else:
+        pipeline_status = "SUCCESS"
+        pipeline_msg = "Pipeline completata con pieno successo per tutte le fonti attive"
+
+    sources_summary = {k: v["status"] for k, v in sources_status.items()}
+    total_processed = sum(v["count"] for v in sources_status.values())
+    
+    log_sync(
+        "pipeline",
+        pipeline_status,
+        total_processed,
+        pipeline_msg,
+        details=sources_summary
+    )
+
+    # Report a video strutturato per distinguere fonti individuali da pipeline complessiva
+    print("\n" + "=" * 70)
+    print("RIEPILOGO STATO SINGOLE FONTI:")
+    for src, res in sources_status.items():
+        print(f"  - {src.ljust(15)}: [{res['status'].ljust(7)}] ({res['count']} record) - {res['message']}")
+    print("-" * 70)
+    print(f"STATO GLOBALE PIPELINE: [{pipeline_status}] - {pipeline_msg}")
+    print("=" * 70 + "\n")
 
     if has_critical_error:
-        print("\n[ERRORE CRITICO] Il Sync Engine ha riscontrato anomalie bloccanti. Uscita con codice 1.")
+        print("[ERRORE CRITICO] Il Sync Engine ha riscontrato anomalie bloccanti. Uscita con codice 1.")
         sys.exit(1)
     else:
-        print("\n[SUCCESSO] Sincronizzazione e compilazione completate senza errori.")
+        print("[COMPLETATO] Esecuzione Sync Engine terminata regolarmente.")
 
 if __name__ == "__main__":
     run_sync_all()

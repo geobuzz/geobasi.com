@@ -156,20 +156,28 @@ def build():
         </a>
         """
 
-    # Photos HTML (Embed ufficiale nativo di Instagram con i post estratti)
+    # Photos HTML (Embed ufficiale nativo di Instagram con fallback tipografico robusto)
     photos_html = ""
     for idx, ph in enumerate(photos):
         permalink = ph.get('permalink', 'https://www.instagram.com/christian.bazzucchi/')
         date_str = ph.get('date', '')
         title = ph.get('title', 'Post dal profilo Instagram')
+        caption = ph.get('caption', '')
+        clean_cap = (caption[:160] + "...") if len(caption) > 160 else caption
         
         photos_html += f"""
         <div class="instagram-embed-wrap">
-          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{permalink}" data-instgrm-version="14" style="background:#FFF; border:1px solid var(--border-carto); border-radius:3px; margin:0; width:100%; min-width:280px; max-width:540px; padding:0;">
-            <div style="padding:16px;">
-              <a href="{permalink}" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%; font-family:var(--font-mono); font-size:12px; color:var(--accent-copper);" target="_blank" rel="noopener">
-                Visualizza questo post su Instagram &nearr;
-              </a>
+          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{permalink}" data-instgrm-version="14" style="background:#FFF; border:1px solid var(--border-carto); border-radius:2px; margin:0; width:100%; min-width:280px; max-width:480px; padding:0;">
+            <div class="ig-fallback-card" style="padding:24px; text-align:left; background:var(--bg-surface-elevated);">
+              <div style="font-family:var(--font-mono); font-size:11px; color:var(--accent-copper); margin-bottom:8px;">INSTAGRAM &bull; {date_str}</div>
+              <h4 style="font-family:var(--font-serif); font-size:17px; margin-bottom:10px; color:var(--ink-primary); line-height:1.35;">{title}</h4>
+              <p style="font-size:13px; color:var(--ink-secondary); line-height:1.5; margin-bottom:16px;">{clean_cap if clean_cap else 'Contenuto fotografico dal profilo ufficiale @christian.bazzucchi.'}</p>
+              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border-carto); padding-top:12px;">
+                <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-muted);">@christian.bazzucchi</span>
+                <a href="{permalink}" style="font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--accent-copper); text-decoration:none;">
+                  Apri post originale &nearr;
+                </a>
+              </div>
             </div>
           </blockquote>
         </div>

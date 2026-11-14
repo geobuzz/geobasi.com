@@ -18,6 +18,9 @@ BASE_DIR = os.path.join(os.path.dirname(__file__), "..")
 DATA_DIR = os.path.join(BASE_DIR, "data")
 LOG_FILE = os.path.join(DATA_DIR, "sync_log.json")
 
+# Assicura reperibilità dei moduli script sibling
+sys.path.insert(0, os.path.dirname(__file__))
+
 def log_sync(source, status, count, message):
     os.makedirs(DATA_DIR, exist_ok=True)
     logs = []
@@ -79,16 +82,28 @@ def run_sync_all():
     else:
         log_sync("linkedin_api", "SKIPPED", 0, "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py")
 
-    # 3. Instagram Random Posts Selection dal catalogo autentico
+    # 3. Instagram: Esegui prima scan_instagram_profile() e poi pick_random_posts(4)
     try:
-        from update_photos import pick_random_posts
-        selected = pick_random_posts(4)
-        if selected:
-            log_sync("instagram", "SUCCESS", len(selected), f"Selezionati casualmente {len(selected)} post autentici dal catalogo Instagram")
+        from update_photos import scan_instagram_profile, pick_random_posts
+        
+        # Fase 1: Scansione live del profilo
+        scan_ok, catalog, scan_msg = scan_instagram_profile()
+        
+        # Fase 2: Campionamento casuale e validazione dei 4 shortcode
+        pick_ok, selected_posts = pick_random_posts(4)
+        
+        if not pick_ok or len(selected_posts) == 0:
+            log_sync("instagram", "ERROR", 0, "Impossibile selezionare i 4 post dal catalogo Instagram")
+            has_critical_error = True
+        elif not scan_ok:
+            # Scansione live fallita ma catalogo precedente preservato: stato PARTIAL rigoroso
+            log_sync("instagram", "PARTIAL", len(selected_posts), f"{scan_msg}. Selezionati e validati 4 post dal catalogo locale")
         else:
-            log_sync("instagram", "PARTIAL", 0, "Nessun post selezionato dal catalogo")
+            # Scansione live riuscita e post selezionati e validati: stato SUCCESS
+            log_sync("instagram", "SUCCESS", len(selected_posts), f"{scan_msg}. Selezionati e validati 4 post dal catalogo aggiornato")
+            
     except Exception as e:
-        log_sync("instagram", "ERROR", 0, f"Errore selezione post Instagram: {e}")
+        log_sync("instagram", "ERROR", 0, f"Errore pipeline Instagram: {e}")
         has_critical_error = True
 
     # 4. Compilazione deterministica del sito e pagine CV

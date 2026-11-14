@@ -1,0 +1,100 @@
+{
+  "name": "Christian Bazzucchi",
+  "title": "Geologist & Spatial Data Engineer | GIS Architect",
+  "location": "Empoli (FI), Italy",
+  "email": "christian@geobasi.com",
+  "linkedin": "https://www.linkedin.com/in/christianbazzucchi/",
+  "github": "https://github.com/geobuzz",
+  "website": "https://geobasi.com",
+  "summary": "Geologist and computer scientist with over 18 years of specialized experience in GIS, spatial databases, and data architectures. Extensive expertise in integrating geospatial data, pipeline automation (Python, Spatial SQL), environmental characterization, and coordinating technical teams across utility, telecommunication, and agricultural sectors.",
+  "skills": {
+    "GIS Technologies": ["ESRI ArcGIS / ArcSDE", "QGIS", "GeoServer", "OpenLayers", "GE Smallworld", "GDAL/OGR"],
+    "Spatial Databases": ["PostgreSQL / PostGIS", "Oracle Spatial (PL/SQL)", "SpatiaLite", "MS SQL Server Spatial"],
+    "Development & Automation": ["Python (GeoPandas, Shapely, PyQGIS)", "Spatial SQL", "Bash / Linux", "JavaScript", "PHP", "HTML5/CSS3"],
+    "Domains & Methodologies": ["Utility & Fiber Optic Networks (FTTH)", "Precision Agriculture & Viticulture", "Contaminated Sites Remediation & Health Risk Analysis", "Oil & Gas E&P Software", "Differential GPS Surveying"]
+  },
+  "experiences": [
+    {
+      "role": "GIS Expert & Service Manager (Fiber Optic Networks)",
+      "company": "Eagle Projects S.p.A.",
+      "period": "2019 – Present",
+      "location": "Italy",
+      "description": "Geospatial architecture and technical coordination for large-scale fiber optic network design (GISFO), topological validation pipelines, and service management for top-tier infrastructure clients.",
+      "highlights": [
+        "Automated topological integrity validation and bill-of-quantities calculation pipelines using Python and PostGIS.",
+        "Management of enterprise geospatial databases and technical workflows."
+      ]
+    },
+    {
+      "role": "GIS Analyst & Spatial Consultant",
+      "company": "Independent Consultant / Project Collaborations",
+      "period": "2013 – 2019",
+      "location": "Tuscany / Umbria, Italy",
+      "description": "Consulting on WebGIS development, mobile cartography, and utility network management.",
+      "highlights": [
+        "Ingegnerie Toscane (2015–2018): GIS management of regional water and wastewater networks via Smallworld and ArcGIS.",
+        "Copernico: Built 'Brunello App' (Consorzio del Vino Brunello di Montalcino) mobile mapping and Agrinex precision viticulture WebGIS (featured on 'L'Enologo')."
+      ]
+    },
+    {
+      "role": "Technical Consultant – Oil & Gas Geospatial Software",
+      "company": "Accenture",
+      "period": "2014 – 2017",
+      "location": "Milan / San Donato Milanese, Italy",
+      "description": "Technical-scientific system cloning and integration for geophysical exploration, reservoir engineering, and subsurface databases during the Stogit spinoff from ENI to Snam.",
+      "highlights": [
+        "Subsurface database integration across Petrel, Techlog, OpenWorks, and ArcSDE.",
+        "Real-time geospatial alerting and mapping systems."
+      ]
+    },
+    {
+      "role": "Environmental Systems & Industrial GIS Specialist",
+      "company": "Schiavoni & Ciaberna / Multinational Chemical Plant",
+      "period": "2011 – 2013",
+      "location": "Narni (TR), Italy",
+      "description": "BPMN2 workflow implementation with Activiti/Spring for safety report management, and open-source cartographic portal development (OpenLayers, GeoServer, PostgreSQL).",
+      "highlights": [
+        "Site geology oversight for turbogas plant construction and industrial landfill development.",
+        "Enterprise document workflow and WebGIS architecture."
+      ]
+    },
+    {
+      "role": "Functional Analyst & WebGIS Project Manager",
+      "company": "D.B.CAD Solution (Geoweb, Filippetti Group)",
+      "period": "2008 – 2010",
+      "location": "Perugia, Italy",
+      "description": "End-to-end management of custom enterprise WebGIS solutions using Java, Oracle, and Autodesk Topobase frameworks.",
+      "highlights": [
+        "Specification, development, testing, and production deployment of multi-user geographic workflows."
+      ]
+    },
+    {
+      "role": "Geologist & GIS Specialist",
+      "company": "ENVIRON Corp. (USA)",
+      "period": "2004 – 2007",
+      "location": "Rome, Italy",
+      "description": "Geospatial database design, environmental characterization under D.Lgs 152/2006, health risk assessment (RBCA, Rome, Giuditta), and WebGIS development presented at Consoil 2008.",
+      "highlights": [
+        "Designed centralized database for real-time site monitoring and automatic reporting.",
+        "Consoil 2008 paper on Java/ArcIMS environmental WebGIS for petrochemical sites.",
+        "Differential GPS surveys on contaminated industrial sites."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "M.Sc. in Geological Sciences",
+      "institution": "University of Florence (Università degli Studi di Firenze)",
+      "details": "Specialization in applied geology, hydrogeology, and remote sensing."
+    },
+    {
+      "degree": "Postgraduate Specializations",
+      "institution": "Various Institutions & Professional Order",
+      "details": "Geological and environmental risk, mining decommissioning, SAR interferometry, and open-source geospatial programming."
+    }
+  ],
+  "languages": [
+    {"language": "Italian", "level": "Native"},
+    {"language": "English", "level": "Fluent / Professional"}
+  ]
+}

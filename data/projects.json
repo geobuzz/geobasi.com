@@ -1,0 +1,78 @@
+[
+  {
+    "id": "agrinex",
+    "title": "Agrinex",
+    "subtitle": "WebGIS per la Viticoltura di Precisione",
+    "tagline": "Monitoraggio multispettrale, zonazione pedoclimatica e supporto alle decisioni agronomiche.",
+    "role": "Progettazione WebGIS, modellazione dati e pipeline di elaborazione raster",
+    "period": "Pubblicato su 'L'Enologo'",
+    "tags": ["WebGIS", "Precision Farming", "PostGIS", "GeoServer", "Python / GDAL", "Telerilevamento"],
+    "summary": "Piattaforma geografica per la gestione agronomica avanzata in vigneto. Integrazione di indici vegetazionali satellitari e da drone (NDVI, NDRE), zonazione pedologica e rilievi strumentali di campo.",
+    "problem": "La variabilità intra-parcellare nei vigneti di pregio rende inefficiente la gestione uniforme dei trattamenti, della concimazione e della vendemmia. Era necessario uno strumento semplice per tecnici agronomi capace di trasformare complessi dati telerilevati in mappe di prescrizione immediate.",
+    "solution": "Progettazione di un'architettura geospaziale basata su GeoServer e PostGIS, con pipeline Python/GDAL per il caricamento e la normalizzazione automatica dei raster multispettrali e la generazione di zone omogenee di vigore.",
+    "results": [
+      "Zonazione automatizzata per la pianificazione della vendemmia differenziata.",
+      "Riduzione degli input agronomici e ottimizzazione dei trattamenti mirati.",
+      "Articolo dedicato pubblicato sulla rivista di settore 'L'Enologo'."
+    ],
+    "link_label": "Consulta l'articolo su L'Enologo",
+    "link_url": "https://geobasi.com/lavori/agrinex"
+  },
+  {
+    "id": "brunello",
+    "title": "Brunello App",
+    "subtitle": "Cartografia e Informazione Territoriale per il Consorzio del Brunello",
+    "tagline": "Geocatalogazione della denominazione DOCG, zonazione dei cru e fruizione mobile.",
+    "role": "Architettura geodati, consulenza cartografica e integrazione servizi territoriali",
+    "period": "Consorzio del Vino Brunello di Montalcino",
+    "tags": ["Mobile GIS", "PostGIS", "Cartografia Digitale", "Open Data", "Territorial Branding"],
+    "summary": "Applicazione mobile e infrastruttura geodati per il Consorzio del Vino Brunello di Montalcino, finalizzata all'esplorazione del territorio, delle cantine e della zonazione viticola.",
+    "problem": "Valorizzare la complessità geografica, geologica e altimetrica di una delle denominazioni vinicole più prestigiose al mondo, rendendo accessibile la cartografia tecnica e le schede produttori sia agli addetti ai lavori che al pubblico internazionale.",
+    "solution": "Strutturazione della base dati territoriale del comprensorio di Montalcino (confini DOCG, sottozone, curve di livello, vigneti) e alimentazione di servizi cartografici ottimizzati per il consumo su dispositivi mobili.",
+    "results": [
+      "Navigazione georeferenziata per utenti e visitatori del territorio di Montalcino.",
+      "Integrazione delle banche dati consortili in una mappa interattiva unificata.",
+      "Pubblicazione su App Store e Google Play."
+    ],
+    "link_label": "Dettagli progetto Brunello",
+    "link_url": "https://geobasi.com/lavori/brunello_app"
+  },
+  {
+    "id": "environ",
+    "title": "Environ",
+    "subtitle": "WebGIS Integrato per il Monitoraggio Ambientale e Bonifiche",
+    "tagline": "Gestione georiferita di parametri chimico-fisici, modelli di sito e analisi di rischio.",
+    "role": "Analisi geologica, modellazione database spaziale e sviluppo interfaccia WebGIS",
+    "period": "Ingegneria Ambientale & Bonifiche",
+    "tags": ["Geologia Ambientale", "Oracle Spatial", "PostGIS", "Analisi di Rischio", "WebGIS", "QGIS"],
+    "summary": "Sistema informativo geografico per il monitoraggio continuativo di siti contaminati, discariche e aree industriali in fase di caratterizzazione e bonifica.",
+    "problem": "La frammentazione dei dati analitici di laboratorio (falda, terreni, soil-gas) in fogli di calcolo disomogenei impediva una valutazione rapida dell'evoluzione spaziale e temporale dei pennacchi di contaminazione.",
+    "solution": "Creazione di un database spaziale normalizzato con storico dei campionamenti piezometrici, calcolo automatico dei superamenti delle Concentrazioni Soglia di Contaminazione (CSC) e generazione di mappe isoconcentrazione tramite QGIS e GeoServer.",
+    "results": [
+      "Monitoraggio tempestivo dei superamenti normativi e reportistica automatizzata per gli enti di controllo.",
+      "Integrazione diretta tra dati idrogeologici di campo e modelli concettuali di rischio sanitario-ambientale.",
+      "Accessibilità multi-utente sicura via browser per i team di ingegneria ambientale."
+    ],
+    "link_label": "Approfondimento Environ",
+    "link_url": "https://geobasi.com/lavori/environ"
+  },
+  {
+    "id": "gisfo",
+    "title": "GISFO",
+    "subtitle": "Software GIS per Reti Tecnologiche e Infrastrutture TLC",
+    "tagline": "Automazione della progettazione, coerenza topologica e computi metrici territoriali.",
+    "role": "Collaborazione GIS Analyst & Pipeline developer con Eagle Projects",
+    "period": "Reti & Telecomunicazioni",
+    "tags": ["Infrastrutture TLC", "Python / PyQGIS", "PostGIS", "Validazione Topologica", "Automazione ETL"],
+    "summary": "Sviluppo di moduli di automazione e strumenti GIS dedicati alla progettazione su larga scala di reti in fibra ottica (FTTH) e infrastrutture a rete.",
+    "problem": "La progettazione di migliaia di chilometri di rete richiede rigidi controlli topologici tra cavi, tratte, pozzetti e armadi, con elevato rischio di errori manuali se gestiti tramite CAD tradizionale.",
+    "solution": "Implementazione di algoritmi Python per il controllo automatico di adiacenza, connessione e continuità della rete, con generazione automatica dei computi estimativi basati sulla cartografia catastale e topografica.",
+    "results": [
+      "Accelerazione dei cicli di validazione esecutiva dei progetti di rete.",
+      "Azzeramento degli errori di incongruenza tra modello grafico e database delle consistenze.",
+      "Integrazione con i sistemi GIS aziendali proprietari di Eagle Projects."
+    ],
+    "link_label": "Info GISFO (Eagle Projects)",
+    "link_url": "https://www.eagleprojects.it/software/gisfo"
+  }
+]

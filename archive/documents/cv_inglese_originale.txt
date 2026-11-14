@@ -1,0 +1,180 @@
+﻿CURRICULUM VITAE
+ 
+Christian Bazzucchi matrim_MF 113.jpg 
+________________
+
+
+
+
+geologist, GIS analyst, oil&gas softwares expert
+Italy
+www.geobasi.com
+ 
+Year of experience: 18
+born in  december, 1st, 1975
+ 
+CONTACTS:
+
+
+Phone: +39.333.40.72.734
+ 
+e-mail: christian.bazzucchi@gmail.com
+
+
+Linkedin : http://www.linkedin.com/in/christianbazzucchi
+
+
+AREAS OF EXPERTISE
+* GEOGRAPHIC INFORMATION SYSTEMS
+* DATA ANALYST
+* PROJECT MANAGEMENT
+* OIL&GAS SOFTWARE
+* OPEN SOURCE SOFTWARE
+* GPS SURVEYING & MOBILE TECHNOLOGIES
+* SITES REMEDIATIONS
+* CHARACTERIZATION AND CONSERVATION OF ARCHITECTURAL HERITAGE (APPLIED PETROGRAPHY)
+SUMMARY
+I am a geologist and computer scientist with over 18 years of experience in the utility and IT industry, with a strong specialization in Geographic Information Systems and as a data analyst.  I have experience in both individual development and as part of larger development teams, managing multiple projects and leading small teams in determining critical points and development progress stages. I am proficient in the English language. I have also attended several graduate courses on geological and environmental risk, mining decommissioning, GIS, and remote sensing data, 
+I started working in Rome in 2004 for Environ, dealing with the management of site and laboratory maps and data through GIS systems (ArcGIS and ArcIMS), and the writing of environmental characterizations. In 2006, I specialized in conducting health risk analysis. In 2008 I joined DBCAD Perugia as a functional analyst of their GIS systems. In my experience there are also site activities with instrumental data acquisition systems and topographic surveys with differential GPS instrumentation, up to the use of artificial intelligence systems for cultural heritage. 
+During 2011-2020, I participated in various projects as a freelancer:
+- expert in environmental issues and industrial information systems at the production plant of a major international chemical industry, both with regard to geology (surveys, landfills, etc.) and the creation of a GIS portal and a system for the management of safety reports through a document workflow with open-source technologies. 
+- Accenture consultant for some projects such cloning of technical-scientific systems for services related to geophysical research software, reservoir engineering, information management, etc., as part of the spinoff of Stogit from ENI to Snam, and real-time mapping alarm reporting systems.  
+- consultant for Ingegnerie Toscane, a company that provides services and technical support activities in the water-environment sector, dealing with the GIS of their water and sewer networks through Smallworld and ArcGIS software. 
+- Copernico collaboration, with which I created a mobile application for the Consorzio del Brunello di Montalcino, aimed at tourists visiting their territory, downloadable from google play and apple store, and a webGIS application for precision agriculture, reviewed on "l'enologo". 
+In 2019 I started a collaboration with Eagleprojects, a young company in central Italy, as an expert in GIS systems for fiber optic networks, a collaboration that turned into a permanent job given the huge expansion that the company had and that required my experience as a reinforcement of the company's know-how.
+From the organizational perspective of my work skills I have a strong preference for well-organized facilities where I can develop my experiences and acquire new ones, especially if in the world of big data and machine learning. I am very available for business travel; I love to travel.
+
+
+
+
+
+
+
+
+
+
+My technical skills include:
+* Very good knowledge of:
+   * GIS tools: ESRI ArcGIS, Quantum GIS, Geoserver, OpenLayers, GE Smallworld
+   * RDBMS: Oracle PL/SQL, PostgreSQL – PostGIS, MS Access, MS Excel, MS SQL Server, Spatialite
+   * Spatial datasets: Shapefiles, WMS, WFS, Multispectral raster images, GeoTIFF, PostGIS Layers, Oracle Spatial, MSSQL Spatial Layers, ESRI Personal Geodatabase
+   * Operating systems: Windows, Debian & derived
+   * tools: Sharepoint, MS Teams, Jira, Google worspace
+* Good knowledge of the following technologies: Petrel, Techlog, Omega, Visage, Autodesk AutoCAD, Map and Revit, Intergraph Geomedia, , Wellview, ENVI, Interpret, Lennartz MARS, Seisan, MESA, NORSAR, WinLog, Surfer, VirtualBox, VMWare, Apache Tomcat, Autodesk MapGuide, SAR interferometry
+* Fair knowledge of some programming languages: Java, Phyton, PHP, VBA, HTML and also CSS and Jasper Reports
+* Familiar with Grass, Zoo, MySQL, SQLite, Visual Studio (Reporting Services, Visual Web Developer), Rockworks, LogPlot, Origin, Strater        
+* Other tools: Corel Draw, Photoshop, Android, Drupal, Joomla, Alfresco
+
+
+
+
+KEY ACCOMPLISHMENTS
+* a WebGIS for a large italian petrochemical site, with the collaboration of technicians of the National Institute of Geophysics and Volcanology INGV, for the displaying on map of site data (plans, layouts, contaminant distribution, piezometric surfaces, etc.). Here the poster at Consoil 2008: https://www.geobasi.com/lavori/environ
+* a draft of a system, in 2006, some year arrival of common mobile devices, like smartphones and tablets, to obtain the real-time transmission of the data collected in the field directly into the databases of Rome office, that to have the possibility for the field technician to display to the customer the trend of the new collected data together with the historical data;
+* several desktop GIS project for most of the industrial sites of customers, for the integrated view of the groundwater table with samples surveys and/or location of wells and thematic maps with the concentrations and temporal variations of the chemical analytes; 
+* Brunello app: https://www.geobasi.com/lavori/brunello_app 
+* Agrinex app:  https://www.geobasi.com/lavori/agrinex
+* GISFO: https://www.eagleprojects.it/software/gisfo 
+
+
+MY WORK EXPERIENCE IN DETAIL
+2004
+freelance
+some small collaborations with professional geologists (applied geology).
+
+
+2004-2007
+ENVIRON
+GIS geologist
+In November 2004 I was hired as a geologist and GIS systems manager at the Rome office of ENVIRON Corp. (USA) (now Ramboll Environ); there, for about three years, I gained my first experiences with important Italian and foreign clients, introducing the extensive use of GIS systems in the company and then dealing with the design and management of geographic databases in ArcGIS environment, supporting environmental characterization. Later, I coordinated the implementation of a webserver in which I created a centralized db for all projects, with dynamic web page tools for creating reports and graphs automatically, and tried to initiate a project of data entry into the database by the technician directly in the field so as to have visualization of historical trends of measured parameters in real time.
+In 2007 I developed, for an important Italian petrochemical industry, a WebGIS system, also presented at Consoil 2008 (https://www.geobasi.com/lavori/environ), in java and ArcIMS maps, for the visualization of environmental data of the site (plans, layouts, contaminant distribution, reconstruction of piezometric surfaces, etc.) with the collaboration of the technicians in charge of the instantaneous earthquake detection system of the National Institute of Geophysics and Volcanology.
+I was also involved in health risk analysis for groundwater contamination and underlying contaminated sites included in the lists of sites of national interest, using specially developed spreadsheets and popular software such as RBCA tool-kit, Rome, Judith; during this period I participated in working groups composed of different professionals experienced in flow and transport modeling on contaminated aquifers, thus developing considerable experience in statistical applications as a support to decision-making processes. These activities also included statistical design of characterizations, zones, and interpretation of data on various contaminated sites, as well as the production of software for monitoring remote environmental data and the development of applications for visualizing temporal trends and producing reports.  I also had on-site experience with remote db data acquisition and processing of graphs and reports, parameterization of instrumental wells, and checking and validating analytical results from analytical laboratories.
+During this period I was also a lecturer in Computer Science at the Technical Industrial Institute "Sigismondi" in Nocera Umbra (PG), prepared a geological and technical report for the construction of a well for domestic use, performed a hydrogeological study with flow tests for an amnesty concession of derivation of public groundwater through pre-existing catchment works, and a planoaltimetric survey with GPS differential system of piezometers, probes and excavation tests in an area of a major petrochemical plant in Sardinia;
+
+
+2008-2010
+DBCAD
+GIS analyst
+In 2008, I was hired as an analyst and then became a project manager at D.B. CAD solution, belonging to the ESC group in Perugia; I was particularly involved in WebGIS projects with a high level of customization, following the whole process, from the first interviews with clients, to the production of the systems, then going through the analysis, implementation, and testing of the product, all based on the GeoWeb framework, which used Java, Oracle, and Autodesk technologies, creating applications that integrated the consultation of geographic databases made with external software such as Autodesk Topobase, with the management of work-flows also elaborated and multi-user, allowing the management to have geographic data available at all times. 
+
+
+2011-2013
+Schiavoni&Ciaberna
+GIS geologist
+In 2011 I started my collaboration as an expert in industrial environmental issues and information systems with the engineering firm Schiavoni & Ciaberna in Narni; I provided my services for the most part at the production plant of a multinational chemical industry, for which I followed the implementation of surveys and piezometers for the construction of a turbogas plant and participated in the design of solutions for the development of the landfill on site.  I then developed the analysis and coordinated the implementation of a safety management system: the system is based on the execution of a work flow expressed in BPMN2 and implemented through the engine Activiti, Spring Framework and MVC.  The presentation layer has been implemented by extending the javascript framework Smartclient. It was then started the design of a map portal with open source technologies such as Openlayers, Geoserver and PostgreSQL, with Smartclient framework all on linux servers.  Made also two feasibility studies for an Alfresco and Drupal projects for a couple of industries, but the projects didn't start, in the meantime I tried to put up a test site.
+
+
+2014
+Accenture
+Functional analyst
+Since 2014, I have been an Accenture consultant on projects involving geographical, geological and geophysical software, especially in the oil and gas sector, with the main Italian and international operators in the sector.
+
+
+2015-2019
+Freelance
+In 2015 I agree to collaborate with Ingegnerie Toscane, who had already looked for me in the past and started my activity as a freelancer, performing surveys and insertions in the GIS of the Tuscan water and sewerage network through Smallworld and ArcGIS. In the meantime I continue my collaboration with Accenture with 2 minor GIS projects.
+Since 2016 I have also been collaborating with Copernico di Montalcino, with whom I created and presented in 2017 the official app of the Consorzio del Vino Brunello di Montalcino, dedicated to tourists visiting their territory:
+http://www.consorziobrunellodimontalcino.it/news/?p=12829&lang=en   
+http://www.consorziobrunellodimontalcino.it/it/1688/brunello 
+Also with Copernico in 2018 we created a webgis that is currently the state of the art of integrated systems for the management and visualization of data analysis and campaigns for precision agriculture. https://www.geobasi.com/lavori/agrinex 
+
+
+2019 - now
+Eagleprojects
+GIS supervisor
+In 2019, I began a collaboration as a consultant for the cartographic part with Eagleprojects, a young Umbrian company that was involved in the design of fiber optic networks for the national company Open Fiber, and that, in short order, managed to win the supply of the webgis still used for the design and the subsequent phases of the implementation of the national fiber optic network. I was initially involved in improving the performance of cartographic web services, in particular the restitution of orthophotos made in-house, later I was chosen as the contact person for the management of webgis services for AB clients, in particular Unidata for which I am the contact person for developments. I coordinate a team of about ten people, and am in charge of managing requests, all the way through the analysis of developments to their financial reporting. When needed I get involved in internal consulting for developments where the mapping part is needed.
+
+
+________________
+
+
+EDUCATION AND TRAINING
+ 
+* 1994: Diploma in Information Technology at the Technical Institute of Foligno, central Italy;
+* 2003: M.Sc in geology (applied petrography) at University of Perugia. My thesis  topic was the study and application of new analytical methodologies for archaeometry history (portable X-ray fluorescence, ICP mass spectrometry coupled to a laser ablation system) accompanied by the use of artificial intelligence techniques for data processing. 
+* 2004: PREDICTION AND PREVENTION OF GEOLOGICAL HAZARDS course, at the University of Florence:
+hydraulic, seismic, and volcanic risk
+risk of groundwater pollution
+hydrogeological problems in risk analysis of contaminated sites
+insurance policies
+GIS and remote sensing
+Remediation of contaminated sites;
+* 2004 Course for GIS EXPERT at the Link European training center of Massa Martana (PG):
+        AutoCAD
+        Access
+        Intergraph Geomedia
+        Safety
+        Privacy
+        With this course I have also performed 100 hours of internship at the ENVIRON Rome office;
+
+
+*  Seminars, workshops and conferences::
+   * ASITA 2002, Perugia (Environment, Land Planning and Cultural Heritage);
+   * ASITA 2004, Rome (standardization, interoperability and new technologies)
+   * AutoCAD 2006 and Map 2006 preview, Rome 2005: ;
+   * Geoesplora 2005: “management of water resources”, MONDOGIS conference;
+   * I Autodesk User Conference land and infrastructure, Rome, 2005: Map 3D 2006 course and technical session on Oracle Spatial;
+   * Workshop GISItinera 2005 organized in collaboration with ESRI:“the Geodatabase model, the news and the architectyre of the 9.1 release of ArcGIS”;
+   * Microsoft Technical Conference 2005: Launch of SQL Server 2005, Visual Studio 2005, BizTalk 2006.
+   * Ninth Conference of Italian ESRI users, Rome, 2006: geodatabase, model builder, spatial analysis of data.
+   * II Autodesk User Conference land and infrastructure, Rome, 2006;
+   * Workshop ESRI 2006 Rome, ArcGIS 9.2, ArcIMS, ArcSDE;
+   * III Autodesk User Conference land and infrastructure, Bologna, 2007;
+   * INGV, The Umbria-Marche seismic sequence 10 years after, Rome, 2007;
+   * IX Meeting of the Italian GRASS Users Gis - GFOSS
+   * X Conference of italian ESRI users;  
+   * XII Conference of italian ESRI users;
+   * Safeguarding and Preservation of Architectural Heritage, Spoleto (PG), 2010;
+   * IXXX nacional conferenze of GNGTS  (National Group of Solid Earth Geophysics), Prato 2010;
+   * GFOSS DAY 2010, III italian conferenze on GFOSS, Geographic Free and Open Source Software, Foligno 2010;
+   * Automation University On The Move, Firenze, 2012
+   * Oss4b, open source software for business, Prato, 2013 
+   * 40 hour course on Schlumberger's Eclipse software, Crema (CR), November 2014:
+   * 16 hour course on ENVI and PISAV from Exelis, Crema (CR), December 2014:
+   * Sustainable urbanization in Tuscany, design and construction of plants for the exploitation of low-enthalpy geothermal energy, Florence, September 2015;
+   * New public contracts, Florence, April 2016;
+   * Digital tools and software for geological survey, A. Moccia, January 2019;
+   * Satellite radar monitoring of soil deformations in the Tuscany Region, Florence, April 2019
+
+
+CV Bazzucchi, GIS geologist, page  of

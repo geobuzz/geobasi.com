@@ -1,0 +1,26 @@
+{
+  "name": "Christian Bazzucchi",
+  "role": "Geologo & Spatial Data Engineer",
+  "title": "Geologo | Spatial Data Management | GIS Architect",
+  "payoff": "Il territorio è fatto di dati. Il valore sta nel saperli connettere.",
+  "location": "Empoli (FI), Italia",
+  "coordinates": "43°43'02\"N 10°56'51\"E",
+  "bio_short": "Geologo con oltre 15 anni di esperienza nell'integrazione di sistemi informativi geografici, gestione di basi dati spaziali, automazione dei processi e coordinamento di gruppi di lavoro tecnici.",
+  "approach": {
+    "headline": "Partire dal problema, scegliere tecnologie mature, automatizzare ciò che serve.",
+    "paragraphs": [
+      "Non mi limito a utilizzare software GIS commerciali o a sviluppare script isolati: il mio lavoro consiste nel comprendere la complessità dei processi territoriali e tradurla in architetture dati robuste, interoperabili e scalabili.",
+      "Privilegio l'adozione dell'ecosistema open source maturo (PostGIS, QGIS, GeoServer, GDAL/OGR) combinato con linguaggi moderni di data science e automazione (Python, SQL spaziale), integrandoli all'occorrenza con piattaforme enterprise proprietarie quando il contesto lo richiede.",
+      "Dalla caratterizzazione ambientale alla viticoltura di precisione, dalla gestione di reti infrastrutturali all'analisi del rischio, il principio cardine rimane invariato: il dato territoriale acquista valore reale solo quando è accessibile, strutturato e collegato ai processi decisionali."
+    ]
+  },
+  "contacts": {
+    "email": "christian@geobasi.com",
+    "email_secondary": "m4rcu52@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/christianbazzucchi/",
+    "github": "https://github.com/geobuzz",
+    "substack": "https://geobuzz.substack.com/",
+    "instagram": "https://www.instagram.com/christian.bazzucchi/",
+    "anobii": "https://www.anobii.com/"
+  }
+}

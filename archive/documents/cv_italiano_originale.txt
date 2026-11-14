@@ -1,0 +1,175 @@
+﻿CURRICULUM VITAE
+  IMG_20171005_164035.jpg 
+Christian Bazzucchi
+________________
+
+
+GIS Analyst
+
+
+Anni di esperienza: 20
+nato a Foligno (PG)  l’1 dicembre 1975
+ 
+CONTATTI:
+
+
+Telefono: 333.40.72.734
+ 
+e-mail: christian.bazzucchi@gmail.com
+
+
+Linkedin : http://www.linkedin.com/in/christianbazzucchi
+
+
+domicilio: Via L. Pasteur, 38 - 50053 EMPOLI (FI)
+
+
+
+
+CAMPI DI SPECIALIZZAZIONE:
+* SISTEMI INFORMATIVI TERRITORIALI (GIS)
+* RETI TECNOLOGICHE 
+* OIL&GAS SOFTWARES
+* GPS SURVEYING & MOBILE TECHNOLOGIES
+* BONIFICHE DI SITI INQUINATI, ANALISI DI RISCHIO
+* CARATTERIZZAZIONE E CONSERVAZIONE DEI BENI ARCHITETTONICI (PETROGRAFIA APPLICATA)
+PRESENTAZIONE
+Sono un geologo e un informatico con oltre 20 anni di esperienza nel settore delle utility e dell'IT, con una forte specializzazione nei sistemi informativi geografici e come analista di dati.  Ho esperienza sia nello sviluppo individuale che nell'ambito di team di sviluppo più ampi, gestendo progetti multipli e guidando piccoli team nella determinazione dei punti critici e delle fasi di avanzamento dello sviluppo. Ho una buona conoscenza della lingua inglese. Ho inoltre frequentato diversi corsi sul rischio geologico e ambientale, sul decommissioning minerario, sui GIS e sui dati telerilevati, 
+Ho iniziato a lavorare a Roma nel 2004 per Environ, occupandomi della gestione della cartografia e dei dati di sito e di laboratorio attraverso sistemi GIS (ArcGIS e ArcIMS), e della redazione di caratterizzazioni ambientali. Nel 2006 mi sono specializzata nella conduzione di analisi di rischio sanitario. Nel 2008 sono entrato a far parte di DBCAD Perugia come analista funzionale e project manager dei loro sistemi GIS. Nella mia esperienza ci sono anche attività di cantiere con sistemi di acquisizione dati strumentali e rilievi topografici con strumentazione GPS differenziale, fino all'utilizzo di sistemi di intelligenza artificiale per i beni culturali. 
+Nel periodo 2011-2020 ho partecipato a diversi progetti come libero professionista:
+- esperto di tematiche ambientali e di sistemi informativi industriali presso lo stabilimento produttivo di un'importante industria chimica internazionale, sia per quanto riguarda la geologia (rilievi, discariche, ecc.) sia per la realizzazione di un portale GIS e di un sistema per la gestione dei rapporti di sicurezza attraverso un workflow documentale con tecnologie open-source. 
+- consulente Accenture per alcuni progetti quali la clonazione di sistemi tecnico-scientifici per servizi relativi a software di ricerca geofisica, ingegneria di giacimento, gestione delle informazioni, ecc. nell'ambito dello spinoff di Stogit da ENI a Snam, e sistemi di segnalazione di allarmi di mappatura in tempo reale.  
+- consulente per Ingegnerie Toscane, società che fornisce servizi e attività di supporto tecnico nel settore idrico-ambientale, occupandosi del GIS delle proprie reti idriche e fognarie attraverso i software Smallworld e ArcGIS. 
+- Collaborazione con Copernico, con cui ho realizzato un'applicazione mobile per il Consorzio del Brunello di Montalcino, rivolta ai turisti che visitano il loro territorio, scaricabile da google play e apple store, e un'applicazione webGIS per l'agricoltura di precisione, recensita su "l'enologo". 
+Dal 2019 lavoro per Eagleprojects S.p.a., come esperto di sistemi GIS per reti in fibra ottica e service manager per uno dei clienti più importanti.
+Dal punto di vista organizzativo delle mie capacità lavorative ho una forte preferenza per strutture ben organizzate dove poter sviluppare le mie esperienze e acquisirne di nuove, soprattutto se nel mondo dei big data e del machine learning. Sono anche disponibile a trasferte di lavoro; amo viaggiare.
+________________
+LE MIE ESPERIENZE LAVORATIVE IN DETTAGLIO
+2004 - 2007  geologo e gestore dei sistemi GIS presso la sede romana di  ENVIRON Corp. (USA) (www.environcorp.com); dove ho maturato le mie prime esperienze con importanti clienti italiani ed esteri, introducendo l'uso esteso di sistemi GIS in azienda ed occupandomi quindi della progettazione e gestione di banche dati geografiche in ambiente ArcGIS, a supporto della caratterizzazione ambientale ai sensi del TU ambiente 152/2006. Ho poi coordinato la realizzazione di un webserver in cui ho creato un db centralizzato per tutti i progetti, con tools a pagine web dinamiche per la creazione di reports e grafici in modo automatico, e cercato di avviare un progetto di immissione dati nel database da parte del tecnico direttamente in campagna così da avere la  visualizzazione degli andamenti storici dei parametri misurati in tempo reale. Nel 2007 ho sviluppato, per un'importante industria petrolchimica italiana, un sistema WebGIS, presentato anche a Consoil 2008 (http://www.geobasi.com/share/ENVIRON_webgis.pdf), in ambiente java e mappe ArcIMS, per la visualizzazione di dati ambientali di sito (planimetrie, layout, distribuzione contaminanti, ricostruzione superfici piezometriche, etc.)  avvalendomi della collaborazione di tecnici che si occupano del sistema di rilevazione istantanea di terremoti dell’Istituto Nazionale di Geofisica e Vulcanologia. Mi sono occupato inoltre di analisi di rischio sanitario per le contaminazioni di falde e terreni di siti contaminati inclusi negli elenchi dei siti di interesse nazionale, avvalendomi di fogli di calcolo realizzati appositamente e dei software più comuni come RBCA tool-kit, Rome, Giuditta; in questo periodo ho partecipato a team di lavoro composti da varie professionalità esperte nella modellazione di flusso e trasporto su acquiferi contaminati, sviluppando così notevole esperienza nelle applicazioni statistiche come supporto ai processi decisionali. Tali attività hanno incluso anche la progettazione statistica di caratterizzazioni, zonazioni, interpretazione dati su vari siti contaminati, nonché la produzione di software per il controllo di dati ambientali remotizzati e lo sviluppo di applicazioni per la visualizzazione di trend temporali e produzione di report.  Ho avuto anche  esperienze di cantiere con db di acquisizione dati remota ed elaborazione grafici e reports, di settaggio di parametri strumentazione pozzi, di controllo e validazione dei risultati analitici dei laboratori di analisi. Durante questo periodo sono stato anche docente di Informatica presso l’Istituto Tecnico Industriale “Sigismondi” di Nocera Umbra (PG), ho redatto una relazione geologica e tecnica per la realizzazione di un pozzo ad uso domestico, effettuato uno studio idrogeologico con prove di portata per una concessione in sanatoria di derivazione di acque pubbliche sotterranee tramite opere di captazione pre-esistenti e un rilievo planoaltimetrico tramite sistema GPS differenziale di piezometri, sondaggi e saggi di scavo in un’area di un importante petrolchimico sardo;
+
+
+2008 - 2010 analista e poi project manager, presso la D.B.CAD solution (ora Geoweb, Gruppo Filippetti); mi sono occupato in particolare dei progetti WebGIS ad alto livello di personalizzazione, seguendo tutto l'iter, dai primo colloqui con i clienti, fino alla messa in produzione dei sistemi, passando quindi per l'analisi, l'implementazione, i test e i collaudi del prodotto, il tutto basato  sul framework GeoWeb, che utilizzava tecnologie Java, Oracle ed Autodesk, creando applicazioni che integrano la consultazione di banche date geografiche realizzate con software esterni quali Autodesk Topobase, con la gestione di work-flow anche elaborati e multiutente, permettendo la gestione avendo sempre disponibile il dato geografico. 
+
+
+2011 -2013 esperto in problematiche ambientali industriali e in sistemi informativi con lo studio di ingegneria Schiavoni & Ciaberna di Narni (TR); ho prestato i miei servizi per la maggior parte presso lo stabilimento di produzione di una multinazionale del settore chimico, per la quale ho seguito la realizzazione di sondaggi e piezometri per la costruzione di una  centrale turbogas e partecipato alla progettazione delle soluzioni per lo sviluppo della discarica in loco.  Ho poi sviluppato l’analisi e coordinato  l’implementazione  di  un  sistema  per  la  gestione  della sicurezza : il  sistema  è  basato sull'esecuzione  di  un  work flow espresso  in  linguaggio  BPMN2 ed  implementato  tramite  il  motore  Activiti,  Spring  Framework e  MVC .  Il  layer  di  presentazione  è  stato  implementato  estendendo il  framework  javascript  Smartclient. E’ stato poi avviata la progettazione di un portale cartografico con tecnologie open source come openlayers, geoserver e postgresql, sempre con framework Smartclient il tutto su server linux. 
+
+
+2014 - 2017 consulente di Accenture per i progetti che coinvolgono software geografici, geologici e geofisici, in particolar modo del settore oil&gas, con le principali operatori italiani e internazionali del settore.
+
+
+2015 - 2018 collaborazione con Ingegnerie Toscane per i rilievi e gli inserimenti nel SIT della rete idrica e fognaria toscana tramite software Smallworld e ArcGIS.
+
+
+2016 - 2019 collaborazione con Copernico di Montalcino, con cui ho realizzato e presentato nel 2017 l’app ufficiale del Consorzio del Vino Brunello di Montalcino, dedicata ai turisti in visita al loro territorio:
+http://www.consorziobrunellodimontalcino.it/news/?p=12829&lang=it 
+Sempre con Copernico nel 2018 abbiamo realizzazione di un webgis che allora era lo stato dell’arte dei sistemi integrati di gestione e visualizzazione dei dati di analisi e campagna per l’agricoltura di precisione.  https://www.geobasi.com/lavori/agrinex
+
+
+Attualmente lavoro presso Eagleprojects come GIS supervisor e Service Manager nel settore ricerca e sviluppo; l’azienda si occupa principalmente di progettazione di reti in fibre ottiche, ma è molto attiva in settori innovativi, come la realtà virtuale, la realtà aumentata e il machine learning. Io mi occupo principalmente della gestione e manutenzione delle ortofoto realizzate da drone e laser scanner, dei server geografici e delle configurazioni delle mappe del software proprietario di supporto alla progettazione, oltre a gestire gli sviluppi del software GISFO di uno dei clienti più importanti.
+
+
+SOFTWARE SKILLS
+
+
+* ottime conoscescenze:
+   * QGIS
+   * ESRI ArcGIS
+   * GE Smallworld
+   * PostgreSQL - PostGIS
+   * Oracle PL/SQL
+   * Autodesk MapGuide
+   * Geoserver
+   * sistemi operativi Linux Debian/Ubuntu
+   * Jira
+   * MS Access
+* buone conoscenze:
+   * Petrel, Techlog, Omega, Visage
+   * Leica Geosystem Cyclone
+   * OpenLayers
+   * Autodesk AutoCAD, Map e Revit
+   * Intergraph Geomedia
+   * MS SQL Server
+   * Jasper Report
+   * Wellview
+   * ENVI
+   * Interpret
+   * Lennartz MARS & co.
+   * Seisan
+   * MESA
+   * NORSAR
+   * WinLog
+
+
+	   * Surfer
+   * VirtualBox, VMWare
+   * Configurazione ed installazione Apache Tomcat
+   * SQLite
+   * VBA (visual basic for application)
+   * linguaggio html
+   * servizi di rete (DHCP, WINS, DNS)
+   * Photoshop
+* altre conoscenze
+   * Grass
+   * Zoo
+   * php
+   * java
+   * javascript
+   * MySQL
+   * Visual Studio (Reporting Services, Visual Web Developer)
+   * Rockworks
+   * LogPlot
+   * Origin
+   * Strater
+   * Midland Valley Move
+   * Midland Valley Fieldmove/Clino
+   * app.visiblegeology.com
+	
+
+________________
+
+
+FORMAZIONE E TITOLI PROFESSIONALI
+ 
+* 1994: diploma di Perito Informatico conseguito presso l'istituto tecnico industriale di Foligno (PG);
+* 2003: Laurea in Scienze Geologiche indirizzo petrografia applicata. La mia tesi ha avuto come argomento lo studio e l’applicazione di nuove metodologie analitiche per l'archeometria storica (fluorescenza a raggi X portatile, spettrometria di massa ICP accoppiata ad un sistema di ablazione laser) affiancate dall'uso di tecniche di intelligenza artificiale per l'elaborazione dei dati. Laureato con la votazione di 103/110 il 12 dicembre 2003, dopo appena quattro anni dall’iscrizione al corso di laurea;
+* 2004: Esame di stato ed iscrizione all’albo dei geologi della regione Umbria (ora Toscana);
+* 2004: Corso (80 ore) di Perfezionamento in PREVISIONE E PREVENZIONE DEI RISCHI GEOLOGICI E GEOAMBIENTALI presso l'Università di Firenze:
+   * rischio idraulico, sismico, vulcanico
+   * dismissione di attività minerarie e rischio di inquinamento delle acque sotterranee
+   * problematiche idrogeologiche nell’analisi di rischio dei siti contaminati
+   * Interventi di bonifica di siti inquinati;
+   * politiche assicurative
+   * GIS e telerilevamento
+* 2004: Corso (300 ore) per ESPERTO IN GESTIONE DEI SERVIZI INFORMATIVI GEOGRAFICI (GIS) (moduli formativi: Sicurezza sul lavoro – CAD, DB e GIS – Qualità – Privacy - APPLICAZIONI G.I.S. – STAGE) presso il Centro di Formazione Europeo Link. Primo al test di ammissione e nella graduatoria finale. Con questo corso ho effettuato anche 100 ore di stage presso la sede romana di ENVIRON,in seguito al quale sono stato assunto;
+* 2014: Schlumberger Eclipse (40 ore);;
+* 2014: Exelis ENVI & PISAV (16 ore);
+* 2023: The Complete UML Course: Learn to Design UML Diagrams | Udemy;
+* 2024: Business Analysis Fundamentals - ECBA, CCBA, CBAP endorsed | Udemy;
+*  Seminari, workshop e conferenze:
+   * ASITA 2002, Perugia (l'Ambiente, il Territorio e il Patrimonio Culturale);
+   * ASITA 2004, Roma (standardizzazione, interoperabilità e nuove tecnologie)
+   * AutoCAD 2006 e Map 2006 preview, Roma 2005: ;
+   * Geoesplora 2005: “gestione delle risorse idriche”, conferenza MONDOGIS;
+   * I Autodesk User Conference territorio e infrastrutture, Roma, 2005: Corso Map 3D 2006 e sessione tecnica su Oracle Spatial;
+   * Workshop tecnologico GISItinera 2005 organizzato in collaborazione con ESRI “Il modello Geodatabase, l’architettura ArcGIS e le novità della versione 9.1”;
+   * Microsoft Technical Conference 2005: Lancio di SQL Server 2005, Visual Studio 2005, BizTalk 2006.
+   * Nona conferenza italiana utenti ESRI, Roma, aprile 2006: geodatabase, model builder, l’analisi spaziale dei dati.
+   * II Autodesk User Conference territorio ed infrastrutture, Roma, 2006;
+   * Workshop ESRI Ottobre 2006 Roma, ArcGIS 9.2, ArcIMS, ArcSDE;
+   * III Autodesk User Conference territorio ed infrastrutture, Bologna, ottobre 2007;
+   * INGV, La sequenza sismica umbro-marchigiana 10 anni dopo, Roma, ottobre 2007;
+   * IX Meeting degli Utenti Italiani di GRASS Gis - GFOSS
+   * 10° Conferenza Italiana Utenti ESRI;  
+   * 12a Conferenza Italiana Utenti ESRI, Roma, maggio 2009;
+   * Salvaguardia e Conservazione dei Beni Architettonici, Spoleto, 30 Settembre 2010;
+   * 29° Convegno Nazionale GNGTS  (Gruppo Nazionale di Geofisica della Terra Solida), Prato 26-28 ottobre 2010;
+   * GFOSS DAY 2010, 3a conferenza italiana sul software geografico libero, Foligno, 19-20 Novembre 2010;
+   * Automation University On The Move, Firenze, 20 Marzo 2012;
+   * Oss4b, open source software for business, Prato, 19-20 settembre 2013 http://www.oss4b.it/ ;
+   * Urbanizzazione sostenibile in Toscana, progettazione e realizzazione di impianti per lo sfruttamento della geotermia a bassa entalpia, Firenze, settembre  2015;
+   * I nuovi contratti pubblici, Firenze, aprile 2016;
+   * Strumenti digitali e software per il rilevamento geologico, A. Moccia, gennaio 2019;
+   * Monitoraggio radar satellitare delle deformazioni del terreno della Regione Toscana, Firenze, Aprile 2019.
+
+
+Curriculum Vitae Christian Bazzucchi, pagina  di

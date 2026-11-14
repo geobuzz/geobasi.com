@@ -1,0 +1,98 @@
+[
+  {
+    "title": "Il viaggiatore del secolo",
+    "author": "Andrés Neuman",
+    "status": "in_corso",
+    "rating": 5,
+    "year": "2009",
+    "genre": "Narrativa contemporanea",
+    "note": "Una città misteriosa in cui le strade mutano orientamento ogni giorno: romanzo colto e seducente sui confini dell'identità e dell'Europa.",
+    "quote": "Perché in fondo la storia degli esseri umani è sempre la storia di creature sperdute, straniere a loro stesse, che possono sperare di salvarsi solo se si affidano al cuore degli altri.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788817049870-M.jpg",
+    "anobii_url": "https://www.anobii.com/it/01d6d75099d9c1d4bb/profile"
+  },
+  {
+    "title": "Il ciclo di vita degli oggetti software",
+    "author": "Ted Chiang",
+    "status": "in_corso",
+    "rating": 4,
+    "year": "2010",
+    "genre": "Fantascienza / Intelligenza Artificiale",
+    "note": "Una delle più lucide e disincantate esplorazioni sull'allevamento, l'etica e l'affezione verso entità sintetiche senzienti.",
+    "quote": "L'esperienza non si può comprimere: per comprendere il mondo serve il tempo necessario a viverlo.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788865430583-M.jpg",
+    "anobii_url": "https://www.anobii.com/it/01d6d75099d9c1d4bb/profile"
+  },
+  {
+    "title": "L'ombra su Innsmouth",
+    "author": "H.P. Lovecraft",
+    "status": "letto",
+    "rating": 5,
+    "year": "1936",
+    "genre": "Letteratura fantastica / Classici del '900",
+    "note": "L'inquietudine claustrofobica del decadimento biologico e dell'atavismo. Una pietra miliare dell'immaginario orrorifico e cosmico.",
+    "quote": "Il mare è il più grande abisso del nostro pianeta: in esso dimorano ombre che precedono la memoria dell'uomo.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788807900891-M.jpg",
+    "anobii_url": "https://www.anobii.com/it/01d6d75099d9c1d4bb/profile"
+  },
+  {
+    "title": "Storie della tua vita",
+    "author": "Ted Chiang",
+    "status": "letto",
+    "rating": 5,
+    "year": "2002",
+    "genre": "Fantascienza filosofica",
+    "note": "Rigore concettuale e profondità umana: la riflessione sul tempo circolare e sulla natura del linguaggio nella celebre 'Storia della tua vita'.",
+    "quote": "Fin dall'inizio sapevo dove saremmo arrivati, eppure ho scelto di percorrere ogni singolo istante.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788882464738-M.jpg",
+    "anobii_url": "https://www.anobii.com/it/01d6d75099d9c1d4bb/profile"
+  },
+  {
+    "title": "Il Silmarillion",
+    "author": "J.R.R. Tolkien",
+    "status": "letto",
+    "rating": 5,
+    "year": "1977",
+    "genre": "Mythopoeia / Fantasy classico",
+    "note": "La cosmogonia suprema. Non un semplice romanzo, ma un'architettura mitologica e linguistica di impareggiabile coerenza e bellezza.",
+    "quote": "E la Terra fu plasmata dalla Musica, e la luce degli Alberi illuminò ciò che prima era tenebra.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788845293238-M.jpg",
+    "anobii_url": "https://www.anobii.com/it/01d6d75099d9c1d4bb/profile"
+  },
+  {
+    "title": "Ombre sulla luna",
+    "author": "Arthur C. Clarke",
+    "status": "letto",
+    "rating": 4,
+    "year": "1955",
+    "genre": "Fantascienza classica",
+    "note": "L'epopea scientifica dell'esplorazione e della colonizzazione lunare prima ancora che la realtà storica la raggiungesse.",
+    "quote": "La Terra era un immenso globo azzurro sospeso nel silenzio eterno dell'orbita.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788804533030-M.jpg",
+    "anobii_url": "https://www.anobii.com/it/01d6d75099d9c1d4bb/profile"
+  },
+  {
+    "title": "A come Andromeda",
+    "author": "Fred Hoyle, John Elliot",
+    "status": "letto",
+    "rating": 4,
+    "year": "1962",
+    "genre": "Hard Science Fiction",
+    "note": "La ricezione di un segnale alieno da 2 milioni di anni luce contenente le istruzioni per costruire un calcolatore: archetipo dell'interazione con l'ignoto.",
+    "quote": "Il messaggio non chiedeva risposta. Trasmetteva soltanto la formula per creare una nuova intelligenza.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788804677932-M.jpg",
+    "anobii_url": "https://www.anobii.com/it/01d6d75099d9c1d4bb/profile"
+  },
+  {
+    "title": "Lo Stato Falsario",
+    "author": "Murray N. Rothbard",
+    "status": "letto",
+    "rating": 4,
+    "year": "1963",
+    "genre": "Economia / Teoria monetaria",
+    "note": "Analisi rigorosa della moneta, del credito e delle dinamiche inflazionistiche nella prospettiva della scuola austriaca.",
+    "quote": "La moneta non nasce per decreto, ma come merce dotata di valore proprio e spontaneamente scelta dal mercato.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788849845013-M.jpg",
+    "anobii_url": "https://www.anobii.com/it/01d6d75099d9c1d4bb/profile"
+  }
+]

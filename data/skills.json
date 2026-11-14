@@ -1,0 +1,50 @@
+[
+  {
+    "category": "Geospatial Data & GIS",
+    "description": "Progettazione, modellazione spaziale, analisi cartografica avanzata e pubblicazione di servizi OGC standard.",
+    "tools": [
+      "QGIS",
+      "ESRI ArcGIS / ArcSDE",
+      "GeoServer",
+      "OpenLayers",
+      "GDAL / OGR",
+      "GE Smallworld",
+      "Interferometria SAR",
+      "Telerilevamento multispettrale"
+    ]
+  },
+  {
+    "category": "Database & Architetture Spaziali",
+    "description": "Basi dati relazionali e spaziali ad alte prestazioni, indicizzazione geometrica, tuning e modellazione schemi complessi.",
+    "tools": [
+      "PostgreSQL / PostGIS",
+      "Oracle Spatial (PL/SQL)",
+      "SpatiaLite / SQLite",
+      "MS SQL Server Spatial",
+      "ESRI Geodatabase",
+      "Modellazione E-R e Schemi OGC"
+    ]
+  },
+  {
+    "category": "Automazione, Scripting & Dev",
+    "description": "Pipeline ETL geospaziali, script di calcolo automatico, integrazione API e componenti WebGIS.",
+    "tools": [
+      "Python (GeoPandas, Shapely, PyQGIS)",
+      "Bash / Linux (Debian, Ubuntu)",
+      "SQL Avanzato & Stored Procedures",
+      "JavaScript / HTML5 / CSS3",
+      "PHP & Java (manutenzione ed estensione)"
+    ]
+  },
+  {
+    "category": "Ambiti Applicativi & Dominio",
+    "description": "Esperienza multidisciplinare maturata sul campo tra scienze geologiche, grandi reti e innovazione digitale.",
+    "tools": [
+      "Precision Farming & Agritech",
+      "Gestione Reti & Infrastrutture Tecnologiche",
+      "Bonifiche Ambientali & Analisi di Rischio",
+      "Oil & Gas E&P Software",
+      "Coordinamento Team & Gestione Progetti"
+    ]
+  }
+]

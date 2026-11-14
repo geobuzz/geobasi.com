@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christian Bazzucchi — Curriculum Vitae (EN)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FBF9F4;
+      --card-bg: #FFFFFF;
+      --ink: #12222E;
+      --ink-muted: #5A6D7C;
+      --copper: #C25928;
+      --border: #DDD5C7;
+      --border-subtle: #EBE4D8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      line-height: 1.55;
+      font-size: 14px;
+      padding: 30px 16px;
+    }
+    .cv-container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 48px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      position: relative;
+    }
+    .no-print-bar {
+      max-width: 860px;
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+    }
+    .no-print-bar a {
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      background: #FFF;
+      border-radius: 2px;
+    }
+    .no-print-bar a:hover {
+      border-color: var(--copper);
+      color: var(--copper);
+    }
+    .cv-header {
+      border-bottom: 2px solid var(--copper);
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+    }
+    .cv-name {
+      font-family: 'Newsreader', serif;
+      font-size: 34px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .cv-title {
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      color: var(--copper);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 14px;
+    }
+    .cv-meta {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--ink-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .cv-meta a { color: inherit; text-decoration: none; }
+    .cv-section {
+      margin-bottom: 28px;
+    }
+    .cv-section-title {
+      font-family: 'Newsreader', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--ink);
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 6px;
+      margin-bottom: 16px;
+    }
+    .cv-summary {
+      font-size: 14px;
+      color: var(--ink-muted);
+      line-height: 1.65;
+    }
+    .cv-skill-group {
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .cv-skill-name {
+      font-weight: 600;
+      color: var(--ink);
+      display: inline-block;
+      min-width: 180px;
+    }
+    .cv-skill-tools {
+      color: var(--ink-muted);
+    }
+    .cv-entry {
+      margin-bottom: 20px;
+    }
+    .cv-entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+    .cv-entry-role {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .cv-entry-company {
+      font-size: 13px;
+      color: var(--copper);
+      font-weight: 500;
+    }
+    .cv-entry-period {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--ink-muted);
+    }
+    .cv-entry-desc {
+      font-size: 13px;
+      color: var(--ink-muted);
+      line-height: 1.55;
+      margin-bottom: 6px;
+    }
+    .cv-highlights {
+      padding-left: 20px;
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+    .cv-highlights li { margin-bottom: 3px; }
+
+    @media print {
+      body { background: #FFF; padding: 0; font-size: 12px; }
+      .no-print-bar { display: none; }
+      .cv-container { border: none; box-shadow: none; padding: 0; }
+      .cv-entry { page-break-inside: avoid; }
+      a { text-decoration: none; color: inherit; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="no-print-bar">
+    <a href="index.html">&larr; Back to Geobasi.com</a>
+    <div style="display: flex; gap: 10px;">
+      <a href="cv-it.html">Passa al CV in Italiano</a>
+      <a href="javascript:window.print()">&darr; Print / Save as PDF</a>
+    </div>
+  </div>
+
+  <div class="cv-container">
+    <header class="cv-header">
+      <h1 class="cv-name">Christian Bazzucchi</h1>
+      <div class="cv-title">Geologist & Spatial Data Engineer | GIS Architect</div>
+      <div class="cv-meta">
+        <span>Empoli (FI), Italy</span>
+        <span>&bull;</span>
+        <a href="mailto:christian@geobasi.com">christian@geobasi.com</a>
+        <span>&bull;</span>
+        <a href="https://www.linkedin.com/in/christianbazzucchi/" target="_blank">LinkedIn</a>
+        <span>&bull;</span>
+        <a href="https://github.com/geobuzz" target="_blank">GitHub: @geobuzz</a>
+        <span>&bull;</span>
+        <span>geobasi.com</span>
+      </div>
+    </header>
+
+    <section class="cv-section">
+      <p class="cv-summary">Geologist and computer scientist with over 18 years of specialized experience in GIS, spatial databases, and data architectures. Extensive expertise in integrating geospatial data, pipeline automation (Python, Spatial SQL), environmental characterization, and coordinating technical teams across utility, telecommunication, and agricultural sectors.</p>
+    </section>
+
+    <section class="cv-section">
+      <h2 class="cv-section-title">Technical Skills</h2>
+      
+        <div class="cv-skill-group">
+          <span class="cv-skill-name">GIS Technologies:</span>
+          <span class="cv-skill-tools">ESRI ArcGIS / ArcSDE, QGIS, GeoServer, OpenLayers, GE Smallworld, GDAL/OGR</span>
+        </div>
+        
+        <div class="cv-skill-group">
+          <span class="cv-skill-name">Spatial Databases:</span>
+          <span class="cv-skill-tools">PostgreSQL / PostGIS, Oracle Spatial (PL/SQL), SpatiaLite, MS SQL Server Spatial</span>
+        </div>
+        
+        <div class="cv-skill-group">
+          <span class="cv-skill-name">Development & Automation:</span>
+          <span class="cv-skill-tools">Python (GeoPandas, Shapely, PyQGIS), Spatial SQL, Bash / Linux, JavaScript, PHP, HTML5/CSS3</span>
+        </div>
+        
+        <div class="cv-skill-group">
+          <span class="cv-skill-name">Domains & Methodologies:</span>
+          <span class="cv-skill-tools">Utility & Fiber Optic Networks (FTTH), Precision Agriculture & Viticulture, Contaminated Sites Remediation & Health Risk Analysis, Oil & Gas E&P Software, Differential GPS Surveying</span>
+        </div>
+        
+    </section>
+
+    <section class="cv-section">
+      <h2 class="cv-section-title">Professional Experience</h2>
+      
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div>
+              <h3 class="cv-entry-role">GIS Expert & Service Manager (Fiber Optic Networks)</h3>
+              <div class="cv-entry-company">Eagle Projects S.p.A. &bull; Italy</div>
+            </div>
+            <div class="cv-entry-period">2019 – Present</div>
+          </div>
+          <p class="cv-entry-desc">Geospatial architecture and technical coordination for large-scale fiber optic network design (GISFO), topological validation pipelines, and service management for top-tier infrastructure clients.</p>
+          <ul class="cv-highlights"><li>Automated topological integrity validation and bill-of-quantities calculation pipelines using Python and PostGIS.</li><li>Management of enterprise geospatial databases and technical workflows.</li></ul>
+        </div>
+        
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div>
+              <h3 class="cv-entry-role">GIS Analyst & Spatial Consultant</h3>
+              <div class="cv-entry-company">Independent Consultant / Project Collaborations &bull; Tuscany / Umbria, Italy</div>
+            </div>
+            <div class="cv-entry-period">2013 – 2019</div>
+          </div>
+          <p class="cv-entry-desc">Consulting on WebGIS development, mobile cartography, and utility network management.</p>
+          <ul class="cv-highlights"><li>Ingegnerie Toscane (2015–2018): GIS management of regional water and wastewater networks via Smallworld and ArcGIS.</li><li>Copernico: Built 'Brunello App' (Consorzio del Vino Brunello di Montalcino) mobile mapping and Agrinex precision viticulture WebGIS (featured on 'L'Enologo').</li></ul>
+        </div>
+        
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div>
+              <h3 class="cv-entry-role">Technical Consultant – Oil & Gas Geospatial Software</h3>
+              <div class="cv-entry-company">Accenture &bull; Milan / San Donato Milanese, Italy</div>
+            </div>
+            <div class="cv-entry-period">2014 – 2017</div>
+          </div>
+          <p class="cv-entry-desc">Technical-scientific system cloning and integration for geophysical exploration, reservoir engineering, and subsurface databases during the Stogit spinoff from ENI to Snam.</p>
+          <ul class="cv-highlights"><li>Subsurface database integration across Petrel, Techlog, OpenWorks, and ArcSDE.</li><li>Real-time geospatial alerting and mapping systems.</li></ul>
+        </div>
+        
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div>
+              <h3 class="cv-entry-role">Environmental Systems & Industrial GIS Specialist</h3>
+              <div class="cv-entry-company">Schiavoni & Ciaberna / Multinational Chemical Plant &bull; Narni (TR), Italy</div>
+            </div>
+            <div class="cv-entry-period">2011 – 2013</div>
+          </div>
+          <p class="cv-entry-desc">BPMN2 workflow implementation with Activiti/Spring for safety report management, and open-source cartographic portal development (OpenLayers, GeoServer, PostgreSQL).</p>
+          <ul class="cv-highlights"><li>Site geology oversight for turbogas plant construction and industrial landfill development.</li><li>Enterprise document workflow and WebGIS architecture.</li></ul>
+        </div>
+        
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div>
+              <h3 class="cv-entry-role">Functional Analyst & WebGIS Project Manager</h3>
+              <div class="cv-entry-company">D.B.CAD Solution (Geoweb, Filippetti Group) &bull; Perugia, Italy</div>
+            </div>
+            <div class="cv-entry-period">2008 – 2010</div>
+          </div>
+          <p class="cv-entry-desc">End-to-end management of custom enterprise WebGIS solutions using Java, Oracle, and Autodesk Topobase frameworks.</p>
+          <ul class="cv-highlights"><li>Specification, development, testing, and production deployment of multi-user geographic workflows.</li></ul>
+        </div>
+        
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div>
+              <h3 class="cv-entry-role">Geologist & GIS Specialist</h3>
+              <div class="cv-entry-company">ENVIRON Corp. (USA) &bull; Rome, Italy</div>
+            </div>
+            <div class="cv-entry-period">2004 – 2007</div>
+          </div>
+          <p class="cv-entry-desc">Geospatial database design, environmental characterization under D.Lgs 152/2006, health risk assessment (RBCA, Rome, Giuditta), and WebGIS development presented at Consoil 2008.</p>
+          <ul class="cv-highlights"><li>Designed centralized database for real-time site monitoring and automatic reporting.</li><li>Consoil 2008 paper on Java/ArcIMS environmental WebGIS for petrochemical sites.</li><li>Differential GPS surveys on contaminated industrial sites.</li></ul>
+        </div>
+        
+    </section>
+
+    <section class="cv-section">
+      <h2 class="cv-section-title">Education & Specializations</h2>
+      
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div>
+              <h3 class="cv-entry-role">M.Sc. in Geological Sciences</h3>
+              <div class="cv-entry-company">University of Florence (Università degli Studi di Firenze)</div>
+            </div>
+          </div>
+          <p class="cv-entry-desc">Specialization in applied geology, hydrogeology, and remote sensing.</p>
+        </div>
+        
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div>
+              <h3 class="cv-entry-role">Postgraduate Specializations</h3>
+              <div class="cv-entry-company">Various Institutions & Professional Order</div>
+            </div>
+          </div>
+          <p class="cv-entry-desc">Geological and environmental risk, mining decommissioning, SAR interferometry, and open-source geospatial programming.</p>
+        </div>
+        
+    </section>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+{
+  "name": "Christian Bazzucchi",
+  "title": "Geologo & Spatial Data Engineer | GIS Architect",
+  "location": "Empoli (FI), Italia",
+  "email": "christian@geobasi.com",
+  "linkedin": "https://www.linkedin.com/in/christianbazzucchi/",
+  "github": "https://github.com/geobuzz",
+  "website": "https://geobasi.com",
+  "summary": "Geologo con oltre 15 anni di esperienza specialistica nel settore ICT e geospaziale. Forte competenza nella progettazione di architetture dati geografiche, gestione di spatial database (PostGIS, Oracle Spatial), sviluppo di pipeline ETL e automazioni Python, e coordinamento di gruppi di lavoro tecnici per progetti di grandi reti, ambiente e agricoltura di precisione.",
+  "skills": {
+    "Sistemi GIS": ["ESRI ArcGIS / ArcSDE", "QGIS", "GeoServer", "OpenLayers", "GE Smallworld", "GDAL/OGR"],
+    "Spatial Database": ["PostgreSQL / PostGIS", "Oracle Spatial (PL/SQL)", "SpatiaLite", "MS SQL Server Spatial"],
+    "Linguaggi & Dev": ["Python (GeoPandas, Shapely, PyQGIS)", "SQL Spaziale", "Bash / Shell Linux", "JavaScript", "PHP", "HTML/CSS"],
+    "Domini & Metodi": ["Reti Tecnologiche & TLC", "Precision Farming", "Bonifiche & Rischio Ambientale", "E&P Oil&Gas Software", "Rilievi GPS Differenziali"]
+  },
+  "experiences": [
+    {
+      "role": "GIS Analyst & Spatial Data Engineer",
+      "company": "Consulenza e Progetti Territoriali",
+      "period": "2016 – Presente",
+      "location": "Toscana, Italia",
+      "description": "Progettazione di architetture geodati, pipeline di elaborazione spaziale e automazione dei processi per progetti infrastrutturali, agronomici e ambientali.",
+      "highlights": [
+        "Sviluppo della piattaforma WebGIS Agrinex per la viticoltura di precisione (pubblicato su 'L'Enologo').",
+        "Architettura dati e cartografia mobile per il Consorzio del Brunello di Montalcino.",
+        "Sviluppo di moduli di validazione topologica e computi metrici territoriali per reti TLC in collaborazione con Eagle Projects (GISFO)."
+      ]
+    },
+    {
+      "role": "GIS Analyst & Coordinamento Tecnico",
+      "company": "Ingegnerie Toscane / Settore Utilities",
+      "period": "2013 – 2016",
+      "location": "Firenze, Italia",
+      "description": "Gestione del patrimonio dati georeferenziato delle reti idriche e fognarie. Integrazione tra banche dati cartografiche e gestionali aziendali, analisi di congruenza geometrica e sviluppo di procedure di aggiornamento massivo.",
+      "highlights": [
+        "Modellazione e migrazione banche dati di rete verso standard GIS enterprise.",
+        "Coordinamento delle risorse tecniche dedicate al rilievo e alla digitalizzazione del reticolo."
+      ]
+    },
+    {
+      "role": "Consultant – GIS & Oil&Gas Software",
+      "company": "Accenture",
+      "period": "2011 – 2013",
+      "location": "Milano / San Donato Milanese, Italia",
+      "description": "Consulenza e supporto specialistico presso primaria compagnia energetica per progetti di cloning, migrazione e integrazione di suite software GIS e geologiche complesse (Petrel, Techlog, OpenWorks, ArcSDE).",
+      "highlights": [
+        "Integrazione e validazione banche dati subsurface ed esplorative.",
+        "Assistenza tecnica e coordinamento su architetture server geospaziali."
+      ]
+    },
+    {
+      "role": "Geologo & Tecnico Sistemi Informativi Territoriali",
+      "company": "Libera professione & Collaborazioni",
+      "period": "2007 – 2011",
+      "location": "Italia",
+      "description": "Caratterizzazioni ambientali, bonifiche di siti inquinati, analisi di rischio sanitario, rilievi strumentali con GPS differenziale ad alta precisione e docenze di informatica presso istituti tecnici.",
+      "highlights": [
+        "Progettazione della piattaforma WebGIS Environ per il monitoraggio dei siti contaminati.",
+        "Acquisizione ed elaborazione dati topografici e idrogeologici di campo."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Laurea in Scienze Geologiche",
+      "institution": "Università degli Studi di Firenze",
+      "details": "Specializzazione in geologia applicata, idrogeologia e telerilevamento."
+    },
+    {
+      "degree": "Corsi di Perfezionamento & Specializzazione Continua",
+      "institution": "Enti vari ed Ordine Professionale",
+      "details": "Rischio geologico e ambientale, dismissione mineraria, elaborazione dati radar satellitari (SAR) e programmazione geospaziale open source."
+    }
+  ],
+  "languages": [
+    {"language": "Italiano", "level": "Madrelingua"},
+    {"language": "Inglese", "level": "Fluente / Professionale"}
+  ]
+}

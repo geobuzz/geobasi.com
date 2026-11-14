@@ -119,6 +119,54 @@ def scan_instagram_profile():
         print(f"[INSTAGRAM] Scansione live fallita: {err_msg}. Mantenuto il catalogo esistente ({len(existing_catalog)} post).")
         return False, existing_catalog, f"Scansione fallita ({err_msg}). Mantenuto catalogo precedente di {len(existing_catalog)} post"
 
+def download_photo_image(shortcode, image_url=None):
+    """Scarica e memorizza la foto in assets/img/photos/<shortcode>.jpg se non già presente."""
+    img_dir = os.path.join(BASE_DIR, "assets", "img", "photos")
+    os.makedirs(img_dir, exist_ok=True)
+    dest_path = os.path.join(img_dir, f"{shortcode}.jpg")
+    rel_path = f"assets/img/photos/{shortcode}.jpg"
+    
+    if os.path.exists(dest_path) and os.path.getsize(dest_path) > 1000:
+        return rel_path
+
+    urls_to_try = []
+    if image_url:
+        urls_to_try.append(image_url)
+    urls_to_try.append(f"https://www.instagram.com/p/{shortcode}/media/?size=l")
+
+    import urllib.request
+    for u in urls_to_try:
+        try:
+            req = urllib.request.Request(
+                u,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                }
+            )
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                content = resp.read()
+                if len(content) > 1000:
+                    with open(dest_path, "wb") as f:
+                        f.write(content)
+                    return rel_path
+        except Exception:
+            continue
+
+    return rel_path
+
+def determine_location(post_dict):
+    """Estrae il luogo dal geotag o dalla prima riga della didascalia."""
+    loc = post_dict.get("location")
+    if loc and loc != "Profilo Instagram @christian.bazzucchi":
+        return loc
+    caption = post_dict.get("caption", "").strip()
+    if caption:
+        first_line = caption.split("\n")[0].strip()
+        clean = " ".join([w for w in first_line.split() if not w.startswith("#")]).strip()
+        if len(clean) >= 3:
+            return clean[:50]
+    return "Toscana, Italia"
+
 def pick_random_posts(sample_size=4, preserve_existing=False):
     catalog = load_catalog()
     if not catalog:
@@ -167,11 +215,14 @@ def pick_random_posts(sample_size=4, preserve_existing=False):
         is_valid, reason = validate_post_coherence(p)
         if not is_valid:
             raise ValueError(f"Incoerenza validazione post {sc}: {reason}")
+
+        img_rel = download_photo_image(sc, p.get("image_url"))
+        loc = determine_location(p)
             
         validated_posts.append({
             "shortcode": sc,
-            "title": p.get("title", "Post dal profilo Instagram"),
-            "location": "Profilo Instagram @christian.bazzucchi",
+            "location": loc,
+            "image": img_rel,
             "date": p.get("date", ""),
             "caption": p.get("caption", ""),
             "permalink": p.get("permalink", f"https://www.instagram.com/p/{sc}/")

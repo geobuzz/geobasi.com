@@ -156,31 +156,30 @@ def build():
         </a>
         """
 
-    # Photos HTML (Embed ufficiale nativo di Instagram con fallback tipografico robusto)
+    # Photos HTML (Solo immagine autentica e luogo, al click apre il post originale su Instagram in nuova scheda)
     photos_html = ""
     for idx, ph in enumerate(photos):
-        permalink = ph.get('permalink', 'https://www.instagram.com/christian.bazzucchi/')
-        date_str = ph.get('date', '')
-        title = ph.get('title', 'Post dal profilo Instagram')
-        caption = ph.get('caption', '')
-        clean_cap = (caption[:160] + "...") if len(caption) > 160 else caption
+        sc = ph.get('shortcode', '')
+        permalink = ph.get('permalink') or f"https://www.instagram.com/p/{sc}/"
+        location = ph.get('location') or 'Toscana, Italia'
+        clean_loc = location.split('\n')[0].strip()
+        if not clean_loc:
+            clean_loc = "Toscana, Italia"
+        image_src = ph.get('image') or f"assets/img/photos/{sc}.jpg"
         
         photos_html += f"""
-        <div class="instagram-embed-wrap">
-          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{permalink}" data-instgrm-version="14" style="background:#FFF; border:1px solid var(--border-carto); border-radius:2px; margin:0; width:100%; min-width:280px; max-width:480px; padding:0;">
-            <div class="ig-fallback-card" style="padding:24px; text-align:left; background:var(--bg-surface-elevated);">
-              <div style="font-family:var(--font-mono); font-size:11px; color:var(--accent-copper); margin-bottom:8px;">INSTAGRAM &bull; {date_str}</div>
-              <h4 style="font-family:var(--font-serif); font-size:17px; margin-bottom:10px; color:var(--ink-primary); line-height:1.35;">{title}</h4>
-              <p style="font-size:13px; color:var(--ink-secondary); line-height:1.5; margin-bottom:16px;">{clean_cap if clean_cap else 'Contenuto fotografico dal profilo ufficiale @christian.bazzucchi.'}</p>
-              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border-carto); padding-top:12px;">
-                <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-muted);">@christian.bazzucchi</span>
-                <a href="{permalink}" style="font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--accent-copper); text-decoration:none;">
-                  Apri post originale &nearr;
-                </a>
-              </div>
+        <a href="{permalink}" class="photo-card" target="_blank" rel="noopener noreferrer" title="Vedi post Instagram: {clean_loc}">
+          <div class="photo-img-wrap">
+            <img src="{image_src}" alt="{clean_loc}" loading="lazy" onerror="this.onerror=null; this.src='https://www.instagram.com/p/{sc}/media/?size=l';">
+            <div class="photo-link-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
             </div>
-          </blockquote>
-        </div>
+          </div>
+          <div class="photo-info">
+            <span class="photo-pin">&oplus;</span>
+            <span class="photo-location">{clean_loc}</span>
+          </div>
+        </a>
         """
 
     # Full HTML Document
@@ -227,12 +226,24 @@ def build():
       position: relative;
     }}
 
+    .carto-topo-bg {{
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url('assets/img/valtopina_contours.svg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      opacity: 0.38;
+    }}
+
     .carto-graticule {{
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.35;
+      opacity: 0.20;
       background-image: 
         linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
         linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
@@ -242,9 +253,10 @@ def build():
     .wrapper {{
       position: relative;
       z-index: 1;
-      max-width: 1140px;
+      width: 100%;
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 clamp(20px, 3.5vw, 48px);
     }}
 
     /* Top Technical Header */
@@ -350,7 +362,7 @@ def build():
       line-height: 1.15;
       font-weight: 600;
       color: var(--ink-primary);
-      max-width: 840px;
+      max-width: 1080px;
       margin-bottom: 16px;
       letter-spacing: -0.02em;
     }}
@@ -362,14 +374,14 @@ def build():
       line-height: 1.4;
       color: var(--accent-copper);
       margin-bottom: 24px;
-      max-width: 780px;
+      max-width: 960px;
     }}
 
     .hero-intro {{
       font-size: 18px;
       line-height: 1.65;
       color: var(--ink-secondary);
-      max-width: 740px;
+      max-width: 880px;
       margin-bottom: 36px;
     }}
 
@@ -811,64 +823,97 @@ def build():
       gap: 4px;
     }}
 
-    /* Photos Section (Instagram Embed Grid) */
+    /* Photos Section (Cartographic Photography Gallery) */
     .photo-grid {{
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      justify-items: center;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      width: 100%;
     }}
 
-    .instagram-embed-wrap {{
-      width: 100%;
-      max-width: 500px;
+    .photo-card {{
       display: flex;
-      justify-content: center;
-    }}
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-carto);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      position: relative;
     }}
     .photo-card:hover {{
       border-color: var(--accent-copper);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(18, 34, 46, 0.08);
     }}
 
     .photo-img-wrap {{
       width: 100%;
-      height: 190px;
+      aspect-ratio: 1 / 1;
       overflow: hidden;
       background: var(--bg-surface);
+      position: relative;
     }}
 
     .photo-img-wrap img {{
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease;
+      display: block;
+      transition: transform 0.35s ease;
     }}
-    .photo-card:hover .photo-img-wrap img {{ transform: scale(1.04); }}
+    .photo-card:hover .photo-img-wrap img {{
+      transform: scale(1.05);
+    }}
+
+    .photo-link-badge {{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(18, 34, 46, 0.78);
+      color: #FFF;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      backdrop-filter: blur(2px);
+    }}
+    .photo-card:hover .photo-link-badge {{
+      opacity: 1;
+      transform: scale(1.08);
+    }}
 
     .photo-info {{
-      padding: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-top: 1px dashed var(--border-carto);
+      background: var(--bg-surface-elevated);
+    }}
+
+    .photo-pin {{
+      color: var(--accent-copper);
+      font-size: 13px;
+      line-height: 1;
+      flex-shrink: 0;
     }}
 
     .photo-location {{
       font-family: var(--font-mono);
       font-size: 11px;
-      color: var(--accent-copper);
       font-weight: 600;
-      margin-bottom: 2px;
-    }}
-
-    .photo-coords {{
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--ink-muted);
-      margin-bottom: 6px;
-    }}
-
-    .photo-caption {{
-      font-size: 12px;
-      color: var(--ink-secondary);
-      line-height: 1.45;
+      color: var(--ink-primary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
     }}
 
     /* Lightbox Modal */
@@ -1049,7 +1094,16 @@ def build():
       gap: 10px;
     }}
 
-    @media (max-width: 900px) {{
+    @media (max-width: 1024px) {{
+      .approach-grid, .project-grid, .article-grid, .library-grid {{
+        grid-template-columns: repeat(2, 1fr);
+      }}
+      .photo-grid {{
+        grid-template-columns: repeat(2, 1fr);
+      }}
+    }}
+
+    @media (max-width: 768px) {{
       .hero-title {{ font-size: 38px; }}
       .approach-grid, .project-grid, .article-grid, .photo-grid, .library-grid, .skills-grid {{
         grid-template-columns: 1fr;
@@ -1060,6 +1114,7 @@ def build():
 </head>
 <body>
 
+  <div class="carto-topo-bg"></div>
   <div class="carto-graticule"></div>
 
   <!-- Technical Header -->
@@ -1093,7 +1148,6 @@ def build():
   <!-- Hero Section -->
   <section class="hero" id="inizio">
     <div class="wrapper">
-      <div class="hero-meta">&bull; Profilo Professionale & Personale &bull;</div>
       <h1 class="hero-title">{profile.get('name', 'Christian Bazzucchi')}</h1>
       <p class="hero-identity">{profile.get('identity_tags', 'Informatico, geologo, musicista, motociclista.')}</p>
       <p class="hero-intro">{profile.get('description_professional', '')}</p>
@@ -1300,48 +1354,6 @@ def build():
       </div>
     </div>
   </footer>
-
-  <!-- Lightbox Modal -->
-  <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox(event)">
-    <div class="lightbox-content" onclick="event.stopPropagation()">
-      <div class="lightbox-close" onclick="closeLightboxModal()">&times;</div>
-      <div class="lightbox-img-wrap">
-        <img id="lightboxImg" src="" alt="">
-      </div>
-      <div class="lightbox-details">
-        <div id="lightboxMeta" class="lightbox-meta"></div>
-        <h3 id="lightboxTitle" class="lightbox-title"></h3>
-        <p id="lightboxDesc" class="lightbox-desc"></p>
-        <div class="lightbox-actions">
-          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted);">Fotografia personale autentica</span>
-          <a id="lightboxInstagramLink" href="#" target="_blank" rel="noopener" class="btn-outline" style="font-size: 12px;">Visualizza su Instagram &nearr;</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function openLightbox(imgUrl, title, loc, coords, date, caption, permalink) {{
-      document.getElementById('lightboxImg').src = imgUrl;
-      document.getElementById('lightboxTitle').innerText = title;
-      document.getElementById('lightboxMeta').innerText = loc + (coords ? ' • ' + coords : '') + (date ? ' • ' + date : '');
-      document.getElementById('lightboxDesc').innerText = caption;
-      document.getElementById('lightboxInstagramLink').href = permalink;
-      document.getElementById('lightboxModal').style.display = 'flex';
-    }}
-
-    function closeLightboxModal() {{
-      document.getElementById('lightboxModal').style.display = 'none';
-    }}
-
-    function closeLightbox(event) {{
-      if (event.target.id === 'lightboxModal') {{
-        closeLightboxModal();
-      }}
-    }}
-
-  </script>
-  <script async src="//www.instagram.com/embed.js"></script>
 
 </body>
 </html>

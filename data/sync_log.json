@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2026-11-14T17:59:58.614644+00:00",
+    "source": "site_builder",
+    "status": "ERROR",
+    "records_processed": 0,
+    "message": "Errore build_site: f-string expression part cannot include a backslash (build_site.py, line 1236)"
+  },
+  {
+    "timestamp": "2026-11-14T17:59:58.613066+00:00",
+    "source": "instagram_api",
+    "status": "SKIPPED",
+    "records_processed": 0,
+    "message": "Token non presente. Galleria gestita tramite data/photos.json"
+  },
+  {
+    "timestamp": "2026-11-14T17:59:58.612726+00:00",
+    "source": "linkedin_api",
+    "status": "SKIPPED",
+    "records_processed": 0,
+    "message": "Token non presente. Utilizzare scripts/import_linkedin.py per importazione manuale"
+  },
+  {
+    "timestamp": "2026-11-14T17:59:58.611877+00:00",
+    "source": "substack",
+    "status": "ERROR",
+    "records_processed": 0,
+    "message": "HTTP Error 403: Forbidden"
+  },
+  {
     "timestamp": "2026-11-14T17:59:24.481967+00:00",
     "source": "site_builder",
     "status": "SUCCESS",

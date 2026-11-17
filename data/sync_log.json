@@ -1,5 +1,54 @@
 [
   {
+    "timestamp": "2026-11-17T11:37:26.320449+00:00",
+    "source": "pipeline",
+    "status": "PARTIAL",
+    "records_processed": 162,
+    "message": "Pipeline completata con successo parziale (una o più fonti in stato PARTIAL)",
+    "details": {
+      "substack": "SUCCESS",
+      "linkedin_api": "SKIPPED",
+      "instagram": "PARTIAL",
+      "anobii": "SUCCESS",
+      "site_builder": "SUCCESS"
+    }
+  },
+  {
+    "timestamp": "2026-11-17T11:37:26.319787+00:00",
+    "source": "site_builder",
+    "status": "SUCCESS",
+    "records_processed": 1,
+    "message": "Homepage index.html, biblioteca.html, libri/index.html e CV compilati con successo"
+  },
+  {
+    "timestamp": "2026-11-17T11:37:26.309973+00:00",
+    "source": "anobii",
+    "status": "SUCCESS",
+    "records_processed": 141,
+    "message": "Catalogo biblioteca sincronizzato in tempo reale da Anobii API v6"
+  },
+  {
+    "timestamp": "2026-11-17T11:37:16.801477+00:00",
+    "source": "instagram",
+    "status": "PARTIAL",
+    "records_processed": 8,
+    "message": "Scansione fallita (Redirected to login page. Use --login or --load-cookies.). Mantenuto catalogo precedente di 30 post. Mantenuti i post precedenti e catalogo locale invariato"
+  },
+  {
+    "timestamp": "2026-11-17T11:37:15.811972+00:00",
+    "source": "linkedin_api",
+    "status": "SKIPPED",
+    "records_processed": 0,
+    "message": "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py"
+  },
+  {
+    "timestamp": "2026-11-17T11:37:15.811149+00:00",
+    "source": "substack",
+    "status": "SUCCESS",
+    "records_processed": 12,
+    "message": "Estratti e compilati 12 articoli con pagine interne da geobuzz.substack.com"
+  },
+  {
     "timestamp": "2026-11-16T10:51:11.630070+00:00",
     "source": "pipeline",
     "status": "PARTIAL",
@@ -338,47 +387,5 @@
     "status": "SUCCESS",
     "records_processed": 1,
     "message": "Homepage index.html, cv-it.html e cv-en.html compilati con successo"
-  },
-  {
-    "timestamp": "2026-11-14T18:16:43.538801+00:00",
-    "source": "instagram_api",
-    "status": "SKIPPED",
-    "records_processed": 4,
-    "message": "Token Instagram non presente. Galleria attiva con 4 fotografie autentiche locali"
-  },
-  {
-    "timestamp": "2026-11-14T18:16:43.537813+00:00",
-    "source": "linkedin_api",
-    "status": "SKIPPED",
-    "records_processed": 0,
-    "message": "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py"
-  },
-  {
-    "timestamp": "2026-11-14T18:16:43.536961+00:00",
-    "source": "substack",
-    "status": "SUCCESS",
-    "records_processed": 12,
-    "message": "Estratti e compilati 12 articoli con pagine interne da geobuzz.substack.com"
-  },
-  {
-    "timestamp": "2026-11-14T17:59:58.614644+00:00",
-    "source": "site_builder",
-    "status": "ERROR",
-    "records_processed": 0,
-    "message": "Errore build_site: f-string expression part cannot include a backslash (build_site.py, line 1236)"
-  },
-  {
-    "timestamp": "2026-11-14T17:59:58.613066+00:00",
-    "source": "instagram_api",
-    "status": "SKIPPED",
-    "records_processed": 0,
-    "message": "Token non presente. Galleria gestita tramite data/photos.json"
-  },
-  {
-    "timestamp": "2026-11-14T17:59:58.612726+00:00",
-    "source": "linkedin_api",
-    "status": "SKIPPED",
-    "records_processed": 0,
-    "message": "Token non presente. Utilizzare scripts/import_linkedin.py per importazione manuale"
   }
 ]

@@ -972,6 +972,24 @@
     "anobii_url": "https://www.anobii.com/it/books/il-potere-che-frena/9788845974465/011ff36c986ef06cd7"
   },
   {
+    "title": "Il potere del computer e la ragione umana",
+    "subtitle": "I limiti dell'intelligenza artificiale",
+    "author": "Joseph Weizenbaum",
+    "isbn": "9788876700828",
+    "status": "in_corso",
+    "status_raw": "In lettura dal 2026-11-20",
+    "start_date": "2026-11-20",
+    "end_date": null,
+    "rating": 0.0,
+    "review": "",
+    "publisher": "EGA-Edizioni Gruppo Abele",
+    "publish_date": "1987-05",
+    "pages": 264,
+    "format": "Paperback",
+    "cover": "https://media.anobii.com/share/book/01411fa775bfc17a35/1394221176",
+    "anobii_url": "https://www.anobii.com/it/books/il-potere-del-computer-e-la-ragione-umana/9788876700828/01411fa775bfc17a35"
+  },
+  {
     "title": "Il problema dei tre corpi",
     "subtitle": "",
     "author": "Liu Cixin",

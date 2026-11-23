@@ -1,5 +1,54 @@
 [
   {
+    "timestamp": "2026-11-23T12:01:25.718495+00:00",
+    "source": "pipeline",
+    "status": "PARTIAL",
+    "records_processed": 162,
+    "message": "Pipeline completata con successo parziale (una o più fonti in stato PARTIAL)",
+    "details": {
+      "substack": "SUCCESS",
+      "linkedin_api": "SKIPPED",
+      "instagram": "PARTIAL",
+      "anobii": "SUCCESS",
+      "site_builder": "SUCCESS"
+    }
+  },
+  {
+    "timestamp": "2026-11-23T12:01:25.717795+00:00",
+    "source": "site_builder",
+    "status": "SUCCESS",
+    "records_processed": 1,
+    "message": "Homepage index.html, biblioteca.html, libri/index.html e CV compilati con successo"
+  },
+  {
+    "timestamp": "2026-11-23T12:01:25.707253+00:00",
+    "source": "anobii",
+    "status": "SUCCESS",
+    "records_processed": 141,
+    "message": "Catalogo biblioteca sincronizzato in tempo reale da Anobii API v6"
+  },
+  {
+    "timestamp": "2026-11-23T12:01:16.328167+00:00",
+    "source": "instagram",
+    "status": "PARTIAL",
+    "records_processed": 8,
+    "message": "Scansione fallita (Redirected to login page. Use --login or --load-cookies.). Mantenuto catalogo precedente di 30 post. Mantenuti i post precedenti e catalogo locale invariato"
+  },
+  {
+    "timestamp": "2026-11-23T12:01:11.244873+00:00",
+    "source": "linkedin_api",
+    "status": "SKIPPED",
+    "records_processed": 0,
+    "message": "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py"
+  },
+  {
+    "timestamp": "2026-11-23T12:01:11.243985+00:00",
+    "source": "substack",
+    "status": "SUCCESS",
+    "records_processed": 12,
+    "message": "Estratti e compilati 12 articoli con pagine interne da geobuzz.substack.com"
+  },
+  {
     "timestamp": "2026-11-22T10:56:14.060021+00:00",
     "source": "pipeline",
     "status": "PARTIAL",
@@ -362,53 +411,5 @@
     "status": "SUCCESS",
     "records_processed": 1,
     "message": "Homepage index.html, biblioteca.html, libri/index.html e CV compilati con successo"
-  },
-  {
-    "timestamp": "2026-11-15T10:35:24.827529+00:00",
-    "source": "anobii",
-    "status": "PARTIAL",
-    "records_processed": 0,
-    "message": "Sincronizzazione Anobii parziale: The read operation timed out"
-  },
-  {
-    "timestamp": "2026-11-15T10:34:54.486895+00:00",
-    "source": "instagram",
-    "status": "PARTIAL",
-    "records_processed": 8,
-    "message": "Scansione fallita (Redirected to login page. Use --login or --load-cookies.). Mantenuto catalogo precedente di 30 post. Mantenuti i post precedenti e catalogo locale invariato"
-  },
-  {
-    "timestamp": "2026-11-15T10:34:53.619369+00:00",
-    "source": "linkedin_api",
-    "status": "SKIPPED",
-    "records_processed": 0,
-    "message": "Token non configurato. Importazione assistita gestita tramite scripts/import_linkedin.py"
-  },
-  {
-    "timestamp": "2026-11-15T10:34:53.618427+00:00",
-    "source": "substack",
-    "status": "SUCCESS",
-    "records_processed": 12,
-    "message": "Estratti e compilati 12 articoli con pagine interne da geobuzz.substack.com"
-  },
-  {
-    "timestamp": "2026-11-14T18:58:03.506037+00:00",
-    "source": "pipeline",
-    "status": "PARTIAL",
-    "records_processed": 17,
-    "message": "Pipeline completata con successo parziale (una o più fonti in stato PARTIAL)",
-    "details": {
-      "substack": "SUCCESS",
-      "linkedin_api": "SKIPPED",
-      "instagram": "PARTIAL",
-      "site_builder": "SUCCESS"
-    }
-  },
-  {
-    "timestamp": "2026-11-14T18:58:03.505488+00:00",
-    "source": "site_builder",
-    "status": "SUCCESS",
-    "records_processed": 1,
-    "message": "Homepage index.html, cv-it.html e cv-en.html compilati con successo"
   }
 ]
